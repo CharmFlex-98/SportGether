@@ -12,5 +12,25 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
+
+
+
 rootProject.name = "SportGether"
+
+// App
 include ':app'
+project(':app').projectDir = new File(rootDir, 'source/app/base/app')
+
+include ':splash'
+project(':splash').projectDir = new File(rootDir, 'source/app/feature/splash')
+
+
+// SDK
+include ':auth-sdk'
+project(':auth-sdk').projectDir = new File(rootDir, 'source/sdk/auth')
+
+include ':ui-common-sdk'
+project(':ui-common-sdk').projectDir = new File(rootDir, 'source/sdk/ui-common')
+
+include ':core-sdk'
+project(':core-sdk').projectDir = new File(rootDir, 'source/sdk/core')

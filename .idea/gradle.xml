@@ -9,7 +9,11 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/source/app/base/app" />
+            <option value="$PROJECT_DIR$/source/app/feature/splash" />
+            <option value="$PROJECT_DIR$/source/sdk/auth" />
+            <option value="$PROJECT_DIR$/source/sdk/core" />
+            <option value="$PROJECT_DIR$/source/sdk/ui-common" />
           </set>
         </option>
       </GradleProjectSettings>
