@@ -1,10 +1,15 @@
 [versions]
+# kotlin
+kotlin_kapt_version = '1.9.10'
 # Google
 google_dagger_version = '2.47'
 
 
 [libraries]
+# google
 google-dagger = { module = 'com.google.dagger:dagger', version.ref = 'google_dagger_version'}
 google-daggerAP = { module = 'com.google.dagger:dagger-compiler', version.ref = 'google_dagger_version'}
 
 [plugins]
+# kotlin
+kotlin-kapt = { id = 'org.jetbrains.kotlin.kapt', version.ref = 'kotlin_kapt_version' }
