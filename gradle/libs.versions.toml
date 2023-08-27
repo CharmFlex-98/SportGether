@@ -1,0 +1,10 @@
+[versions]
+# Google
+google_dagger_version = '2.47'
+
+
+[libraries]
+google-dagger = { module = 'com.google.dagger:dagger', version.ref = 'google_dagger_version'}
+google-daggerAP = { module = 'com.google.dagger:dagger-compiler', version.ref = 'google_dagger_version'}
+
+[plugins]
