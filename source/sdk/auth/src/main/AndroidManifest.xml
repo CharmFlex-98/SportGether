@@ -3,7 +3,7 @@
 
     <application>
         <activity
-            android:name=".ui.HostActivity"
+            android:name=".internal.ui.HostActivity"
             android:exported="false"
             android:label="@string/title_activity_host"
             android:theme="@style/Theme.SportGether" />

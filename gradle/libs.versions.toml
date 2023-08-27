@@ -1,6 +1,6 @@
 [versions]
 # kotlin
-kotlin_kapt_version = '1.9.10'
+kotlin_kapt_version = '1.7.20'
 # Google
 google_dagger_version = '2.47'
 

@@ -1,3 +1,8 @@
 <resources>
     <string name="title_activity_host">HostActivity</string>
+    <string name="login_screen_appbar_title">Login</string>
+    <string name="login_username">Username</string>
+    <string name="login_password">Password</string>
+    <string name="register_button_text">Register</string>
+    <string name="login_button_text">Login</string>
 </resources>

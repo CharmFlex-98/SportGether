@@ -1,4 +1,4 @@
-package com.charmflex.sportgether.sdk.auth.ui
+package com.charmflex.sportgether.sdk.auth.internal.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -18,12 +18,7 @@ class HostActivity : ComponentActivity() {
         setContent {
             SportGetherTheme {
                 // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    Greeting("Host activity")
-                }
+                LoginScreen()
             }
         }
     }
