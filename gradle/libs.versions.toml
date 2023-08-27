@@ -1,14 +1,22 @@
 [versions]
 # kotlin
-kotlin_kapt_version = '1.7.20'
+kotlin_kapt_version = '1.8.10'
+
 # Google
 google_dagger_version = '2.47'
+
+# lifecycle
+lifecycle_version = '2.6.1'
 
 
 [libraries]
 # google
 google-dagger = { module = 'com.google.dagger:dagger', version.ref = 'google_dagger_version'}
 google-daggerAP = { module = 'com.google.dagger:dagger-compiler', version.ref = 'google_dagger_version'}
+
+# lifecycle
+lifecycle-viewModel-ktx = { module = 'androidx.lifecycle:lifecycle-viewmodel-ktx', version.ref = 'lifecycle_version'}
+lifecycle-viewModel-compose = { module = 'androidx.lifecycle:lifecycle-viewmodel-compose', version.ref = 'lifecycle_version'}
 
 [plugins]
 # kotlin
