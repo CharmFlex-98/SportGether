@@ -8,6 +8,9 @@ google_dagger_version = '2.47'
 # lifecycle
 lifecycle_version = '2.6.1'
 
+# compose
+compose_navigation_version = "2.6.0"
+
 
 [libraries]
 # google
@@ -17,6 +20,10 @@ google-daggerAP = { module = 'com.google.dagger:dagger-compiler', version.ref = 
 # lifecycle
 lifecycle-viewModel-ktx = { module = 'androidx.lifecycle:lifecycle-viewmodel-ktx', version.ref = 'lifecycle_version'}
 lifecycle-viewModel-compose = { module = 'androidx.lifecycle:lifecycle-viewmodel-compose', version.ref = 'lifecycle_version'}
+
+# compose
+compose-navigation = { module = 'androidx.navigation:navigation-compose', version.ref = 'compose_navigation_version'}
+
 
 [plugins]
 # kotlin

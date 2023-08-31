@@ -1,6 +1,6 @@
 package com.charmflex.sportgether.sdk.auth.internal.di
 
-import com.charmflex.sportgether.sdk.auth.internal.ui.LoginViewModel
+import com.charmflex.sportgether.sdk.auth.internal.ui.login.LoginViewModel
 import dagger.Component
 
 @Component
