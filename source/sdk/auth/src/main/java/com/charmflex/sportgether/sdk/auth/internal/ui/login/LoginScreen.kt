@@ -19,7 +19,7 @@ import com.charmflex.sportgether.sdk.ui_common.SGLargeSecondaryButton
 import com.charmflex.sportgether.sdk.ui_common.SGTextField
 import com.charmflex.sportgether.sdk.ui_common.SportGetherScaffold
 import com.charmflex.sportgether.sdk.ui_common.theme.SportGetherTheme
-import com.charmflex.sportgether.sdk.ui_common.theme.grid_x3
+import com.charmflex.sportgether.sdk.ui_common.grid_x3
 
 @Composable
 internal fun LoginScreen(viewModel: LoginViewModel) {

@@ -5,4 +5,8 @@ import javax.inject.Inject
 
 internal class ResetPasswordViewModel @Inject constructor() : ViewModel() {
 
+    fun onBack() {
+
+    }
+
 }

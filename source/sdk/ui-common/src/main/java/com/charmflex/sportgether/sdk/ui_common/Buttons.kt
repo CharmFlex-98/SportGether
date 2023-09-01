@@ -6,10 +6,8 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
@@ -18,10 +16,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
-import com.charmflex.sportgether.sdk.ui_common.theme.grid_x2
-import com.charmflex.sportgether.sdk.ui_common.theme.grid_x4
-import com.charmflex.sportgether.sdk.ui_common.theme.grid_x5
-import com.charmflex.sportgether.sdk.ui_common.theme.grid_x7
 
 enum class ButtonSize {
     SMALL, MEDIUM, LARGE

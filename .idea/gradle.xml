@@ -11,6 +11,8 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/source/app/base/app" />
+            <option value="$PROJECT_DIR$/source/app/feature/home" />
+            <option value="$PROJECT_DIR$/source/app/feature/host" />
             <option value="$PROJECT_DIR$/source/app/feature/splash" />
             <option value="$PROJECT_DIR$/source/sdk/auth" />
             <option value="$PROJECT_DIR$/source/sdk/core" />

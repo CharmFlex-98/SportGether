@@ -34,3 +34,9 @@ project(':ui-common-sdk').projectDir = new File(rootDir, 'source/sdk/ui-common')
 
 include ':core-sdk'
 project(':core-sdk').projectDir = new File(rootDir, 'source/sdk/core')
+
+include ':host'
+project(':host').projectDir = new File(rootDir, 'source/app/feature/host')
+
+include ':home'
+project(':home').projectDir = new File(rootDir, 'source/app/feature/home')

@@ -25,7 +25,6 @@ lifecycle-viewModel-compose = { module = 'androidx.lifecycle:lifecycle-viewmodel
 # compose
 compose-navigation = { module = 'androidx.navigation:navigation-compose', version.ref = 'compose_navigation_version'}
 
-
 [plugins]
 # kotlin
 kotlin-kapt = { id = 'org.jetbrains.kotlin.kapt', version.ref = 'kotlin_kapt_version' }

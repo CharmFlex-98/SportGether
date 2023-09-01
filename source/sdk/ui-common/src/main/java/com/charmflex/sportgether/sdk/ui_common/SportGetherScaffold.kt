@@ -1,7 +1,5 @@
 package com.charmflex.sportgether.sdk.ui_common
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.WindowInsets
@@ -14,13 +12,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.charmflex.sportgether.sdk.ui_common.theme.SportGetherTheme
-import com.charmflex.sportgether.sdk.ui_common.theme.grid_x2
-import com.charmflex.sportgether.sdk.ui_common.theme.grid_x3
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

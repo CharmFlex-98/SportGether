@@ -11,7 +11,7 @@ import com.charmflex.sportgether.sdk.ui_common.theme.SportGetherTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BasicTopBar(
-    title: String,
+    title: String = "",
     leadingIcon: (@Composable () -> Unit)? = null,
     leadingIconAction: (() -> Unit)? = null,
 ) {

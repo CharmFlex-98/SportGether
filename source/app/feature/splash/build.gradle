@@ -64,6 +64,7 @@ dependencies {
     debugImplementation 'androidx.compose.ui:ui-tooling'
     debugImplementation 'androidx.compose.ui:ui-test-manifest'
 
-    implementation project(":app")
+    implementation project(":host")
     implementation project(":core-sdk")
+    implementation project(":ui-common-sdk")
 }

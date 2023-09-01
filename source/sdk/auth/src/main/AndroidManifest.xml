@@ -2,11 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application>
-        <activity
-            android:name="com.charmflex.sportgether.app.home.HostActivity"
-            android:exported="false"
-            android:label="@string/title_activity_host"
-            android:theme="@style/Theme.SportGether" />
+<!--        <activity-->
+<!--            android:name="com.charmflex.sportgether.app.host.HostActivity"-->
+<!--            android:exported="false"-->
+<!--            android:label="@string/title_activity_host"-->
+<!--            android:theme="@style/Theme.SportGether" />-->
     </application>
 
 </manifest>
