@@ -21,8 +21,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import com.charmflex.sportgether.app.home.HostActivity
 import com.charmflex.sportgether.app.splash.ui.theme.SportGetherTheme
-import com.charmflex.sportgether.sdk.auth.internal.ui.HostActivity
 import kotlinx.coroutines.flow.collectLatest
 
 @SuppressLint("CustomSplashScreen")

@@ -3,7 +3,7 @@
 
     <application>
         <activity
-            android:name=".internal.ui.HostActivity"
+            android:name="com.charmflex.sportgether.app.home.HostActivity"
             android:exported="false"
             android:label="@string/title_activity_host"
             android:theme="@style/Theme.SportGether" />

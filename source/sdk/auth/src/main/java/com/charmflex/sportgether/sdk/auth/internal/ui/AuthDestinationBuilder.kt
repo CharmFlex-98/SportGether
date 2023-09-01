@@ -10,7 +10,7 @@ import com.charmflex.sportgether.sdk.auth.internal.ui.login.LoginViewModel
 import com.charmflex.sportgether.sdk.core.DestinationBuilder
 import com.charmflex.sportgether.sdk.core.getViewModel
 
-internal class AuthDestinationBuilder(): DestinationBuilder {
+class AuthDestinationBuilder(): DestinationBuilder {
     private val component: AuthComponent by lazy { DaggerAuthComponent.create() }
 
 

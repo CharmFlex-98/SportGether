@@ -1,7 +1,6 @@
-package com.charmflex.sportgether.sdk.auth.internal.ui
+package com.charmflex.sportgether.app.home
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material3.Text
@@ -10,11 +9,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import com.charmflex.sportgether.sdk.auth.internal.di.DaggerAuthComponent
-import com.charmflex.sportgether.sdk.auth.internal.ui.login.LoginScreen
-import com.charmflex.sportgether.sdk.auth.internal.ui.login.LoginViewModel
+import com.charmflex.sportgether.app.home.destination.HomeDestinationBuilder
+import com.charmflex.sportgether.sdk.auth.internal.ui.AuthDestinationBuilder
 import com.charmflex.sportgether.sdk.core.DestinationBuilder
-import com.charmflex.sportgether.sdk.core.getViewModel
 import com.charmflex.sportgether.sdk.ui_common.theme.SportGetherTheme
 
 class HostActivity : ComponentActivity() {
@@ -23,7 +20,7 @@ class HostActivity : ComponentActivity() {
         setContent {
             val navController = rememberNavController()
             SportGetherTheme {
-                NavHost(navController = navController, startDestination = AuthDestinationBuilder.ROOT_PATH) {
+                NavHost(navController = navController, startDestination = HomeDestinationBuilder.ROOT) {
                     createDestinations().forEach {
                         with(it) { buildGraph() }
                     }
@@ -34,6 +31,7 @@ class HostActivity : ComponentActivity() {
 
     private fun createDestinations(): List<DestinationBuilder> {
         return listOf(
+            HomeDestinationBuilder(),
             AuthDestinationBuilder()
         )
     }

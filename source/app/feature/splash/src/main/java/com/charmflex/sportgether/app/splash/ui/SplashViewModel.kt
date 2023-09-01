@@ -1,15 +1,12 @@
 package com.charmflex.sportgether.app.splash.ui
 
-import android.content.Intent
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.charmflex.sportgether.sdk.auth.internal.ui.HostActivity
 import com.charmflex.sportgether.sdk.core.countDownTimer
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 private const val SPLASH_PERIOD_IN_SECONDS = 5
