@@ -8,4 +8,6 @@
     <string name="forgot_password_text">Forgot password</string>
     <string name="enter_username_hint_text">Enter username</string>
     <string name="enter_password_hint_text">Enter password</string>
+    <string name="reset_password_email">Email</string>
+    <string name="reset_password_email_hint">Enter your email</string>
 </resources>

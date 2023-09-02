@@ -24,6 +24,12 @@ project(':app').projectDir = new File(rootDir, 'source/app/base/app')
 include ':splash'
 project(':splash').projectDir = new File(rootDir, 'source/app/feature/splash')
 
+include ':host'
+project(':host').projectDir = new File(rootDir, 'source/app/feature/host')
+
+include ':home'
+project(':home').projectDir = new File(rootDir, 'source/app/feature/home')
+
 
 // SDK
 include ':auth-sdk'
@@ -35,8 +41,5 @@ project(':ui-common-sdk').projectDir = new File(rootDir, 'source/sdk/ui-common')
 include ':core-sdk'
 project(':core-sdk').projectDir = new File(rootDir, 'source/sdk/core')
 
-include ':host'
-project(':host').projectDir = new File(rootDir, 'source/app/feature/host')
-
-include ':home'
-project(':home').projectDir = new File(rootDir, 'source/app/feature/home')
+include ':navigation-sdk'
+project(':navigation-sdk').projectDir = new File(rootDir, 'source/sdk/navigation')

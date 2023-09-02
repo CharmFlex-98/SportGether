@@ -1,12 +1,16 @@
 package com.charmflex.sportgether.sdk.auth.internal.ui.login
 
 import androidx.lifecycle.ViewModel
+import androidx.navigation.Navigator
+import com.charmflex.sportgether.sdk.auth.internal.navigation.AuthNavigator
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
-internal class LoginViewModel @Inject constructor(): ViewModel() {
+internal class LoginViewModel @Inject constructor(
+    navigator: AuthNavigator
+): ViewModel() {
 
     private val _viewState = MutableStateFlow(LoginViewState())
     val viewState = _viewState.asStateFlow()
