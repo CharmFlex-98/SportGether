@@ -9,21 +9,21 @@ import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 internal class LoginViewModel @Inject constructor(
-    navigator: AuthNavigator
+    private val navigator: AuthNavigator
 ): ViewModel() {
 
     private val _viewState = MutableStateFlow(LoginViewState())
     val viewState = _viewState.asStateFlow()
     fun loginUser(username: String, password: String) {
-
+        // TODO:
     }
 
     fun onRegisterClicked() {
-
+        navigator.toRegisterScreen()
     }
 
     fun onForgotPasswordClicked() {
-
+        navigator.toResetPasswordScreen()
     }
 
     fun onUserNameChanged(username: String) {

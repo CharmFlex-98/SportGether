@@ -114,7 +114,7 @@ private fun SGSecondaryButton(
 
 @Composable
 @Preview
-fun SGPrimaryButtonPreview() {
+private fun SGPrimaryButtonPreview() {
     SGPrimaryButton(modifier = Modifier, text = "Hello world", buttonSize = ButtonSize.LARGE) {
 
     }
@@ -122,7 +122,7 @@ fun SGPrimaryButtonPreview() {
 
 @Composable
 @Preview
-fun SGSecondaryButtonPreview() {
+private fun SGSecondaryButtonPreview() {
     SGSecondaryButton(modifier = Modifier, text = "Hello world", buttonSize = ButtonSize.LARGE) {
 
     }

@@ -55,8 +55,7 @@ private fun LoginScreenContent(
         ) {
             SGTextField(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = grid_x3),
+                    .fillMaxWidth(),
                 label = stringResource(id = R.string.login_username),
                 hint = stringResource(id = R.string.enter_username_hint_text),
                 value = username,

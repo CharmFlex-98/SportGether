@@ -1,18 +1,21 @@
 package com.charmflex.sportgether.sdk.auth.internal.ui.reset_password
 
 import androidx.lifecycle.ViewModel
+import com.charmflex.sportgether.sdk.auth.internal.navigation.AuthNavigator
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
-internal class ResetPasswordViewModel @Inject constructor() : ViewModel() {
+internal class ResetPasswordViewModel @Inject constructor(
+    private val navigator: AuthNavigator
+) : ViewModel() {
 
     private val _viewState = MutableStateFlow(ResetPasswordViewState())
     val viewState = _viewState.asStateFlow()
 
     fun onBack() {
-
+        navigator.pop()
     }
 
     fun onEmailChanged(email: String) {
@@ -21,6 +24,10 @@ internal class ResetPasswordViewModel @Inject constructor() : ViewModel() {
                 email = email
             )
         }
+    }
+
+    fun onResetClick() {
+
     }
 
 }

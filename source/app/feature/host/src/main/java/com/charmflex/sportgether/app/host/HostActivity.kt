@@ -22,7 +22,7 @@ class HostActivity : ComponentActivity() {
         setContent {
             val navController = rememberNavController()
             SportGetherTheme {
-                NavHost(navController = navController, startDestination = AuthRoutes.login()) {
+                NavHost(navController = navController, startDestination = AuthRoutes.ROOT) {
                     createDestinations(navController).forEach {
                         with(it) { buildGraph() }
                     }
