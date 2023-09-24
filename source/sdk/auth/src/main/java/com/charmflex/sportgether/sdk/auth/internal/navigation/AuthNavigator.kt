@@ -1,13 +1,16 @@
 package com.charmflex.sportgether.sdk.auth.internal.navigation
 
 import androidx.navigation.NavController
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import com.charmflex.sportgether.sdk.navigation.navigateAndPopUpTo
 import com.charmflex.sportgether.sdk.navigation.navigateTo
 import com.charmflex.sportgether.sdk.navigation.routes.AuthRoutes
+import com.charmflex.sportgether.sdk.navigation.routes.HomeRoutes
 import javax.inject.Inject
 
 internal interface AuthNavigator {
 
+    fun toHomeScreen()
     fun toLoginScreen()
     fun toResetPasswordScreen()
 
@@ -19,6 +22,10 @@ internal interface AuthNavigator {
 }
 
 internal class AuthNavigatorImp @Inject constructor(private val navController: NavController) : AuthNavigator {
+    override fun toHomeScreen() {
+        navController.navigateAndPopUpTo(HomeRoutes.ROOT, navController.graph.findStartDestination().route)
+    }
+
     override fun toLoginScreen() {
         navController.navigateTo(AuthRoutes.login())
     }

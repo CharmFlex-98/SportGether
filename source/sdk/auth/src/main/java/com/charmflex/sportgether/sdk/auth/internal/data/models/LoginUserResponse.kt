@@ -1,4 +1,6 @@
 package com.charmflex.sportgether.sdk.auth.internal.data.models
 
-class LoginUserResponse {
-}
+internal data class LoginUserResponse(
+    val success: Boolean,
+    val jwtToken: String
+)

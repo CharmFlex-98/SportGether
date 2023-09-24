@@ -48,7 +48,7 @@ android {
 dependencies {
     api(libs.google.gson)
     implementation(libs.google.dagger)
-    implementation(libs.google.daggerAP)
+    kapt(libs.google.daggerAP)
     implementation(libs.lifecycle.viewModel.ktx)
     implementation(libs.lifecycle.viewModel.compose)
     implementation(libs.compose.navigation)

@@ -6,7 +6,7 @@ import com.charmflex.sportgether.sdk.auth.internal.data.errors.AuthApiException
 import com.charmflex.sportgether.sdk.auth.internal.data.errors.ExistingEmailException
 import com.charmflex.sportgether.sdk.auth.internal.data.errors.ExistingUserException
 import com.charmflex.sportgether.sdk.auth.internal.data.errors.ExistingUsernameException
-import com.charmflex.sportgether.sdk.auth.internal.domain.usecases.RegisterUserUseCase
+import com.charmflex.sportgether.sdk.auth.internal.domain.usecases.RegisterUseCase
 import com.charmflex.sportgether.sdk.auth.internal.navigation.AuthNavigator
 import com.charmflex.sportgether.sdk.core.UIErrorType
 import com.charmflex.sportgether.sdk.ui_common.SnackBarType
@@ -18,7 +18,7 @@ import javax.inject.Inject
 
 internal class RegisterViewModel @Inject constructor(
     private val navigator: AuthNavigator,
-    private val registerUserUseCase: RegisterUserUseCase
+    private val registerUseCase: RegisterUseCase
 ) : ViewModel() {
 
     private val _viewState = MutableStateFlow(RegisterViewState())
@@ -58,7 +58,7 @@ internal class RegisterViewModel @Inject constructor(
 
         toggleLoading(true)
         viewModelScope.launch {
-            registerUserUseCase(
+            registerUseCase(
                 username = _viewState.value.username,
                 password = _viewState.value.password,
                 email = _viewState.value.email

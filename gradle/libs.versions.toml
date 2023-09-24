@@ -17,7 +17,10 @@ composeCompilerVersion = "1.4.2"
 retrofit_version = "2.9.0"
 
 # androidx security
-androidx_security_version = "1.0.0"
+androidx_security_crypto_version = "1.0.0"
+androidx_security_identity_version = "1.0.0-alpha03"
+androidx_security_app_authenticator_version = "1.0.0-alpha02"
+
 
 
 [libraries]
@@ -38,9 +41,9 @@ square-retrofit = { module = 'com.squareup.retrofit2:retrofit', version.ref = 'r
 square-retrofit-gsonConverter = { module = 'com.squareup.retrofit2:converter-gson', version.ref = 'retrofit_version'}
 
 # androidx
-androidx-security-crypto = { module = 'androidx.security:security-crypto', version.ref = 'androidx_security_version'}
-androidx-security-identity-credential = { module = 'androidx.security:security-identity-credential', version.ref = 'androidx_security_version'}
-androidx-security-app-authenticator = { module = 'androidx.security:security-app-authenticator', version.ref = 'androidx_security_version'}
+androidx-security-crypto = { module = 'androidx.security:security-crypto', version.ref = 'androidx_security_crypto_version'}
+androidx-security-identity-credential = { module = 'androidx.security:security-identity-credential', version.ref = 'androidx_security_identity_version'}
+androidx-security-app-authenticator = { module = 'androidx.security:security-app-authenticator', version.ref = 'androidx_security_app_authenticator_version'}
 
 
 [plugins]

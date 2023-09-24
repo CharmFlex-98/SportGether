@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 private const val SPORT_GETHER_FILE_PATH = "SPORT-GETHER-SHARED-PREFERENCES-PATH"
 
-internal interface KeyStorageProvider {
+interface KeyStorageProvider {
     fun setString(key: String, value: String)
     fun getString(key: String): String
 
@@ -18,14 +18,14 @@ internal interface KeyStorageProvider {
     fun clearAllData()
 
     companion object {
-        fun create(): KeyStorageProvider {
-            return KeyStorageProviderImpl()
+        fun create(context: Context): KeyStorageProvider {
+            return KeyStorageProviderImpl(context)
         }
     }
 }
 
 
-internal class KeyStorageProviderImpl @Inject constructor(
+class KeyStorageProviderImpl @Inject constructor(
     private val context: Context
 ) : KeyStorageProvider {
 

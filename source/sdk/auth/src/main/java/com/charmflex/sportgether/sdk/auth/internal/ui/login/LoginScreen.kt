@@ -5,9 +5,16 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -17,14 +24,23 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.window.Dialog
 import com.charmflex.sportgether.sdk.auth.R
 import com.charmflex.sportgether.sdk.core.UIErrorType
 import com.charmflex.sportgether.sdk.ui_common.SGButtonGroupVertical
 import com.charmflex.sportgether.sdk.ui_common.SGLargePrimaryButton
 import com.charmflex.sportgether.sdk.ui_common.SGLargeSecondaryButton
+import com.charmflex.sportgether.sdk.ui_common.SGSnackBar
 import com.charmflex.sportgether.sdk.ui_common.SGTextField
+import com.charmflex.sportgether.sdk.ui_common.SnackBarType
 import com.charmflex.sportgether.sdk.ui_common.SportGetherScaffold
+import com.charmflex.sportgether.sdk.ui_common.grid_x10
+import com.charmflex.sportgether.sdk.ui_common.grid_x15
+import com.charmflex.sportgether.sdk.ui_common.grid_x2
+import com.charmflex.sportgether.sdk.ui_common.grid_x4
+import com.charmflex.sportgether.sdk.ui_common.grid_x6
 import com.charmflex.sportgether.sdk.ui_common.showSnackBarImmediately
 import com.charmflex.sportgether.sdk.ui_common.theme.SportGetherTheme
 
@@ -33,6 +49,7 @@ internal fun LoginScreen(viewModel: LoginViewModel) {
     val viewState by viewModel.viewState.collectAsState()
 
     val errorType = viewState.errorType
+    val snackbarErrorType = if (viewState.hasError()) SnackBarType.Error else SnackBarType.Success
     val snackbarErrorMessage = when (errorType) {
         UIErrorType.AuthenticationError -> stringResource(id = R.string.snackbar_authentication_error)
         else -> stringResource(id = R.string.snackbar_generic_error)
@@ -59,9 +76,28 @@ internal fun LoginScreen(viewModel: LoginViewModel) {
         )
 
         if (viewState.isLoading) CircularProgressIndicator()
+        if (viewState.success) {
+            Dialog(onDismissRequest = {}) {
+                Card(
+                    modifier = Modifier
+                        .height(grid_x15)
+                        .fillMaxWidth(),
+                    shape = RoundedCornerShape(grid_x2),
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.dialog_login_success_text),
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .wrapContentSize(Alignment.Center),
+                        textAlign = TextAlign.Center,
+                    )
+                }
+            }
+
+        }
     }
 
-
+    SGSnackBar(snackBarHostState = snackbarHostState, snackBarType = snackbarErrorType)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

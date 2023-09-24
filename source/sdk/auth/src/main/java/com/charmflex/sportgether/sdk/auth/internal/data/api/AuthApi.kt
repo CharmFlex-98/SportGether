@@ -1,6 +1,7 @@
 package com.charmflex.sportgether.sdk.auth.internal.data.api
 
 import com.charmflex.sportgether.sdk.auth.internal.data.models.LoginUserRequest
+import com.charmflex.sportgether.sdk.auth.internal.data.models.LoginUserResponse
 import com.charmflex.sportgether.sdk.auth.internal.data.models.RegisterUserRequest
 import com.charmflex.sportgether.sdk.auth.internal.data.models.RegisterUserResponse
 import okhttp3.Response
@@ -21,6 +22,6 @@ internal interface AuthApi {
     @POST("v1/auth/login")
     suspend fun loginUser(
         @Body body: LoginUserRequest
-    )
+    ): LoginUserResponse
 
 }

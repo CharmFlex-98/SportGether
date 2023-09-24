@@ -5,7 +5,7 @@ import com.charmflex.sportgether.sdk.auth.internal.domain.repositories.AuthRepos
 import com.charmflex.sportgether.sdk.core.resultOf
 import javax.inject.Inject
 
-internal class RegisterUserUseCase @Inject constructor(
+internal class RegisterUseCase @Inject constructor(
     private val authRepository: AuthRepository
 ) {
     suspend operator fun invoke(username: String, password: String, email: String): Result<RegisterUserResponse> {
