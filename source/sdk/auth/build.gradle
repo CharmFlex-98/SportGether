@@ -48,6 +48,7 @@ android {
 dependencies {
 
     implementation(libs.google.dagger)
+    implementation project(':network-sdk')
     kapt(libs.google.daggerAP)
     implementation project(':core-sdk')
     implementation(libs.compose.navigation)
@@ -66,4 +67,5 @@ dependencies {
 
     implementation project(":ui-common-sdk")
     implementation project(":navigation-sdk")
+    implementation project(":core-sdk")
 }

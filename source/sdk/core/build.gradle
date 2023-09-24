@@ -46,9 +46,15 @@ android {
 }
 
 dependencies {
+    api(libs.google.gson)
+    implementation(libs.google.dagger)
+    implementation(libs.google.daggerAP)
     implementation(libs.lifecycle.viewModel.ktx)
     implementation(libs.lifecycle.viewModel.compose)
     implementation(libs.compose.navigation)
+    implementation(libs.androidx.security.crypto)
+    implementation(libs.androidx.security.identity.credential)
+    implementation(libs.androidx.security.app.authenticator)
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
     implementation 'androidx.activity:activity-compose:1.5.1'
     androidTestImplementation platform('androidx.compose:compose-bom:2022.10.00')

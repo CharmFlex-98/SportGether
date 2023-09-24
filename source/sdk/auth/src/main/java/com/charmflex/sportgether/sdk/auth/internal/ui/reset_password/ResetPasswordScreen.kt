@@ -11,6 +11,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import com.charmflex.sportgether.sdk.auth.R
 import com.charmflex.sportgether.sdk.ui_common.BasicTopBar
@@ -55,7 +56,9 @@ private fun ResetPasswordScreenContent(
                 label = stringResource(id = R.string.reset_password_email),
                 hint = stringResource(id = R.string.reset_password_email_hint),
                 value = email,
-                onValueChange = onEmailChanged
+                onValueChange = onEmailChanged,
+                keyboardType = KeyboardType.NumberPassword,
+                errorText = null
             )
         }
         Spacer(modifier = Modifier.padding(grid_x10))

@@ -4,6 +4,7 @@ kotlin_kapt_version = '1.8.10'
 
 # Google
 google_dagger_version = '2.47'
+google_gson_version = '2.10.1'
 
 # lifecycle
 lifecycle_version = '2.6.1'
@@ -12,11 +13,18 @@ lifecycle_version = '2.6.1'
 compose_navigation_version = "2.6.0"
 composeCompilerVersion = "1.4.2"
 
+# retrofit
+retrofit_version = "2.9.0"
+
+# androidx security
+androidx_security_version = "1.0.0"
+
 
 [libraries]
 # google
 google-dagger = { module = 'com.google.dagger:dagger', version.ref = 'google_dagger_version'}
 google-daggerAP = { module = 'com.google.dagger:dagger-compiler', version.ref = 'google_dagger_version'}
+google-gson = { module = 'com.google.code.gson:gson', version.ref = 'google_gson_version'}
 
 # lifecycle
 lifecycle-viewModel-ktx = { module = 'androidx.lifecycle:lifecycle-viewmodel-ktx', version.ref = 'lifecycle_version'}
@@ -24,6 +32,16 @@ lifecycle-viewModel-compose = { module = 'androidx.lifecycle:lifecycle-viewmodel
 
 # compose
 compose-navigation = { module = 'androidx.navigation:navigation-compose', version.ref = 'compose_navigation_version'}
+
+# square
+square-retrofit = { module = 'com.squareup.retrofit2:retrofit', version.ref = 'retrofit_version'}
+square-retrofit-gsonConverter = { module = 'com.squareup.retrofit2:converter-gson', version.ref = 'retrofit_version'}
+
+# androidx
+androidx-security-crypto = { module = 'androidx.security:security-crypto', version.ref = 'androidx_security_version'}
+androidx-security-identity-credential = { module = 'androidx.security:security-identity-credential', version.ref = 'androidx_security_version'}
+androidx-security-app-authenticator = { module = 'androidx.security:security-app-authenticator', version.ref = 'androidx_security_version'}
+
 
 [plugins]
 # kotlin

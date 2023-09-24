@@ -1,14 +1,26 @@
 package com.charmflex.sportgether.sdk.auth.internal.di
 
 import androidx.navigation.NavController
+import com.charmflex.sportgether.sdk.auth.internal.di.modules.NavigatorModule
+import com.charmflex.sportgether.sdk.auth.internal.di.modules.NetworkModule
+import com.charmflex.sportgether.sdk.auth.internal.di.modules.RepositoryModule
 import com.charmflex.sportgether.sdk.auth.internal.di.modules.ToolsModule
 import com.charmflex.sportgether.sdk.auth.internal.ui.login.LoginViewModel
 import com.charmflex.sportgether.sdk.auth.internal.ui.register.RegisterViewModel
 import com.charmflex.sportgether.sdk.auth.internal.ui.reset_password.ResetPasswordViewModel
 import dagger.BindsInstance
 import dagger.Component
+import javax.inject.Singleton
 
-@Component(modules = [ToolsModule::class])
+@Singleton
+@Component(
+    modules = [
+        ToolsModule::class,
+        NetworkModule::class,
+        RepositoryModule::class,
+        NavigatorModule::class
+    ]
+)
 internal interface AuthComponent {
 
     fun loginViewModel(): LoginViewModel

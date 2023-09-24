@@ -20,4 +20,17 @@
     <string name="register_password">Password</string>
     <string name="register_password_hint">Enter your password</string>
     <string name="register_button_confirm">Register</string>
+    <string name="snackbar_generic_error">Something went wrong. Please try again later</string>
+    <string name="snackbar_authentication_error">Authentication failed. Please try again</string>
+    <string name="snackbar_register_success">You have successfully created your account!\nRedirect you to login page...</string>
+    <string name="snackbar_register_fail">Cannot register user. Please try again later</string>
+    <string name="snackbar_invalid_username">The username is being used by other account.\nPlease try with other username.</string>
+    <string name="snackbar_invalid_email">The email is registered under this app.\nPlease try with another email.</string>
+    <string name="snackbar_registered_account_error">This is a registered account.\nPlease login</string>
+    <string name="textfield_username_used_error">This username is taken.</string>
+    <string name="textfield_invalid_username_error">Username is invalid</string>
+    <string name="textfield_email_is_used_error">This email is taken</string>
+    <string name="textfield_invalid_email_error">Invalid email</string>
+    <string name="textfield_invalid_password_error">Invalid password</string>
+    <string name="textField_invalid_confirm_password_error">The password is not match</string>
 </resources>

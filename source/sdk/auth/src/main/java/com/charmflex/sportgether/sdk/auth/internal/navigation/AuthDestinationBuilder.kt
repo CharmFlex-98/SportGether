@@ -15,7 +15,7 @@ import com.charmflex.sportgether.sdk.core.DestinationBuilder
 import com.charmflex.sportgether.sdk.core.getViewModel
 import com.charmflex.sportgether.sdk.navigation.routes.AuthRoutes
 
-class AuthDestinationBuilder(navController: NavController) : DestinationBuilder {
+class AuthDestinationBuilder(private val navController: NavController) : DestinationBuilder {
     private val component: AuthComponent by lazy { AuthComponent.injectCreate(navController = navController) }
 
 
@@ -37,7 +37,7 @@ class AuthDestinationBuilder(navController: NavController) : DestinationBuilder 
     private fun NavGraphBuilder.registerDestination() {
         return composable(AuthRoutes.register()) {
             val viewModel: RegisterViewModel = getViewModel { component.registerViewModel() }
-            RegisterScreen(viewModel = viewModel)
+            RegisterScreen(viewModel = viewModel, onBack = navController::popBackStack)
         }
     }
 

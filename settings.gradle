@@ -43,3 +43,6 @@ project(':core-sdk').projectDir = new File(rootDir, 'source/sdk/core')
 
 include ':navigation-sdk'
 project(':navigation-sdk').projectDir = new File(rootDir, 'source/sdk/navigation')
+
+include ':network-sdk'
+project(':network-sdk').projectDir = new File(rootDir, 'source/sdk/network')
