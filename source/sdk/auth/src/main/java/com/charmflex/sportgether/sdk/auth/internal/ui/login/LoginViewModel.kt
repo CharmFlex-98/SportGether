@@ -3,6 +3,8 @@ package com.charmflex.sportgether.sdk.auth.internal.ui.login
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.charmflex.sportgether.sdk.auth.internal.data.errors.AuthenticationError
+import com.charmflex.sportgether.sdk.auth.internal.data.errors.WrongPasswordException
 import com.charmflex.sportgether.sdk.auth.internal.domain.usecases.LoginUseCase
 import com.charmflex.sportgether.sdk.auth.internal.navigation.AuthNavigator
 import com.charmflex.sportgether.sdk.core.UIErrorType
@@ -16,7 +18,7 @@ import javax.inject.Inject
 internal class LoginViewModel @Inject constructor(
     private val navigator: AuthNavigator,
     private val loginUseCase: LoginUseCase
-): ViewModel() {
+) : ViewModel() {
 
     private val _viewState = MutableStateFlow(LoginViewState())
     val viewState = _viewState.asStateFlow()
@@ -24,17 +26,28 @@ internal class LoginViewModel @Inject constructor(
     fun loginUser() {
         toggleLoading(true)
         viewModelScope.launch {
-            loginUseCase(username = _viewState.value.username, password = _viewState.value.password).fold(
+            loginUseCase(
+                username = _viewState.value.username,
+                password = _viewState.value.password
+            ).fold(
                 onSuccess = {
                     updateLoginState(true)
                     delay(3000)
                     navigator.toHomeScreen()
                 },
-                onFailure = {
-                    _viewState.update {
-                        it.copy(
-                            errorType = UIErrorType.AuthenticationError
-                        )
+                onFailure = { throwable ->
+                    when (throwable) {
+                        is AuthenticationError -> _viewState.update {
+                            it.copy(errorType = UIErrorType.AuthenticationError)
+                        }
+
+                        else -> {
+                            _viewState.update {
+                                it.copy(
+                                    errorType = UIErrorType.GenericError
+                                )
+                            }
+                        }
                     }
                 }
             )

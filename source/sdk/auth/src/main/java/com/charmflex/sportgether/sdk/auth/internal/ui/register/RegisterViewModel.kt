@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.charmflex.sportgether.sdk.auth.internal.data.errors.AuthApiException
 import com.charmflex.sportgether.sdk.auth.internal.data.errors.ExistingEmailException
-import com.charmflex.sportgether.sdk.auth.internal.data.errors.ExistingUserException
 import com.charmflex.sportgether.sdk.auth.internal.data.errors.ExistingUsernameException
 import com.charmflex.sportgether.sdk.auth.internal.domain.usecases.RegisterUseCase
 import com.charmflex.sportgether.sdk.auth.internal.navigation.AuthNavigator
@@ -66,13 +65,12 @@ internal class RegisterViewModel @Inject constructor(
                 onSuccess = {
                     _registerSuccessState.emit(true)
                 },
-                onFailure = {
-                    val error = when (it) {
+                onFailure = {val error = when (it) {
                         is AuthApiException -> mapApiException(it)
                         else -> UIErrorType.GenericError
                     }
-                    _viewState.update {
-                        it.copy(
+                    _viewState.update { viewState ->
+                        viewState.copy(
                             errorType = error
                         )
                     }
@@ -114,7 +112,6 @@ internal class RegisterViewModel @Inject constructor(
     }
     private fun mapApiException(exception: AuthApiException): UIErrorType {
         return when (exception) {
-            is ExistingUserException -> UIErrorType.RegisteredAccountError
             is ExistingUsernameException -> {
                 appendTextFieldError(UIErrorType.UsernameIsUsedError)
                 UIErrorType.None

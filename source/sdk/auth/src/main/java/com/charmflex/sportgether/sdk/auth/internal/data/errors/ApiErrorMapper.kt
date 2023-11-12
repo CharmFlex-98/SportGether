@@ -7,11 +7,11 @@ import javax.inject.Inject
 
 internal class AuthApiErrorMapper @Inject constructor()  : ApiErrorMapper {
     override fun map(apiExceptionBody: ApiExceptionBody): Exception {
-        return when (apiExceptionBody.code) {
+        return when (apiExceptionBody.error.errorCode) {
             10001 -> ExistingUsernameException
             10002 -> ExistingEmailException
-            10003 -> ExistingUserException
-            10004 -> UserNotFoundException
+            10003 -> WrongPasswordException
+            10004 -> UsernameNotFoundException
             else -> UnknownException
         }
     }

@@ -1,9 +1,10 @@
 package com.charmflex.sportgether.sdk.auth.internal.data.errors
 
 sealed class AuthApiException : Exception()
-
-object ExistingUserException : AuthApiException()
+sealed class AuthenticationError : AuthApiException()
+object UsernameNotFoundException : AuthenticationError()
+object WrongPasswordException : AuthenticationError()
 object ExistingUsernameException : AuthApiException()
 object ExistingEmailException : AuthApiException()
-object UserNotFoundException : AuthApiException()
+
 object UnknownException : AuthApiException()

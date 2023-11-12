@@ -20,19 +20,25 @@ class ApiErrorParserImpl @Inject constructor(
         } catch (e: Exception) {
             Log.d(this.javaClass.simpleName, "ApiException parsing failed!")
             ApiExceptionBody(
-                code = 99999,
-                message = "ApiException parsing failed!"
+                error = ApiExceptionBody.ErrorBody(
+                    errorCode = 99999,
+                    message = "ApiException parsing failed!"
+                ),
             )
         }
     }
 }
 
 data class ApiExceptionBody(
-    @SerializedName("code")
-    val code: Int,
-    @SerializedName("message")
-    val message: String
-)
+    val error: ErrorBody
+) {
+    data class ErrorBody(
+        @SerializedName("errorCode")
+        val errorCode: Int,
+        @SerializedName("message")
+        val message: String
+    )
+}
 
 interface ApiErrorMapper {
     fun map(apiExceptionBody: ApiExceptionBody): Exception
