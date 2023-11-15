@@ -17,6 +17,7 @@
             <option value="$PROJECT_DIR$/source/app/feature/splash" />
             <option value="$PROJECT_DIR$/source/sdk/auth" />
             <option value="$PROJECT_DIR$/source/sdk/core" />
+            <option value="$PROJECT_DIR$/source/sdk/events" />
             <option value="$PROJECT_DIR$/source/sdk/navigation" />
             <option value="$PROJECT_DIR$/source/sdk/network" />
             <option value="$PROJECT_DIR$/source/sdk/ui-common" />
