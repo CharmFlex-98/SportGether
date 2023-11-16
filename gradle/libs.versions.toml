@@ -21,6 +21,8 @@ androidx_security_crypto_version = "1.0.0"
 androidx_security_identity_version = "1.0.0-alpha03"
 androidx_security_app_authenticator_version = "1.0.0-alpha02"
 
+# mockWebServer
+mock_web_server_version = "4.11.0"
 
 
 [libraries]
@@ -39,6 +41,7 @@ compose-navigation = { module = 'androidx.navigation:navigation-compose', versio
 # square
 square-retrofit = { module = 'com.squareup.retrofit2:retrofit', version.ref = 'retrofit_version'}
 square-retrofit-gsonConverter = { module = 'com.squareup.retrofit2:converter-gson', version.ref = 'retrofit_version'}
+square-mockWebServer = { module = 'com.squareup.okhttp3:mockwebserver', version.ref = 'mock_web_server_version'}
 
 # androidx
 androidx-security-crypto = { module = 'androidx.security:security-crypto', version.ref = 'androidx_security_crypto_version'}

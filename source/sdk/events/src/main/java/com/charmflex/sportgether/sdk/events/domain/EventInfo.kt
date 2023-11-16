@@ -2,8 +2,8 @@ package com.charmflex.sportgether.sdk.events.domain
 
 import java.time.LocalDate
 import java.time.LocalDateTime
-
-internal data class EventInfo(
+data class EventInfo(
+    val theme: String,
     val startTime: LocalDateTime,
     val endTime: LocalDateTime,
     val place: String,
@@ -12,6 +12,6 @@ internal data class EventInfo(
     val joiner: String
 )
 
-internal enum class EventType {
+enum class EventType {
     BADMINTON, SOCCER, BASKETBALL
 }
