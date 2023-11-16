@@ -49,3 +49,6 @@ project(':network-sdk').projectDir = new File(rootDir, 'source/sdk/network')
 
 include ':event-sdk'
 project(':event-sdk').projectDir = new File(rootDir, 'source/sdk/events')
+
+include ':mock-sdk'
+project(':mock-sdk').projectDir = new File(rootDir, 'source/sdk/mock')
