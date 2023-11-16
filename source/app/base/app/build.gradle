@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId "com.charmflex.sportgether.app"
-        minSdk 24
+        minSdk 26
         targetSdk 33
         versionCode 1
         versionName "1.0"
@@ -63,5 +63,6 @@ dependencies {
     implementation project(":splash")
     implementation project(":ui-common-sdk")
     implementation project(":core-sdk")
+    implementation project(":mock-sdk")
 
 }
