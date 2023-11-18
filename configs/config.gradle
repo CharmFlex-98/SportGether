@@ -1,0 +1,5 @@
+ext {
+    AndroidConfig = [
+            MIN_SDK_VERSION: 26
+    ]
+}

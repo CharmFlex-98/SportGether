@@ -9,8 +9,8 @@ class FakeWebServer {
 
     fun start() {
         server.dispatcher = createApiDispatcher()
-        server.url("/")
         server.start(6969)
+        server.url("/")
     }
 
     private fun createApiDispatcher(): Dispatcher {

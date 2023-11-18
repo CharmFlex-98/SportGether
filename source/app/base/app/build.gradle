@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId "com.charmflex.sportgether.app"
-        minSdk 26
+        minSdk AndroidConfig.MIN_SDK_VERSION
         targetSdk 33
         versionCode 1
         versionName "1.0"
