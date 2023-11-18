@@ -8,7 +8,6 @@ import com.charmflex.sportgether.sdk.auth.internal.di.modules.ToolsModule
 import com.charmflex.sportgether.sdk.auth.internal.ui.login.LoginViewModel
 import com.charmflex.sportgether.sdk.auth.internal.ui.register.RegisterViewModel
 import com.charmflex.sportgether.sdk.auth.internal.ui.reset_password.ResetPasswordViewModel
-import com.charmflex.sportgether.sdk.core.di.MainComponent
 import com.charmflex.sportgether.sdk.core.di.MainInjector
 import com.charmflex.sportgether.sdk.core.di.MainProvider
 import dagger.BindsInstance

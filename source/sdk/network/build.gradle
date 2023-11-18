@@ -32,6 +32,8 @@ android {
 
 dependencies {
 
+    implementation project(":app-config-sdk")
+
     api(libs.square.retrofit)
     implementation(libs.square.retrofit.gsonConverter)
     implementation(libs.google.dagger)

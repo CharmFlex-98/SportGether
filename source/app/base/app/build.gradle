@@ -22,11 +22,36 @@ android {
     }
 
     buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    flavorDimensions = ["dimension"]
+
+    productFlavors {
+        dev {
+            dimension("dimension")
+            applicationIdSuffix(".dev")
+            buildConfigField("String", "BASE_URL", "\"http://10.0.2.2:3000\"")
+        }
+
+        mock {
+            dimension("dimension")
+            applicationIdSuffix(".mock")
+            buildConfigField("String", "BASE_URL", "\"http://localhost:56789\"")
+        }
+
+        prod {
+            dimension "dimension"
+            buildConfigField("String", "BASE_URL", "\"http://10.0.2.2:3000\"")
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -36,6 +61,7 @@ android {
     }
     buildFeatures {
         compose true
+        buildConfig true
     }
     composeOptions {
         kotlinCompilerExtensionVersion libs.versions.composeCompilerVersion.get()
@@ -64,5 +90,7 @@ dependencies {
     implementation project(":ui-common-sdk")
     implementation project(":core-sdk")
     implementation project(":mock-sdk")
+    implementation project(":app-config-sdk")
+    implementation project(":network-sdk")
 
 }

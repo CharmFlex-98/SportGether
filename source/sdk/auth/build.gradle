@@ -68,4 +68,5 @@ dependencies {
     implementation project(":ui-common-sdk")
     implementation project(":navigation-sdk")
     implementation project(":core-sdk")
+    implementation project(":app-config-sdk")
 }
