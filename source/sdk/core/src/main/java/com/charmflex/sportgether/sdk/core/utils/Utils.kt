@@ -1,4 +1,4 @@
-package com.charmflex.sportgether.sdk.core
+package com.charmflex.sportgether.sdk.core.utils
 
 import kotlinx.coroutines.CancellationException
 

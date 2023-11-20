@@ -13,7 +13,7 @@ import androidx.navigation.compose.rememberNavController
 import com.charmflex.sportgether.app.home.destination.HomeDestinationBuilder
 import com.charmflex.sportgether.sdk.ui_common.theme.SportGetherTheme
 import com.charmflex.sportgether.sdk.auth.internal.navigation.AuthDestinationBuilder
-import com.charmflex.sportgether.sdk.core.DestinationBuilder
+import com.charmflex.sportgether.sdk.core.utils.DestinationBuilder
 import com.charmflex.sportgether.sdk.navigation.routes.AuthRoutes
 
 class HostActivity : ComponentActivity() {

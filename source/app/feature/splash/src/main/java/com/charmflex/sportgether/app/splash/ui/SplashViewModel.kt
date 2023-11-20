@@ -2,7 +2,7 @@ package com.charmflex.sportgether.app.splash.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.charmflex.sportgether.sdk.core.countDownTimer
+import com.charmflex.sportgether.sdk.core.utils.countDownTimer
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow

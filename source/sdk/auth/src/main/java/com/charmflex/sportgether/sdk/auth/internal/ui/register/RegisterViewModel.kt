@@ -7,7 +7,7 @@ import com.charmflex.sportgether.sdk.auth.internal.data.errors.ExistingEmailExce
 import com.charmflex.sportgether.sdk.auth.internal.data.errors.ExistingUsernameException
 import com.charmflex.sportgether.sdk.auth.internal.domain.usecases.RegisterUseCase
 import com.charmflex.sportgether.sdk.auth.internal.navigation.AuthNavigator
-import com.charmflex.sportgether.sdk.core.UIErrorType
+import com.charmflex.sportgether.sdk.core.ui.UIErrorType
 import com.charmflex.sportgether.sdk.ui_common.SnackBarType
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

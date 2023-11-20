@@ -1,11 +1,9 @@
 package com.charmflex.sportgether.app.di
 
 import android.content.Context
+import com.charmflex.sportgether.sdk.core.di.MainInjector
 import com.charmflex.sportgether.app.di.modules.NetworkModule
 import com.charmflex.sportgether.app.di.modules.ToolsModule
-import com.charmflex.sportgether.sdk.app_config.AppConfig
-import com.charmflex.sportgether.sdk.core.di.MainInjector
-import com.charmflex.sportgether.sdk.network.NetworkClientBuilder
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -14,7 +12,7 @@ import javax.inject.Singleton
 @Component(
     modules = [
         ToolsModule::class,
-        NetworkModule::class
+        NetworkModule::class,
     ]
 )
 interface AppComponent : MainInjector {

@@ -38,7 +38,6 @@ class DefaultNetworkClientBuilder(
         return synchronized(this) {
             instance ?: Retrofit
                 .Builder()
-                .client(okHttpClient())
                 .baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build().also { instance = it }

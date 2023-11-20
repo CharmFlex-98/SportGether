@@ -92,5 +92,6 @@ dependencies {
     implementation project(":mock-sdk")
     implementation project(":app-config-sdk")
     implementation project(":network-sdk")
+    implementation project(":event-sdk")
 
 }

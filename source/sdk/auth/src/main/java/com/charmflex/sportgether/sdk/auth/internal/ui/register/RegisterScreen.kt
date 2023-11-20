@@ -20,7 +20,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import com.charmflex.sportgether.sdk.auth.R
-import com.charmflex.sportgether.sdk.core.UIErrorType
+import com.charmflex.sportgether.sdk.core.ui.UIErrorType
 import com.charmflex.sportgether.sdk.ui_common.BasicTopBar
 import com.charmflex.sportgether.sdk.ui_common.SGIconArrowBack
 import com.charmflex.sportgether.sdk.ui_common.SGLargePrimaryButton

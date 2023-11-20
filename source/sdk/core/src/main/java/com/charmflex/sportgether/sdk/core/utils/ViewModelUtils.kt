@@ -1,4 +1,4 @@
-package com.charmflex.sportgether.sdk.core
+package com.charmflex.sportgether.sdk.core.utils
 
 import android.os.Bundle
 import androidx.compose.runtime.Composable

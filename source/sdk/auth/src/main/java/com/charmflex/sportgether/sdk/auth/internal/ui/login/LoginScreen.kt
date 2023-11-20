@@ -6,10 +6,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -28,7 +26,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.window.Dialog
 import com.charmflex.sportgether.sdk.auth.R
-import com.charmflex.sportgether.sdk.core.UIErrorType
+import com.charmflex.sportgether.sdk.core.ui.UIErrorType
 import com.charmflex.sportgether.sdk.ui_common.SGButtonGroupVertical
 import com.charmflex.sportgether.sdk.ui_common.SGLargePrimaryButton
 import com.charmflex.sportgether.sdk.ui_common.SGLargeSecondaryButton
@@ -36,11 +34,8 @@ import com.charmflex.sportgether.sdk.ui_common.SGSnackBar
 import com.charmflex.sportgether.sdk.ui_common.SGTextField
 import com.charmflex.sportgether.sdk.ui_common.SnackBarType
 import com.charmflex.sportgether.sdk.ui_common.SportGetherScaffold
-import com.charmflex.sportgether.sdk.ui_common.grid_x10
 import com.charmflex.sportgether.sdk.ui_common.grid_x15
 import com.charmflex.sportgether.sdk.ui_common.grid_x2
-import com.charmflex.sportgether.sdk.ui_common.grid_x4
-import com.charmflex.sportgether.sdk.ui_common.grid_x6
 import com.charmflex.sportgether.sdk.ui_common.showSnackBarImmediately
 import com.charmflex.sportgether.sdk.ui_common.theme.SportGetherTheme
 

@@ -11,8 +11,8 @@ import com.charmflex.sportgether.sdk.auth.internal.ui.register.RegisterScreen
 import com.charmflex.sportgether.sdk.auth.internal.ui.register.RegisterViewModel
 import com.charmflex.sportgether.sdk.auth.internal.ui.reset_password.ResetPasswordScreen
 import com.charmflex.sportgether.sdk.auth.internal.ui.reset_password.ResetPasswordViewModel
-import com.charmflex.sportgether.sdk.core.DestinationBuilder
-import com.charmflex.sportgether.sdk.core.getViewModel
+import com.charmflex.sportgether.sdk.core.utils.DestinationBuilder
+import com.charmflex.sportgether.sdk.core.utils.getViewModel
 import com.charmflex.sportgether.sdk.navigation.routes.AuthRoutes
 
 class AuthDestinationBuilder(private val navController: NavController) : DestinationBuilder {

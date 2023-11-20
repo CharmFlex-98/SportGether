@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="icon_calendar_description">calendar icon description</string>
+    <string name="no_content_icon_description">No content</string>
+    <string name="no_content">No event is available now.</string>
+    <string name="load_error">Cannot load the data!</string>
 </resources>

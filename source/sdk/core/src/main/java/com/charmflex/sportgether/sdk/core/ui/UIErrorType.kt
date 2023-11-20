@@ -1,7 +1,8 @@
-package com.charmflex.sportgether.sdk.core
+package com.charmflex.sportgether.sdk.core.ui
 
 sealed interface UIErrorType {
     object None : UIErrorType
+    object LoadError : UIErrorType
     sealed interface SnackBarError : UIErrorType
     sealed interface BottomSheetError : UIErrorType
     sealed interface DialogError : UIErrorType

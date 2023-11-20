@@ -4,10 +4,9 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.charmflex.sportgether.sdk.auth.internal.data.errors.AuthenticationError
-import com.charmflex.sportgether.sdk.auth.internal.data.errors.WrongPasswordException
 import com.charmflex.sportgether.sdk.auth.internal.domain.usecases.LoginUseCase
 import com.charmflex.sportgether.sdk.auth.internal.navigation.AuthNavigator
-import com.charmflex.sportgether.sdk.core.UIErrorType
+import com.charmflex.sportgether.sdk.core.ui.UIErrorType
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -36,6 +35,7 @@ internal class LoginViewModel @Inject constructor(
                     navigator.toHomeScreen()
                 },
                 onFailure = { throwable ->
+                    Log.d("test", "loginUser: ${throwable.cause}")
                     when (throwable) {
                         is AuthenticationError -> _viewState.update {
                             it.copy(errorType = UIErrorType.AuthenticationError)
