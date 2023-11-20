@@ -1,7 +1,7 @@
 package com.charmflex.sportgether.app.home.di
 
-import com.charmflex.sportgether.app.home.ServiceWrapper
 import com.charmflex.sportgether.app.home.di.modules.HomeUIModule
+import com.charmflex.sportgether.app.home.ui.event.EventBoardViewModel
 import dagger.Component
 import javax.inject.Singleton
 
@@ -24,5 +24,5 @@ interface HomeUIComponent {
         }
     }
 
-    fun getServiceWrapper(): ServiceWrapper
+    fun getEventBoardViewModel(): EventBoardViewModel
 }

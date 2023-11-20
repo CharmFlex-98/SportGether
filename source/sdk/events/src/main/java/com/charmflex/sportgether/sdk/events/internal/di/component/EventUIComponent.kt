@@ -1,8 +1,6 @@
 package com.charmflex.sportgether.sdk.events.internal.di.component
 
-import com.charmflex.sportgether.sdk.events.ServiceEventWrapper
 import com.charmflex.sportgether.sdk.events.internal.di.modules.EventUIModule
-import com.charmflex.sportgether.sdk.events.internal.ui.EventBoardViewModel
 import dagger.Component
 import javax.inject.Singleton
 
@@ -24,9 +22,4 @@ interface EventUIComponent {
             return DaggerEventUIComponent.factory().create()
         }
     }
-
-    fun getEventBoardViewModel(): EventBoardViewModel
-
-    fun getServiceWrapper(): ServiceEventWrapper
-
 }

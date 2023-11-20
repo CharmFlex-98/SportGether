@@ -1,4 +1,4 @@
-package com.charmflex.sportgether.sdk.events.internal.ui
+package com.charmflex.sportgether.app.home.ui.event
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.Box
@@ -29,11 +29,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.charmflex.sportgether.sdk.core.utils.getViewModel
-import com.charmflex.sportgether.sdk.events.internal.di.component.EventComponent
 import com.charmflex.sportgether.sdk.events.internal.di.component.EventUIComponent
 import com.charmflex.sportgether.sdk.events.internal.domain.models.EventInfo
 import com.charmflex.sportgether.sdk.events.internal.domain.models.EventParticipantInfo
 import com.charmflex.sportgether.sdk.events.internal.domain.models.EventType
+import com.charmflex.sportgether.sdk.ui_common.ContentState
 import com.charmflex.sportgether.sdk.ui_common.ListTable
 import com.charmflex.sportgether.sdk.ui_common.R
 import com.charmflex.sportgether.sdk.ui_common.WithState
@@ -47,15 +47,11 @@ import java.time.LocalDateTime
 @Composable
 fun EventBoard(
     modifier: Modifier = Modifier,
+    contentState: ContentState,
+    events: List<EventInfo>
 ) {
-
-    val component = EventUIComponent.injectCreate()
-
-    val viewModel = getViewModel { component.getEventBoardViewModel() }
-    val viewState by viewModel.viewState.collectAsState()
-
     WithState(
-        contentState = viewState.contentState,
+        contentState = contentState,
         loadingState = {
             EventBoardLoadingContent()
         },
@@ -65,7 +61,7 @@ fun EventBoard(
         errorState = {
             EventBoardTextContent(text = stringResource(id = com.charmflex.sportgether.sdk.events.R.string.load_error))
         }) {
-        EventBoardContent(modifier = modifier, itemList = viewState.events)
+        EventBoardContent(modifier = modifier, itemList = events)
     }
 }
 

@@ -1,4 +1,4 @@
-package com.charmflex.sportgether.sdk.events.internal.ui
+package com.charmflex.sportgether.app.home.ui.event
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

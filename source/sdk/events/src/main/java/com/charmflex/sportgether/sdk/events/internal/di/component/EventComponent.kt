@@ -6,7 +6,6 @@ import com.charmflex.sportgether.sdk.events.EventService
 import com.charmflex.sportgether.sdk.events.internal.di.modules.EventModule
 import com.charmflex.sportgether.sdk.events.internal.di.modules.NetworkModule
 import com.charmflex.sportgether.sdk.events.internal.di.modules.RepoModule
-import com.charmflex.sportgether.sdk.events.internal.ui.EventBoardViewModel
 import dagger.Component
 import javax.inject.Singleton
 
