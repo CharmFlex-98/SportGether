@@ -1,4 +1,4 @@
-package com.charmflex.sportgether.sdk.events.internal.domain.models
+package com.charmflex.sportgether.sdk.events.internal.event.domain.models
 
 import java.time.LocalDateTime
 data class EventInfo(

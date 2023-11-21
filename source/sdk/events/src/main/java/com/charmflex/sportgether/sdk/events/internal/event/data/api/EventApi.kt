@@ -1,6 +1,6 @@
-package com.charmflex.sportgether.sdk.events.internal.data.api
+package com.charmflex.sportgether.sdk.events.internal.event.data.api
 
-import com.charmflex.sportgether.sdk.events.internal.data.models.GetEventsResponse
+import com.charmflex.sportgether.sdk.events.internal.event.data.models.GetEventsResponse
 import retrofit2.http.GET
 import retrofit2.http.Headers
 

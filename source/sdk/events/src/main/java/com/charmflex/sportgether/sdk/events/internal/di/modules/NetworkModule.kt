@@ -1,6 +1,6 @@
 package com.charmflex.sportgether.sdk.events.internal.di.modules
 
-import com.charmflex.sportgether.sdk.events.internal.data.api.EventApi
+import com.charmflex.sportgether.sdk.events.internal.event.data.api.EventApi
 import com.charmflex.sportgether.sdk.network.NetworkClientBuilder
 import dagger.Module
 import dagger.Provides

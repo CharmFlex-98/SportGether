@@ -1,10 +1,10 @@
-package com.charmflex.sportgether.sdk.events.internal.data.mapper
+package com.charmflex.sportgether.sdk.events.internal.event.data.mapper
 
 import com.charmflex.sportgether.sdk.core.utils.Mapper
-import com.charmflex.sportgether.sdk.events.internal.data.models.GetEventsResponse
-import com.charmflex.sportgether.sdk.events.internal.domain.models.EventInfo
-import com.charmflex.sportgether.sdk.events.internal.domain.models.EventParticipantInfo
-import com.charmflex.sportgether.sdk.events.internal.domain.models.EventType
+import com.charmflex.sportgether.sdk.events.internal.event.data.models.GetEventsResponse
+import com.charmflex.sportgether.sdk.events.internal.event.domain.models.EventInfo
+import com.charmflex.sportgether.sdk.events.internal.event.domain.models.EventParticipantInfo
+import com.charmflex.sportgether.sdk.events.internal.event.domain.models.EventType
 import java.time.LocalDateTime
 import javax.inject.Inject
 

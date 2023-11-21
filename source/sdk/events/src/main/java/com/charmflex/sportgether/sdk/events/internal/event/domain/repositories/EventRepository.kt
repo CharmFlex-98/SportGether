@@ -1,9 +1,9 @@
-package com.charmflex.sportgether.sdk.events.internal.domain.repositories
+package com.charmflex.sportgether.sdk.events.internal.event.domain.repositories
 
 import com.charmflex.sportgether.sdk.core.utils.resultOf
-import com.charmflex.sportgether.sdk.events.internal.data.api.EventApi
-import com.charmflex.sportgether.sdk.events.internal.data.mapper.EventInfoMapper
-import com.charmflex.sportgether.sdk.events.internal.domain.models.EventInfo
+import com.charmflex.sportgether.sdk.events.internal.event.data.api.EventApi
+import com.charmflex.sportgether.sdk.events.internal.event.data.mapper.EventInfoMapper
+import com.charmflex.sportgether.sdk.events.internal.event.domain.models.EventInfo
 import javax.inject.Inject
 
 interface EventRepository {

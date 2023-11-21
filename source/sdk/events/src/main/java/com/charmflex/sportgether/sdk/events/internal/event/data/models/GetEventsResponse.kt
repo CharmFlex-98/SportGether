@@ -1,4 +1,4 @@
-package com.charmflex.sportgether.sdk.events.internal.data.models
+package com.charmflex.sportgether.sdk.events.internal.event.data.models
 
 import com.google.gson.annotations.SerializedName
 

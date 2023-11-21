@@ -1,6 +1,7 @@
 package com.charmflex.sportgether.app.home.ui.event
 
 import androidx.annotation.DrawableRes
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,15 +11,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -28,11 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
-import com.charmflex.sportgether.sdk.core.utils.getViewModel
-import com.charmflex.sportgether.sdk.events.internal.di.component.EventUIComponent
-import com.charmflex.sportgether.sdk.events.internal.domain.models.EventInfo
-import com.charmflex.sportgether.sdk.events.internal.domain.models.EventParticipantInfo
-import com.charmflex.sportgether.sdk.events.internal.domain.models.EventType
+import com.charmflex.sportgether.sdk.events.internal.event.domain.models.EventInfo
 import com.charmflex.sportgether.sdk.ui_common.ContentState
 import com.charmflex.sportgether.sdk.ui_common.ListTable
 import com.charmflex.sportgether.sdk.ui_common.R
@@ -42,13 +36,13 @@ import com.charmflex.sportgether.sdk.ui_common.grid_x2
 import com.charmflex.sportgether.sdk.ui_common.grid_x3
 import com.charmflex.sportgether.sdk.ui_common.grid_x7
 import com.charmflex.sportgether.sdk.ui_common.shimmerEffect
-import java.time.LocalDateTime
 
 @Composable
 fun EventBoard(
     modifier: Modifier = Modifier,
     contentState: ContentState,
-    events: List<EventInfo>
+    events: List<EventInfo>,
+    shownEventMaxCount: Int = -1
 ) {
     WithState(
         contentState = contentState,
@@ -61,7 +55,7 @@ fun EventBoard(
         errorState = {
             EventBoardTextContent(text = stringResource(id = com.charmflex.sportgether.sdk.events.R.string.load_error))
         }) {
-        EventBoardContent(modifier = modifier, itemList = events)
+        EventBoardContent(modifier = modifier, itemList = events, shownEventMaxCount = shownEventMaxCount)
     }
 }
 
@@ -75,27 +69,21 @@ fun EventBoardLoadingContent(
         Card(
             modifier = Modifier.padding(vertical = grid_x1)
         ) {
+            val mod = Modifier
+                .fillMaxWidth()
+                .height(grid_x7)
+                .padding(grid_x2)
+                .shimmerEffect()
+
             Column {
                 Box(
-                    modifier = modifier
-                        .fillMaxWidth()
-                        .height(grid_x7)
-                        .padding(grid_x2)
-                        .shimmerEffect()
+                    modifier = mod
                 )
                 Box(
-                    modifier = modifier
-                        .fillMaxWidth()
-                        .height(grid_x7)
-                        .padding(grid_x2)
-                        .shimmerEffect()
+                    modifier = mod
                 )
                 Box(
-                    modifier = modifier
-                        .fillMaxWidth(fraction = 0.5f)
-                        .height(grid_x7)
-                        .padding(grid_x2)
-                        .shimmerEffect()
+                    modifier = mod
                 )
             }
         }
@@ -105,10 +93,11 @@ fun EventBoardLoadingContent(
 @Composable
 internal fun EventBoardContent(
     modifier: Modifier = Modifier,
-    itemList: List<EventInfo>
+    itemList: List<EventInfo>,
+    shownEventMaxCount: Int
 ) {
-    ListTable(modifier = modifier, items = itemList) { index, item ->
-        EventInfoBar(modifier = Modifier.fillMaxSize(), eventInfo = item)
+    ListTable(modifier = modifier, items = itemList, shownItemMaxCount = shownEventMaxCount) { index, item ->
+        EventInfoBar(eventInfo = item)
     }
 }
 
@@ -139,13 +128,13 @@ private fun EventInfoBar(
 ) {
     Card(
         modifier = modifier
-            .fillMaxWidth()
-            .wrapContentHeight()
+            .fillMaxSize()
             .padding(vertical = grid_x1),
         elevation = CardDefaults.cardElevation(defaultElevation = grid_x1)
     ) {
         Column(
-            modifier = Modifier.padding(grid_x2)
+            modifier = Modifier.fillMaxSize().padding(grid_x2),
+            verticalArrangement = Arrangement.Center
         ) {
             Text(
                 modifier = Modifier.padding(end = grid_x1),
@@ -217,84 +206,4 @@ private fun EventDetailWidget(
             Text(modifier = Modifier.padding(start = grid_x2), text = subtitle, fontSize = 16.sp)
         }
     }
-}
-
-@Preview
-@Composable
-fun EventBoardPreview() {
-    val list = listOf(
-        EventInfo(
-            eventName = "Bang bang",
-            startTime = LocalDateTime.now(),
-            endTime = LocalDateTime.now(),
-            place = "Seremban",
-            eventType = EventType.BADMINTON,
-            host = EventParticipantInfo(
-                userId = 1,
-                username = "JiaMing",
-                profileIconUrl = ""
-            ),
-            joiners = listOf(
-                EventParticipantInfo(
-                    userId = 1,
-                    username = "JiaMing",
-                    profileIconUrl = ""
-                ),
-                EventParticipantInfo(
-                    userId = 1,
-                    username = "JiaMing",
-                    profileIconUrl = ""
-                ),
-            )
-        ),
-        EventInfo(
-            eventName = "Bang bang",
-            startTime = LocalDateTime.now(),
-            endTime = LocalDateTime.now(),
-            place = "Seremban",
-            eventType = EventType.BADMINTON,
-            host = EventParticipantInfo(
-                userId = 1,
-                username = "JiaMing",
-                profileIconUrl = ""
-            ),
-            joiners = listOf(
-                EventParticipantInfo(
-                    userId = 1,
-                    username = "JiaMing",
-                    profileIconUrl = ""
-                ),
-                EventParticipantInfo(
-                    userId = 1,
-                    username = "JiaMing",
-                    profileIconUrl = ""
-                ),
-            )
-        ),
-        EventInfo(
-            eventName = "Bang bang",
-            startTime = LocalDateTime.now(),
-            endTime = LocalDateTime.now(),
-            place = "Seremban",
-            eventType = EventType.BADMINTON,
-            host = EventParticipantInfo(
-                userId = 1,
-                username = "JiaMing",
-                profileIconUrl = ""
-            ),
-            joiners = listOf(
-                EventParticipantInfo(
-                    userId = 1,
-                    username = "JiaMing",
-                    profileIconUrl = ""
-                ),
-                EventParticipantInfo(
-                    userId = 1,
-                    username = "JiaMing",
-                    profileIconUrl = ""
-                ),
-            )
-        ),
-    )
-    EventBoardContent(itemList = list)
 }
