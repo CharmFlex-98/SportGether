@@ -42,7 +42,8 @@ fun EventBoard(
     modifier: Modifier = Modifier,
     contentState: ContentState,
     events: List<EventInfo>,
-    shownEventMaxCount: Int = -1
+    shownEventMaxCount: Int = -1,
+    contentColor: Color = MaterialTheme.colorScheme.secondaryContainer
 ) {
     WithState(
         contentState = contentState,
@@ -55,7 +56,7 @@ fun EventBoard(
         errorState = {
             EventBoardTextContent(text = stringResource(id = com.charmflex.sportgether.sdk.events.R.string.load_error))
         }) {
-        EventBoardContent(modifier = modifier, itemList = events, shownEventMaxCount = shownEventMaxCount)
+        EventBoardContent(modifier = modifier, itemList = events, shownEventMaxCount = shownEventMaxCount, contentColor = contentColor)
     }
 }
 
@@ -94,10 +95,11 @@ fun EventBoardLoadingContent(
 internal fun EventBoardContent(
     modifier: Modifier = Modifier,
     itemList: List<EventInfo>,
-    shownEventMaxCount: Int
+    shownEventMaxCount: Int,
+    contentColor: Color
 ) {
     ListTable(modifier = modifier, items = itemList, shownItemMaxCount = shownEventMaxCount) { index, item ->
-        EventInfoBar(eventInfo = item)
+        EventInfoBar(eventInfo = item, contentColor = contentColor)
     }
 }
 
@@ -124,16 +126,20 @@ internal fun EventBoardTextContent(
 @Composable
 private fun EventInfoBar(
     modifier: Modifier = Modifier,
-    eventInfo: EventInfo
+    eventInfo: EventInfo,
+    contentColor: Color
 ) {
     Card(
         modifier = modifier
             .fillMaxSize()
             .padding(vertical = grid_x1),
-        elevation = CardDefaults.cardElevation(defaultElevation = grid_x1)
+        elevation = CardDefaults.cardElevation(defaultElevation = grid_x1),
+        colors = CardDefaults.cardColors(containerColor = contentColor)
     ) {
         Column(
-            modifier = Modifier.fillMaxSize().padding(grid_x2),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(grid_x2),
             verticalArrangement = Arrangement.Center
         ) {
             Text(

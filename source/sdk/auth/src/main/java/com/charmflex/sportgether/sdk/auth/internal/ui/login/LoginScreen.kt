@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -59,7 +60,6 @@ internal fun LoginScreen(viewModel: LoginViewModel) {
         }
     }
 
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         LoginScreenContent(
             username = viewState.username,
             onUserNameChanged = viewModel::onUserNameChanged,
@@ -90,7 +90,7 @@ internal fun LoginScreen(viewModel: LoginViewModel) {
             }
 
         }
-    }
+
 
     SGSnackBar(snackBarHostState = snackbarHostState, snackBarType = snackbarErrorType)
 }
@@ -110,6 +110,7 @@ private fun LoginScreenContent(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
+                .padding(grid_x2)
                 .weight(1f),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
@@ -134,7 +135,9 @@ private fun LoginScreenContent(
             )
         }
 
-        SGButtonGroupVertical {
+        SGButtonGroupVertical(
+            modifier = Modifier.padding(grid_x2)
+        ) {
             SGLargePrimaryButton(
                 modifier = Modifier.fillMaxWidth(), text = stringResource(
                     id = R.string.login_button_text

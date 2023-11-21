@@ -45,8 +45,7 @@ fun SportGetherScaffold(
         Column(
             modifier = Modifier
                 .padding(it)
-                .fillMaxSize()
-                .padding(start = grid_x2, end = grid_x2, bottom = grid_x3),
+                .fillMaxSize(),
         ) {
             this.content()
         }

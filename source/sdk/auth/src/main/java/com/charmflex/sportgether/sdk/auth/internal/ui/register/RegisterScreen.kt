@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SnackbarHostState
@@ -27,6 +28,7 @@ import com.charmflex.sportgether.sdk.ui_common.SGLargePrimaryButton
 import com.charmflex.sportgether.sdk.ui_common.SGSnackBar
 import com.charmflex.sportgether.sdk.ui_common.SGTextField
 import com.charmflex.sportgether.sdk.ui_common.SportGetherScaffold
+import com.charmflex.sportgether.sdk.ui_common.grid_x2
 import com.charmflex.sportgether.sdk.ui_common.showSnackBarImmediately
 
 @Composable
@@ -59,7 +61,7 @@ internal fun RegisterScreen(viewModel: RegisterViewModel, onBack: () -> Unit) {
         }
     }
 
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+    Box(modifier = Modifier.fillMaxSize().padding(grid_x2), contentAlignment = Alignment.Center) {
         RegisterScreenContent(
             viewState = viewState,
             onValueChange = viewModel::onFieldValueChanged,

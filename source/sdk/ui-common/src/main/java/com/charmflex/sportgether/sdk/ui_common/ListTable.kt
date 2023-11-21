@@ -1,6 +1,7 @@
 package com.charmflex.sportgether.sdk.ui_common
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -24,6 +25,7 @@ fun <T> ListTable(
     items: List<T>,
     shownItemMaxCount: Int = -1,
     alignment: ListTableContentAlignment = ListTableContentAlignment.VERTICAL,
+    contentPadding: PaddingValues = PaddingValues(0.dp),
     itemContent: @Composable (Int, T) -> Unit,
 ) {
     var maxSize by remember { mutableStateOf(0.dp) }
@@ -42,7 +44,7 @@ fun <T> ListTable(
     ) {
         when (alignment) {
             ListTableContentAlignment.HORIZONTAL -> {
-                LazyRow {
+                LazyRow(contentPadding = contentPadding) {
                     items(alignment, items = items, itemSize = itemSize) { index, item ->
                         itemContent(index, item)
                     }
@@ -50,7 +52,7 @@ fun <T> ListTable(
             }
 
             else -> {
-                LazyColumn {
+                LazyColumn(contentPadding = contentPadding) {
                     items(alignment, items = items, itemSize = itemSize) { index, item ->
                         itemContent(index, item)
                     }
