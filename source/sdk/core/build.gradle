@@ -47,11 +47,11 @@ android {
 
 dependencies {
     api(libs.google.gson)
+    api(libs.compose.navigation)
     implementation(libs.google.dagger)
     kapt(libs.google.daggerAP)
     implementation(libs.lifecycle.viewModel.ktx)
     implementation(libs.lifecycle.viewModel.compose)
-    implementation(libs.compose.navigation)
     implementation(libs.androidx.security.crypto)
     implementation(libs.androidx.security.identity.credential)
     implementation(libs.androidx.security.app.authenticator)
@@ -70,4 +70,5 @@ dependencies {
 
     implementation project(":ui-common-sdk")
     implementation project(":network-sdk")
+
 }

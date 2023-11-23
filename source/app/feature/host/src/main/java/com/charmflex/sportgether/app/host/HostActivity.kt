@@ -10,7 +10,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import com.charmflex.sportgether.app.home.destination.HomeDestinationBuilder
+import com.charmflex.sportgether.app.home.navigation.HomeDestinationBuilder
 import com.charmflex.sportgether.sdk.ui_common.theme.SportGetherTheme
 import com.charmflex.sportgether.sdk.auth.internal.navigation.AuthDestinationBuilder
 import com.charmflex.sportgether.sdk.core.utils.DestinationBuilder

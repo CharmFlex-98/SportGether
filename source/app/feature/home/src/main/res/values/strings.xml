@@ -1,3 +1,7 @@
 <resources>
     <string name="title_activity_test">test</string>
+    <string name="event_board_title">Explore</string>
+    <string name="host_event_button">Host</string>
+    <string name="no_content">No content</string>
+    <string name="event_data_load_error">Cannot load the data</string>
 </resources>

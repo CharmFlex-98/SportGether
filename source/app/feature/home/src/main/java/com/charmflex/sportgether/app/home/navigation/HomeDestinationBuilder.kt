@@ -1,24 +1,16 @@
-package com.charmflex.sportgether.app.home.destination
+package com.charmflex.sportgether.app.home.navigation
 
-import android.view.textservice.TextInfo
-import android.widget.Space
-import android.widget.TextView
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -33,8 +25,6 @@ import com.charmflex.sportgether.sdk.events.internal.event.domain.models.EventTy
 import com.charmflex.sportgether.sdk.navigation.routes.HomeRoutes
 import com.charmflex.sportgether.sdk.ui_common.ContentState
 import com.charmflex.sportgether.sdk.ui_common.SportGetherScaffold
-import com.charmflex.sportgether.sdk.ui_common.grid_x0_25
-import com.charmflex.sportgether.sdk.ui_common.grid_x10
 import com.charmflex.sportgether.sdk.ui_common.grid_x2
 import com.charmflex.sportgether.sdk.ui_common.grid_x4
 import java.time.LocalDateTime
@@ -53,7 +43,6 @@ class HomeDestinationBuilder(private val navController: NavController) : Destina
 
             SportGetherScaffold {
                 Column {
-                    Text(modifier = Modifier.padding(grid_x0_25), text = "Scheduled Event", fontWeight = FontWeight.Bold, fontSize = 16.sp)
                     ScheduledEventBoard(
                         modifier = Modifier
                             .weight(0.3f)
@@ -70,6 +59,8 @@ class HomeDestinationBuilder(private val navController: NavController) : Destina
                             .fillMaxWidth(),
                         contentState = viewState.contentState,
                         events = viewState.events,
+                        onHostEventClick = viewModel::onHostEventClick,
+                        onEventItemClick = viewModel::onEventItemClick
                     )
                 }
             }
@@ -166,7 +157,9 @@ fun EventBoardPreview() {
                     .fillMaxWidth(),
                 contentState = ContentState.LoadedState,
                 events = list,
-                shownEventMaxCount = 2
+                shownEventMaxCount = 2,
+                onEventItemClick = {},
+                onHostEventClick = {}
             )
         }
     }

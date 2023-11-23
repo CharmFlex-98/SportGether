@@ -13,9 +13,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,13 +31,13 @@ import androidx.compose.ui.unit.sp
 import com.charmflex.sportgether.sdk.events.internal.event.domain.models.EventInfo
 import com.charmflex.sportgether.sdk.ui_common.ContentState
 import com.charmflex.sportgether.sdk.ui_common.ListTable
-import com.charmflex.sportgether.sdk.ui_common.R
 import com.charmflex.sportgether.sdk.ui_common.WithState
 import com.charmflex.sportgether.sdk.ui_common.grid_x1
 import com.charmflex.sportgether.sdk.ui_common.grid_x2
 import com.charmflex.sportgether.sdk.ui_common.grid_x3
 import com.charmflex.sportgether.sdk.ui_common.grid_x7
 import com.charmflex.sportgether.sdk.ui_common.shimmerEffect
+import com.charmflex.sportgether.app.home.R
 
 @Composable
 fun EventBoard(
@@ -43,20 +45,40 @@ fun EventBoard(
     contentState: ContentState,
     events: List<EventInfo>,
     shownEventMaxCount: Int = -1,
-    contentColor: Color = MaterialTheme.colorScheme.secondaryContainer
+    contentColor: Color = MaterialTheme.colorScheme.secondaryContainer,
+    onHostEventClick: () -> Unit,
+    onEventItemClick: (EventInfo) -> Unit
 ) {
-    WithState(
-        contentState = contentState,
-        loadingState = {
-            EventBoardLoadingContent()
-        },
-        emptyState = {
-            EventBoardTextContent(text = stringResource(id = com.charmflex.sportgether.sdk.events.R.string.no_content))
-        },
-        errorState = {
-            EventBoardTextContent(text = stringResource(id = com.charmflex.sportgether.sdk.events.R.string.load_error))
-        }) {
-        EventBoardContent(modifier = modifier, itemList = events, shownEventMaxCount = shownEventMaxCount, contentColor = contentColor)
+    Column(
+        modifier = modifier
+    ) {
+        Row(
+            modifier = Modifier.padding(grid_x1),
+        ) {
+            Text(
+                modifier = Modifier.weight(1f),
+                text = stringResource(id = R.string.event_board_title),
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold
+            )
+            TextButton(onClick = onHostEventClick) {
+                Text(text = stringResource(id = R.string.host_event_button))
+            }
+        }
+
+        WithState(
+            contentState = contentState,
+            loadingState = {
+                EventBoardLoadingContent()
+            },
+            emptyState = {
+                EventBoardTextContent(text = stringResource(id = R.string.no_content))
+            },
+            errorState = {
+                EventBoardTextContent(text = stringResource(id = R.string.event_data_load_error))
+            }) {
+            EventBoardContent(modifier = Modifier.fillMaxSize(), itemList = events, shownEventMaxCount = shownEventMaxCount, contentColor = contentColor, onItemClick = onEventItemClick)
+        }
     }
 }
 
@@ -96,17 +118,18 @@ internal fun EventBoardContent(
     modifier: Modifier = Modifier,
     itemList: List<EventInfo>,
     shownEventMaxCount: Int,
-    contentColor: Color
+    contentColor: Color,
+    onItemClick: (EventInfo) -> Unit
 ) {
     ListTable(modifier = modifier, items = itemList, shownItemMaxCount = shownEventMaxCount) { index, item ->
-        EventInfoBar(eventInfo = item, contentColor = contentColor)
+        EventInfoBar(eventInfo = item, contentColor = contentColor, onClick = onItemClick)
     }
 }
 
 @Composable
 internal fun EventBoardTextContent(
     modifier: Modifier = Modifier,
-    text: String
+    text: String,
 ) {
     Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         Column(
@@ -123,18 +146,21 @@ internal fun EventBoardTextContent(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun EventInfoBar(
     modifier: Modifier = Modifier,
     eventInfo: EventInfo,
-    contentColor: Color
+    contentColor: Color,
+    onClick: (EventInfo) -> Unit
 ) {
     Card(
         modifier = modifier
             .fillMaxSize()
             .padding(vertical = grid_x1),
         elevation = CardDefaults.cardElevation(defaultElevation = grid_x1),
-        colors = CardDefaults.cardColors(containerColor = contentColor)
+        colors = CardDefaults.cardColors(containerColor = contentColor),
+        onClick = { onClick(eventInfo) }
     ) {
         Column(
             modifier = Modifier
@@ -168,17 +194,17 @@ private fun EventInfoBar(
                 )
             }
             EventDetailWidget(
-                painterId = R.drawable.ic_calendar,
+                painterId = com.charmflex.sportgether.sdk.ui_common.R.drawable.ic_calendar,
                 title = "Date",
                 subtitle = "Date detail"
             )
             EventDetailWidget(
-                painterId = R.drawable.icon_destination,
+                painterId = com.charmflex.sportgether.sdk.ui_common.R.drawable.icon_destination,
                 title = "Destination",
                 subtitle = "Destination description"
             )
             EventDetailWidget(
-                painterId = R.drawable.icon_people,
+                painterId = com.charmflex.sportgether.sdk.ui_common.R.drawable.icon_people,
                 title = "Joiner",
                 subtitle = "Joiner description"
             )
