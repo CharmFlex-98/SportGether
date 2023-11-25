@@ -3,8 +3,7 @@ package com.charmflex.sportgether.sdk.events.internal.event.ui.event_details
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.charmflex.sportgether.sdk.core.ui.UIErrorType
-import com.charmflex.sportgether.sdk.events.internal.event.domain.mapper.EventDetailFieldMapper
-import com.charmflex.sportgether.sdk.events.internal.event.domain.models.EventDetailFieldInfo
+import com.charmflex.sportgether.sdk.events.internal.event.domain.mapper.EventDetailFieldInfoMapper
 import com.charmflex.sportgether.sdk.events.internal.event.domain.usecases.GetEventDetailsUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -14,7 +13,7 @@ import javax.inject.Inject
 
 internal class EventDetailsViewModel(
     private val eventDetailsUseCase: GetEventDetailsUseCase,
-    private val fieldMapper: EventDetailFieldMapper,
+    private val fieldMapper: EventDetailFieldInfoMapper,
     private val eventId: Int,
 ) : ViewModel() {
     private val _viewState = MutableStateFlow(EventDetailsViewState())
@@ -22,7 +21,7 @@ internal class EventDetailsViewModel(
 
     class Factory @Inject constructor(
         private val eventDetailsUseCase: GetEventDetailsUseCase,
-        private val fieldMapper: EventDetailFieldMapper,
+        private val fieldMapper: EventDetailFieldInfoMapper,
         ) {
         fun create(eventId: Int?): EventDetailsViewModel {
             val id = checkNotNull(eventId)
@@ -66,12 +65,12 @@ internal class EventDetailsViewModel(
 }
 
 internal data class EventDetailsViewState(
-    val fields: List<EventDetailField> = listOf(),
+    val fields: List<EventDetailFieldInfo> = listOf(),
     val isLoading: Boolean = false,
     val errorType: UIErrorType = UIErrorType.None
-) {
-    data class EventDetailField(
-        val name: String,
-        val value: String
-    )
-}
+)
+
+internal data class EventDetailFieldInfo(
+    val name: String,
+    val value: String
+)

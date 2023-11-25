@@ -2,50 +2,49 @@ package com.charmflex.sportgether.sdk.events.internal.event.ui.event_details
 
 import com.charmflex.sportgether.sdk.core.utils.ResourcesProvider
 import com.charmflex.sportgether.sdk.events.R
-import com.charmflex.sportgether.sdk.events.internal.event.domain.models.EventDetailFieldInfo
 import javax.inject.Inject
 
 internal class EventFieldProvider @Inject constructor(
     private val resourcesProvider: ResourcesProvider,
 ) {
 
-    fun getFieldList(): List<EventDetailFieldInfo> {
+    fun getFieldList(): List<CreateEditFieldInfo> {
         return listOf(
-            EventDetailFieldInfo(
+            CreateEditFieldInfo(
                 name = resourcesProvider.getString(R.string.event_detail_name),
                 hint = resourcesProvider.getString(R.string.event_detail_name_hint),
                 value = "",
-                type = EventDetailFieldInfo.FieldType.NAME
+                type = CreateEditFieldInfo.FieldType.NAME
             ),
-            EventDetailFieldInfo(
+            CreateEditFieldInfo(
                 name = resourcesProvider.getString(R.string.event_detail_place),
                 hint = resourcesProvider.getString(R.string.event_detail_place_hint),
                 value = "",
-                type = EventDetailFieldInfo.FieldType.DESTINATION
+                type = CreateEditFieldInfo.FieldType.DESTINATION
             ),
-            EventDetailFieldInfo(
+            CreateEditFieldInfo(
                 name = resourcesProvider.getString(R.string.event_detail_start_time),
                 hint = "",
                 value = "",
-                type = EventDetailFieldInfo.FieldType.START_TIME
+                type = CreateEditFieldInfo.FieldType.START_TIME
             ),
-            EventDetailFieldInfo(
+            CreateEditFieldInfo(
                 name = resourcesProvider.getString(R.string.event_detail_end_time),
                 hint = "",
                 value = "",
-                type = EventDetailFieldInfo.FieldType.END_TIME
+                type = CreateEditFieldInfo.FieldType.END_TIME
             ),
-            EventDetailFieldInfo(
+            CreateEditFieldInfo(
                 name = resourcesProvider.getString(R.string.event_max_joiner_num),
                 hint = resourcesProvider.getString(R.string.event_max_joiner_num_hint),
                 value = "",
-                type = EventDetailFieldInfo.FieldType.MAX_PARTICIPANT
+                type = CreateEditFieldInfo.FieldType.MAX_PARTICIPANT
             ),
-            EventDetailFieldInfo(
+            CreateEditFieldInfo(
                 name = resourcesProvider.getString(R.string.event_description),
                 hint = resourcesProvider.getString(R.string.event_description_hint),
                 value = "",
-                type = EventDetailFieldInfo.FieldType.DESCRIPTION
+                type = CreateEditFieldInfo.FieldType.DESCRIPTION
             )
         )
     }

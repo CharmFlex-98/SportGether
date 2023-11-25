@@ -3,7 +3,6 @@ package com.charmflex.sportgether.sdk.events.internal.event.ui.event_details
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.charmflex.sportgether.sdk.core.ui.UIErrorType
-import com.charmflex.sportgether.sdk.events.internal.event.domain.models.EventDetailFieldInfo
 import com.charmflex.sportgether.sdk.events.internal.event.domain.usecases.GetEventDetailsUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -48,18 +47,18 @@ internal class CreateEditEventViewModel(
         eventFieldProvider.getFieldList().forEach { field ->
             _viewState.update {
                 when (field.type) {
-                    EventDetailFieldInfo.FieldType.NAME -> it.copy(nameField = field)
-                    EventDetailFieldInfo.FieldType.DESCRIPTION -> it.copy(descriptionField = field)
-                    EventDetailFieldInfo.FieldType.START_TIME -> it.copy(startTimeField = field)
-                    EventDetailFieldInfo.FieldType.END_TIME -> it.copy(endTimeField = field)
-                    EventDetailFieldInfo.FieldType.MAX_PARTICIPANT -> it.copy(maxParticipantField = field)
-                    EventDetailFieldInfo.FieldType.DESTINATION -> it.copy(placeField = field)
+                    CreateEditFieldInfo.FieldType.NAME -> it.copy(nameField = field)
+                    CreateEditFieldInfo.FieldType.DESCRIPTION -> it.copy(descriptionField = field)
+                    CreateEditFieldInfo.FieldType.START_TIME -> it.copy(startTimeField = field)
+                    CreateEditFieldInfo.FieldType.END_TIME -> it.copy(endTimeField = field)
+                    CreateEditFieldInfo.FieldType.MAX_PARTICIPANT -> it.copy(maxParticipantField = field)
+                    CreateEditFieldInfo.FieldType.DESTINATION -> it.copy(placeField = field)
                 }
             }
         }
     }
 
-    private fun mapData(fields: List<EventDetailFieldInfo>) {
+    private fun mapData(fields: List<CreateEditFieldInfo>) {
         fields.forEach {
             updateField(it.type, it.value)
         }
@@ -121,25 +120,36 @@ internal class CreateEditEventViewModel(
         }
     }
 
-    fun updateField(type: EventDetailFieldInfo.FieldType, newValue: String) {
+    fun updateField(type: CreateEditFieldInfo.FieldType, newValue: String) {
         when (type) {
-            EventDetailFieldInfo.FieldType.NAME -> updateEventName(newValue)
-            EventDetailFieldInfo.FieldType.DESTINATION -> updatePlace(newValue)
-            EventDetailFieldInfo.FieldType.START_TIME -> updateStartTime(newValue)
-            EventDetailFieldInfo.FieldType.END_TIME -> updateEndTime(newValue)
-            EventDetailFieldInfo.FieldType.MAX_PARTICIPANT -> updateMaxParticipantCount(newValue)
-            EventDetailFieldInfo.FieldType.DESCRIPTION -> updateDescription(newValue)
+            CreateEditFieldInfo.FieldType.NAME -> updateEventName(newValue)
+            CreateEditFieldInfo.FieldType.DESTINATION -> updatePlace(newValue)
+            CreateEditFieldInfo.FieldType.START_TIME -> updateStartTime(newValue)
+            CreateEditFieldInfo.FieldType.END_TIME -> updateEndTime(newValue)
+            CreateEditFieldInfo.FieldType.MAX_PARTICIPANT -> updateMaxParticipantCount(newValue)
+            CreateEditFieldInfo.FieldType.DESCRIPTION -> updateDescription(newValue)
         }
     }
 }
 
 internal data class CreateEditEventViewState(
     val isLoading: Boolean = false,
-    val nameField: EventDetailFieldInfo = EventDetailFieldInfo(),
-    val placeField: EventDetailFieldInfo = EventDetailFieldInfo(),
-    val startTimeField: EventDetailFieldInfo = EventDetailFieldInfo(),
-    val endTimeField: EventDetailFieldInfo = EventDetailFieldInfo(),
-    val maxParticipantField: EventDetailFieldInfo = EventDetailFieldInfo(),
-    val descriptionField: EventDetailFieldInfo = EventDetailFieldInfo(),
+    val nameField: CreateEditFieldInfo = CreateEditFieldInfo(),
+    val placeField: CreateEditFieldInfo = CreateEditFieldInfo(),
+    val startTimeField: CreateEditFieldInfo = CreateEditFieldInfo(),
+    val endTimeField: CreateEditFieldInfo = CreateEditFieldInfo(),
+    val maxParticipantField: CreateEditFieldInfo = CreateEditFieldInfo(),
+    val descriptionField: CreateEditFieldInfo = CreateEditFieldInfo(),
     val error: UIErrorType = UIErrorType.None
 )
+
+internal data class CreateEditFieldInfo(
+    val name: String = "",
+    val hint: String = "",
+    val value: String = "",
+    val type: FieldType = FieldType.NAME
+) {
+    enum class FieldType {
+        NAME, START_TIME, END_TIME, DESTINATION, MAX_PARTICIPANT, DESCRIPTION
+    }
+}
