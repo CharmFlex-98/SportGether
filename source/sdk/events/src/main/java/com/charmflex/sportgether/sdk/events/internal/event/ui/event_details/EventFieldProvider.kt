@@ -25,13 +25,13 @@ internal class EventFieldProvider @Inject constructor(
             ),
             EventDetailField(
                 name = resourcesProvider.getString(R.string.event_detail_start_time),
-                hint = resourcesProvider.getString(R.string.event_detail_start_time_hint),
+                hint = "",
                 value = "",
                 type = EventDetailField.FieldType.START_TIME
             ),
             EventDetailField(
                 name = resourcesProvider.getString(R.string.event_detail_end_time),
-                hint = resourcesProvider.getString(R.string.event_detail_end_time_hint),
+                hint = "",
                 value = "",
                 type = EventDetailField.FieldType.END_TIME
             ),

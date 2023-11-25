@@ -49,6 +49,10 @@ internal class EventDetailsViewModel(
         }
     }
 
+    fun isEdit(): Boolean {
+        return flowType == FlowType.EDIT
+    }
+
     private fun loadEventDetails(eventId: Int) {
         viewModelScope.launch {
             eventDetailsUseCase(eventId = eventId).fold(
@@ -64,6 +68,10 @@ internal class EventDetailsViewModel(
                 }
             )
         }
+    }
+
+    fun onPrimaryButtonClick() {
+
     }
 
     private fun resetEventDetails() {

@@ -10,10 +10,12 @@
     <string name="event_detail_place_hint">Select destination</string>
     <string name="event_detail_start_time">Start</string>
     <string name="event_detail_start_time_hint">Click to choose start time</string>
-    <string name="event_detail_end_time">Duration</string>
-    <string name="event_detail_end_time_hint">Click to select duration of this event</string>
+    <string name="event_detail_end_time">End</string>
+    <string name="event_detail_end_time_hint">Click to choose end time</string>
     <string name="event_max_joiner_num">Max Participants</string>
     <string name="event_max_joiner_num_hint">Maximum people that can join this event</string>
     <string name="event_description">Description</string>
     <string name="event_description_hint">Write any details of the event here</string>
+    <string name="confirm_host_event_button">Host Event</string>
+    <string name="confirm_edit_event_button">Update</string>
 </resources>
