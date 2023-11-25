@@ -9,7 +9,9 @@ data class EventInfo(
     val place: String,
     val eventType: EventType,
     val host: EventParticipantInfo,
-    val joiners: List<EventParticipantInfo>
+    val joiners: List<EventParticipantInfo>,
+    val maxParticipantCount: Int,
+    val description: String
 )
 
 data class EventParticipantInfo(

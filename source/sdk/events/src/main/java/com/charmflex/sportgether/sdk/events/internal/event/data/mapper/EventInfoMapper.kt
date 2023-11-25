@@ -29,7 +29,9 @@ internal class EventInfoMapper @Inject constructor()  : Mapper<GetEventsResponse
                         participant.username,
                         participant.profileIconUrl
                     )
-                }
+                },
+                maxParticipantCount = it.maxParticipantCount,
+                description = it.description
             )
         }
     }

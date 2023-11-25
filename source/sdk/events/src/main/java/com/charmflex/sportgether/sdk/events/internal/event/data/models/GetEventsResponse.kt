@@ -21,10 +21,14 @@ data class EventResponse(
     val destination: String,
     @SerializedName("eventType")
     val eventType: String,
+    @SerializedName("maxParticipantCount")
+    val maxParticipantCount: Int,
     @SerializedName("host")
     val host: EventParticipantResponse,
     @SerializedName("joiners")
-    val joiners: List<EventParticipantResponse>
+    val joiners: List<EventParticipantResponse>,
+    @SerializedName("description")
+    val description: String
 )
 
 data class EventParticipantResponse(

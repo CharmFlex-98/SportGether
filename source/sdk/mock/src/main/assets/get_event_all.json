@@ -28,10 +28,13 @@
           "username": "Jia Ying",
           "profileIconUrl": ""
         }
-      ]
+      ],
+      "maxParticipantCount": 6,
+      "description": "Nothing special"
     },
     {
-      "eventTitle": "Mock Badminton",
+      "eventId": 10,
+      "eventTitle": "Testing",
       "startTime": "2018-12-30T19:34:50.63",
       "endTime": "2018-12-30T19:34:50.63",
       "destination": "Seremban",
@@ -57,10 +60,13 @@
           "username": "Jia Ying",
           "profileIconUrl": ""
         }
-      ]
+      ],
+      "maxParticipantCount": 6,
+      "description": "Nothing special"
     },
     {
-      "eventTitle": "Mock Badminton",
+      "eventId": 10,
+      "eventTitle": "Testing",
       "startTime": "2018-12-30T19:34:50.63",
       "endTime": "2018-12-30T19:34:50.63",
       "destination": "Seremban",
@@ -86,10 +92,13 @@
           "username": "Jia Ying",
           "profileIconUrl": ""
         }
-      ]
+      ],
+      "maxParticipantCount": 6,
+      "description": "Nothing special"
     },
     {
-      "eventTitle": "Mock Badminton",
+      "eventId": 10,
+      "eventTitle": "Testing",
       "startTime": "2018-12-30T19:34:50.63",
       "endTime": "2018-12-30T19:34:50.63",
       "destination": "Seremban",
@@ -115,10 +124,13 @@
           "username": "Jia Ying",
           "profileIconUrl": ""
         }
-      ]
+      ],
+      "maxParticipantCount": 6,
+      "description": "Nothing special"
     },
     {
-      "eventTitle": "Mock Badminton",
+      "eventId": 10,
+      "eventTitle": "Testing",
       "startTime": "2018-12-30T19:34:50.63",
       "endTime": "2018-12-30T19:34:50.63",
       "destination": "Seremban",
@@ -144,10 +156,13 @@
           "username": "Jia Ying",
           "profileIconUrl": ""
         }
-      ]
+      ],
+      "maxParticipantCount": 6,
+      "description": "Nothing special"
     },
     {
-      "eventTitle": "Mock Badminton",
+      "eventId": 10,
+      "eventTitle": "Testing",
       "startTime": "2018-12-30T19:34:50.63",
       "endTime": "2018-12-30T19:34:50.63",
       "destination": "Seremban",
@@ -173,413 +188,9 @@
           "username": "Jia Ying",
           "profileIconUrl": ""
         }
-      ]
-    },
-    {
-      "eventTitle": "Mock Badminton",
-      "startTime": "2018-12-30T19:34:50.63",
-      "endTime": "2018-12-30T19:34:50.63",
-      "destination": "Seremban",
-      "eventType": "BADMINTON",
-      "host": {
-        "userId": 1,
-        "username": "Fucker",
-        "profileIconUrl": ""
-      },
-      "joiners": [
-        {
-          "userId": 2,
-          "username": "Jia Ming",
-          "profileIconUrl": ""
-        },
-        {
-          "userId": 3,
-          "username": "Jia Chi",
-          "profileIconUrl": ""
-        },
-        {
-          "userId": 4,
-          "username": "Jia Ying",
-          "profileIconUrl": ""
-        }
-      ]
-    },
-    {
-      "eventTitle": "Mock Badminton",
-      "startTime": "2018-12-30T19:34:50.63",
-      "endTime": "2018-12-30T19:34:50.63",
-      "destination": "Seremban",
-      "eventType": "BADMINTON",
-      "host": {
-        "userId": 1,
-        "username": "Fucker",
-        "profileIconUrl": ""
-      },
-      "joiners": [
-        {
-          "userId": 2,
-          "username": "Jia Ming",
-          "profileIconUrl": ""
-        },
-        {
-          "userId": 3,
-          "username": "Jia Chi",
-          "profileIconUrl": ""
-        },
-        {
-          "userId": 4,
-          "username": "Jia Ying",
-          "profileIconUrl": ""
-        }
-      ]
-    },
-    {
-      "eventTitle": "Mock Badminton",
-      "startTime": "2018-12-30T19:34:50.63",
-      "endTime": "2018-12-30T19:34:50.63",
-      "destination": "Seremban",
-      "eventType": "BADMINTON",
-      "host": {
-        "userId": 1,
-        "username": "Fucker",
-        "profileIconUrl": ""
-      },
-      "joiners": [
-        {
-          "userId": 2,
-          "username": "Jia Ming",
-          "profileIconUrl": ""
-        },
-        {
-          "userId": 3,
-          "username": "Jia Chi",
-          "profileIconUrl": ""
-        },
-        {
-          "userId": 4,
-          "username": "Jia Ying",
-          "profileIconUrl": ""
-        }
-      ]
-    },
-    {
-      "eventTitle": "Mock Badminton",
-      "startTime": "2018-12-30T19:34:50.63",
-      "endTime": "2018-12-30T19:34:50.63",
-      "destination": "Seremban",
-      "eventType": "BADMINTON",
-      "host": {
-        "userId": 1,
-        "username": "Fucker",
-        "profileIconUrl": ""
-      },
-      "joiners": [
-        {
-          "userId": 2,
-          "username": "Jia Ming",
-          "profileIconUrl": ""
-        },
-        {
-          "userId": 3,
-          "username": "Jia Chi",
-          "profileIconUrl": ""
-        },
-        {
-          "userId": 4,
-          "username": "Jia Ying",
-          "profileIconUrl": ""
-        }
-      ]
-    },
-    {
-      "eventTitle": "Mock Badminton",
-      "startTime": "2018-12-30T19:34:50.63",
-      "endTime": "2018-12-30T19:34:50.63",
-      "destination": "Seremban",
-      "eventType": "BADMINTON",
-      "host": {
-        "userId": 1,
-        "username": "Fucker",
-        "profileIconUrl": ""
-      },
-      "joiners": [
-        {
-          "userId": 2,
-          "username": "Jia Ming",
-          "profileIconUrl": ""
-        },
-        {
-          "userId": 3,
-          "username": "Jia Chi",
-          "profileIconUrl": ""
-        },
-        {
-          "userId": 4,
-          "username": "Jia Ying",
-          "profileIconUrl": ""
-        }
-      ]
-    },
-    {
-      "eventTitle": "Mock Badminton",
-      "startTime": "2018-12-30T19:34:50.63",
-      "endTime": "2018-12-30T19:34:50.63",
-      "destination": "Seremban",
-      "eventType": "BADMINTON",
-      "host": {
-        "userId": 1,
-        "username": "Fucker",
-        "profileIconUrl": ""
-      },
-      "joiners": [
-        {
-          "userId": 2,
-          "username": "Jia Ming",
-          "profileIconUrl": ""
-        },
-        {
-          "userId": 3,
-          "username": "Jia Chi",
-          "profileIconUrl": ""
-        },
-        {
-          "userId": 4,
-          "username": "Jia Ying",
-          "profileIconUrl": ""
-        }
-      ]
-    },
-    {
-      "eventTitle": "Mock Badminton",
-      "startTime": "2018-12-30T19:34:50.63",
-      "endTime": "2018-12-30T19:34:50.63",
-      "destination": "Seremban",
-      "eventType": "BADMINTON",
-      "host": {
-        "userId": 1,
-        "username": "Fucker",
-        "profileIconUrl": ""
-      },
-      "joiners": [
-        {
-          "userId": 2,
-          "username": "Jia Ming",
-          "profileIconUrl": ""
-        },
-        {
-          "userId": 3,
-          "username": "Jia Chi",
-          "profileIconUrl": ""
-        },
-        {
-          "userId": 4,
-          "username": "Jia Ying",
-          "profileIconUrl": ""
-        }
-      ]
-    },
-    {
-      "eventTitle": "Mock Badminton",
-      "startTime": "2018-12-30T19:34:50.63",
-      "endTime": "2018-12-30T19:34:50.63",
-      "destination": "Seremban",
-      "eventType": "BADMINTON",
-      "host": {
-        "userId": 1,
-        "username": "Fucker",
-        "profileIconUrl": ""
-      },
-      "joiners": [
-        {
-          "userId": 2,
-          "username": "Jia Ming",
-          "profileIconUrl": ""
-        },
-        {
-          "userId": 3,
-          "username": "Jia Chi",
-          "profileIconUrl": ""
-        },
-        {
-          "userId": 4,
-          "username": "Jia Ying",
-          "profileIconUrl": ""
-        }
-      ]
-    },
-    {
-      "eventTitle": "Mock Badminton",
-      "startTime": "2018-12-30T19:34:50.63",
-      "endTime": "2018-12-30T19:34:50.63",
-      "destination": "Seremban",
-      "eventType": "BADMINTON",
-      "host": {
-        "userId": 1,
-        "username": "Fucker",
-        "profileIconUrl": ""
-      },
-      "joiners": [
-        {
-          "userId": 2,
-          "username": "Jia Ming",
-          "profileIconUrl": ""
-        },
-        {
-          "userId": 3,
-          "username": "Jia Chi",
-          "profileIconUrl": ""
-        },
-        {
-          "userId": 4,
-          "username": "Jia Ying",
-          "profileIconUrl": ""
-        }
-      ]
-    },
-    {
-      "eventTitle": "Mock Badminton",
-      "startTime": "2018-12-30T19:34:50.63",
-      "endTime": "2018-12-30T19:34:50.63",
-      "destination": "Seremban",
-      "eventType": "BADMINTON",
-      "host": {
-        "userId": 1,
-        "username": "Fucker",
-        "profileIconUrl": ""
-      },
-      "joiners": [
-        {
-          "userId": 2,
-          "username": "Jia Ming",
-          "profileIconUrl": ""
-        },
-        {
-          "userId": 3,
-          "username": "Jia Chi",
-          "profileIconUrl": ""
-        },
-        {
-          "userId": 4,
-          "username": "Jia Ying",
-          "profileIconUrl": ""
-        }
-      ]
-    },
-    {
-      "eventTitle": "Mock Badminton",
-      "startTime": "2018-12-30T19:34:50.63",
-      "endTime": "2018-12-30T19:34:50.63",
-      "destination": "Seremban",
-      "eventType": "BADMINTON",
-      "host": {
-        "userId": 1,
-        "username": "Fucker",
-        "profileIconUrl": ""
-      },
-      "joiners": [
-        {
-          "userId": 2,
-          "username": "Jia Ming",
-          "profileIconUrl": ""
-        },
-        {
-          "userId": 3,
-          "username": "Jia Chi",
-          "profileIconUrl": ""
-        },
-        {
-          "userId": 4,
-          "username": "Jia Ying",
-          "profileIconUrl": ""
-        }
-      ]
-    },
-    {
-      "eventTitle": "Mock Badminton",
-      "startTime": "2018-12-30T19:34:50.63",
-      "endTime": "2018-12-30T19:34:50.63",
-      "destination": "Seremban",
-      "eventType": "BADMINTON",
-      "host": {
-        "userId": 1,
-        "username": "Fucker",
-        "profileIconUrl": ""
-      },
-      "joiners": [
-        {
-          "userId": 2,
-          "username": "Jia Ming",
-          "profileIconUrl": ""
-        },
-        {
-          "userId": 3,
-          "username": "Jia Chi",
-          "profileIconUrl": ""
-        },
-        {
-          "userId": 4,
-          "username": "Jia Ying",
-          "profileIconUrl": ""
-        }
-      ]
-    },
-    {
-      "eventTitle": "Mock Badminton",
-      "startTime": "2018-12-30T19:34:50.63",
-      "endTime": "2018-12-30T19:34:50.63",
-      "destination": "Seremban",
-      "eventType": "BADMINTON",
-      "host": {
-        "userId": 1,
-        "username": "Fucker",
-        "profileIconUrl": ""
-      },
-      "joiners": [
-        {
-          "userId": 2,
-          "username": "Jia Ming",
-          "profileIconUrl": ""
-        },
-        {
-          "userId": 3,
-          "username": "Jia Chi",
-          "profileIconUrl": ""
-        },
-        {
-          "userId": 4,
-          "username": "Jia Ying",
-          "profileIconUrl": ""
-        }
-      ]
-    },
-    {
-      "eventTitle": "Mock Badminton",
-      "startTime": "2018-12-30T19:34:50.63",
-      "endTime": "2018-12-30T19:34:50.63",
-      "destination": "Seremban",
-      "eventType": "BADMINTON",
-      "host": {
-        "userId": 1,
-        "username": "Fucker",
-        "profileIconUrl": ""
-      },
-      "joiners": [
-        {
-          "userId": 2,
-          "username": "Jia Ming",
-          "profileIconUrl": ""
-        },
-        {
-          "userId": 3,
-          "username": "Jia Chi",
-          "profileIconUrl": ""
-        },
-        {
-          "userId": 4,
-          "username": "Jia Ying",
-          "profileIconUrl": ""
-        }
-      ]
+      ],
+      "maxParticipantCount": 6,
+      "description": "Nothing special"
     }
   ]
 }

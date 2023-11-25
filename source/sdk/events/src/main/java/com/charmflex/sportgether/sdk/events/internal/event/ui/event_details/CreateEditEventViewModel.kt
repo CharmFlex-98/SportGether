@@ -3,7 +3,7 @@ package com.charmflex.sportgether.sdk.events.internal.event.ui.event_details
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.charmflex.sportgether.sdk.core.ui.UIErrorType
-import com.charmflex.sportgether.sdk.events.internal.event.domain.usecases.GetEventDetailsUseCase
+import com.charmflex.sportgether.sdk.events.internal.event.domain.usecases.GetEventForModifyUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 internal class CreateEditEventViewModel(
-    private val getEventDetailsUseCase: GetEventDetailsUseCase,
+    private val getEventForModifyUseCase: GetEventForModifyUseCase,
     private val eventFieldProvider: EventFieldProvider,
     private val eventId: Int?
 ) : ViewModel() {
@@ -19,11 +19,11 @@ internal class CreateEditEventViewModel(
     val viewState = _viewState.asStateFlow()
 
     class Factory @Inject constructor(
-        private val getEventDetailsUseCase: GetEventDetailsUseCase,
+        private val getEventForModifyUseCase: GetEventForModifyUseCase,
         private val eventFieldProvider: EventFieldProvider,
     ) {
         fun create(eventId: Int?): CreateEditEventViewModel {
-            return CreateEditEventViewModel(getEventDetailsUseCase, eventFieldProvider, eventId)
+            return CreateEditEventViewModel(getEventForModifyUseCase, eventFieldProvider, eventId)
         }
     }
 
@@ -35,7 +35,7 @@ internal class CreateEditEventViewModel(
     private fun loadData() {
         eventId?.let {
             viewModelScope.launch {
-                getEventDetailsUseCase(eventId = it).fold(
+                getEventForModifyUseCase(eventId = it).fold(
                     onSuccess = ::mapData,
                     onFailure = {}
                 )
