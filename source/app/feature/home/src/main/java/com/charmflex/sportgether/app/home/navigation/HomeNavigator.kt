@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 internal interface HomeNavigator {
 
-    fun toEventDetailScreen()
+    fun toEventDetailScreen(eventId: Int)
 
     fun toHostEventScreen()
 }
@@ -14,12 +14,12 @@ internal interface HomeNavigator {
 internal class HomeNavigatorImpl @Inject constructor(
     private val routeNavigator: RouteNavigator
 ) : HomeNavigator {
-    override fun toEventDetailScreen() {
-        routeNavigator.navigateTo(EventRoutes.eventDetailScreen())
+    override fun toEventDetailScreen(eventId: Int) {
+        routeNavigator.navigateTo(EventRoutes.eventDetailsDestination(eventId))
     }
 
     override fun toHostEventScreen() {
-        TODO("Not yet implemented")
+        routeNavigator.navigateTo(EventRoutes.createEventScreen())
     }
 
 }

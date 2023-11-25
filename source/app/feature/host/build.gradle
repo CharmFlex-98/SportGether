@@ -63,4 +63,6 @@ dependencies {
     implementation project(":core-sdk")
     implementation project(":home")
     implementation project(":navigation-sdk")
+    implementation project(":event-sdk")
+    implementation project(":home")
 }

@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -38,6 +39,8 @@ import com.charmflex.sportgether.sdk.ui_common.grid_x3
 import com.charmflex.sportgether.sdk.ui_common.grid_x7
 import com.charmflex.sportgether.sdk.ui_common.shimmerEffect
 import com.charmflex.sportgether.app.home.R
+import com.charmflex.sportgether.sdk.ui_common.SGLargePrimaryButton
+import com.charmflex.sportgether.sdk.ui_common.SGMediumPrimaryButton
 
 @Composable
 fun EventBoard(
@@ -54,6 +57,7 @@ fun EventBoard(
     ) {
         Row(
             modifier = Modifier.padding(grid_x1),
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
                 modifier = Modifier.weight(1f),
@@ -61,9 +65,7 @@ fun EventBoard(
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold
             )
-            TextButton(onClick = onHostEventClick) {
-                Text(text = stringResource(id = R.string.host_event_button))
-            }
+            SGMediumPrimaryButton(text = stringResource(id = R.string.host_event_button), onClick = onHostEventClick)
         }
 
         WithState(

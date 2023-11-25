@@ -9,6 +9,8 @@ data class GetEventsResponse(
 )
 
 data class EventResponse(
+    @SerializedName("eventId")
+    val eventId: Int,
     @SerializedName("eventTitle")
     val eventTitle: String,
     @SerializedName("startTime")

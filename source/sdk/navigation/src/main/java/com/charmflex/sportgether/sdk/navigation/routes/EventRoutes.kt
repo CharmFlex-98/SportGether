@@ -3,5 +3,38 @@ package com.charmflex.sportgether.sdk.navigation.routes
 object EventRoutes {
     const val ROOT = "/event"
 
-    fun eventDetailScreen() = "$ROOT/event_detail"
+    object Args {
+        const val EVENT_ID = "event_id"
+        const val IS_EDIT_EVENT = "is_edit_event"
+    }
+
+    val eventDetailsRoute = buildRoute("$ROOT/event_details") {
+        addArg(Args.EVENT_ID)
+        addArg(Args.IS_EDIT_EVENT)
+    }
+
+    val createEditEventRoute = buildRoute("$ROOT/event_create_edit") {
+        addArg(Args.EVENT_ID)
+        addArg(Args.IS_EDIT_EVENT)
+    }
+
+    fun eventDetailsDestination(eventId: Int): String {
+        return buildDestination(eventDetailsRoute) {
+            withArg(Args.EVENT_ID, eventId.toString())
+            withArg(Args.IS_EDIT_EVENT, false.toString())
+        }
+    }
+
+    fun createEventScreen(): String {
+        return buildDestination(createEditEventRoute) {
+            withArg(Args.IS_EDIT_EVENT, false.toString())
+        }
+    }
+
+    fun editEventDestination(eventId: Int): String {
+        return buildDestination(createEditEventRoute) {
+            withArg(Args.EVENT_ID, eventId.toString())
+            withArg(Args.IS_EDIT_EVENT, true.toString())
+        }
+    }
 }

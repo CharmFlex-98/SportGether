@@ -55,7 +55,7 @@ internal class EventBoardViewModel @Inject constructor(
     }
 
     fun onEventItemClick(eventInfo: EventInfo) {
-        homeNavigator.toEventDetailScreen()
+        homeNavigator.toEventDetailScreen(eventInfo.eventId)
     }
 
     fun onHostEventClick() {

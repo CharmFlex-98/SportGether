@@ -2,7 +2,7 @@ package com.charmflex.sportgether.sdk.core.utils
 
 import kotlinx.coroutines.CancellationException
 
-inline fun <T> resultOf(block: () -> T): Result<T>{
+inline fun <T> resultOf(block: () -> T): Result<T> {
     return try {
         Result.success(block())
     } catch (cancellation: CancellationException) {
@@ -11,4 +11,8 @@ inline fun <T> resultOf(block: () -> T): Result<T>{
     } catch (e: Throwable) {
         Result.failure(exception = e)
     }
+}
+
+fun <T> unwrapResult(result: Result<T>): T {
+    return result.getOrThrow()
 }

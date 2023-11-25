@@ -1,5 +1,6 @@
 package com.charmflex.sportgether.app.host
 
+import android.app.Application
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -13,17 +14,26 @@ import androidx.navigation.compose.rememberNavController
 import com.charmflex.sportgether.app.home.navigation.HomeDestinationBuilder
 import com.charmflex.sportgether.sdk.ui_common.theme.SportGetherTheme
 import com.charmflex.sportgether.sdk.auth.internal.navigation.AuthDestinationBuilder
+import com.charmflex.sportgether.sdk.core.di.MainProvider
+import com.charmflex.sportgether.sdk.core.navigation.RouteNavigator
 import com.charmflex.sportgether.sdk.core.utils.DestinationBuilder
+import com.charmflex.sportgether.sdk.core.utils.RouteNavigatorListener
+import com.charmflex.sportgether.sdk.events.internal.destination.EventDestinationBuilder
 import com.charmflex.sportgether.sdk.navigation.routes.AuthRoutes
 
 class HostActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             val navController = rememberNavController()
+            val routeNavigator = MainProvider.instance.getMainInjector().getRouteNavigator()
+
+            RouteNavigatorListener(routeNavigator = routeNavigator, navController = navController)
+
             SportGetherTheme {
                 NavHost(navController = navController, startDestination = AuthRoutes.ROOT) {
-                    createDestinations(navController).forEach {
+                    createDestinations(navController = navController).forEach {
                         with(it) { buildGraph() }
                     }
                 }
@@ -33,8 +43,9 @@ class HostActivity : ComponentActivity() {
 
     private fun createDestinations(navController: NavController): List<DestinationBuilder> {
         return listOf(
-            HomeDestinationBuilder(navController = navController),
-            AuthDestinationBuilder(navController = navController)
+            HomeDestinationBuilder(),
+            AuthDestinationBuilder(navController),
+            EventDestinationBuilder()
         )
     }
 }

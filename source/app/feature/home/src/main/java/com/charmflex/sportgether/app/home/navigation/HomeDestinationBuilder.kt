@@ -29,7 +29,7 @@ import com.charmflex.sportgether.sdk.ui_common.grid_x2
 import com.charmflex.sportgether.sdk.ui_common.grid_x4
 import java.time.LocalDateTime
 
-class HomeDestinationBuilder(private val navController: NavController) : DestinationBuilder {
+class HomeDestinationBuilder : DestinationBuilder {
     private val homeUIComponent by lazy { HomeUIComponent.injectCreate() }
     override fun NavGraphBuilder.buildGraph() {
         dashboardScreen()
@@ -74,6 +74,7 @@ class HomeDestinationBuilder(private val navController: NavController) : Destina
 fun EventBoardPreview() {
     val list = listOf(
         EventInfo(
+            eventId = 1,
             eventName = "Bang bang",
             startTime = LocalDateTime.now(),
             endTime = LocalDateTime.now(),
@@ -98,6 +99,7 @@ fun EventBoardPreview() {
             )
         ),
         EventInfo(
+            eventId = 5,
             eventName = "Bang bang",
             startTime = LocalDateTime.now(),
             endTime = LocalDateTime.now(),
@@ -122,6 +124,7 @@ fun EventBoardPreview() {
             )
         ),
         EventInfo(
+            eventId = 2,
             eventName = "Bang bang",
             startTime = LocalDateTime.now(),
             endTime = LocalDateTime.now(),

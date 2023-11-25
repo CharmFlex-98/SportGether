@@ -12,6 +12,7 @@ internal class EventInfoMapper @Inject constructor()  : Mapper<GetEventsResponse
     override fun map(from: GetEventsResponse): List<EventInfo> {
         return from.events.map {
             EventInfo(
+                eventId = it.eventId,
                 eventName = it.eventTitle,
                 startTime = LocalDateTime.parse(it.startTime),
                 endTime = LocalDateTime.parse(it.endTime),

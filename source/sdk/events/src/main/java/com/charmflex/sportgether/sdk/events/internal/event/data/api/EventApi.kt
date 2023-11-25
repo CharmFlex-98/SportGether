@@ -8,5 +8,4 @@ internal interface EventApi {
     @Headers("Content-Type: application/json")
     @GET("/v1/event/all")
     suspend fun fetchAllEvents(): GetEventsResponse
-
 }

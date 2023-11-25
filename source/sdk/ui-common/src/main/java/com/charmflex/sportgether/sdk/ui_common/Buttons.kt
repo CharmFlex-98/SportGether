@@ -52,7 +52,7 @@ fun SGButtonGroupVertical(
 
 @Composable
 fun SGLargePrimaryButton(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     text: String,
     onClick: () -> Unit
 ) {
@@ -60,6 +60,20 @@ fun SGLargePrimaryButton(
         modifier = modifier,
         text = text,
         buttonSize = ButtonSize.LARGE,
+        onClick = onClick
+    )
+}
+
+@Composable
+fun SGMediumPrimaryButton(
+    modifier: Modifier = Modifier,
+    text: String,
+    onClick: () -> Unit
+) {
+    SGPrimaryButton(
+        modifier = modifier,
+        text = text,
+        buttonSize = ButtonSize.MEDIUM,
         onClick = onClick
     )
 }
