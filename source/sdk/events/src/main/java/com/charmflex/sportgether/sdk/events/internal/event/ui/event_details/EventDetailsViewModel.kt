@@ -1,5 +1,6 @@
 package com.charmflex.sportgether.sdk.events.internal.event.ui.event_details
 
+import androidx.compose.runtime.toMutableStateMap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.charmflex.sportgether.sdk.core.ui.UIErrorType
@@ -54,7 +55,7 @@ internal class EventDetailsViewModel(
                 onSuccess = {
                     _viewState.update { state ->
                         state.copy(
-                            fields = it
+                            fields = it.associateBy { field -> field.type }.toMutableMap()
                         )
                     }
                 },
@@ -68,74 +69,26 @@ internal class EventDetailsViewModel(
     private fun resetEventDetails() {
         _viewState.update {
             it.copy(
-                fields = eventFieldProvider.getFieldList()
+                fields = eventFieldProvider.getFieldList().associateBy { field -> field.type }.toMutableMap()
             )
         }
     }
 
-    private fun updateEventName(value: String) {
-        _viewState.update {
-            it.copy(
-                fields = it.fields.map { field ->
-                    if (field.type == EventDetailField.FieldType.NAME) {
-                        field.copy(value = value)
-                    } else {
-                        field
-                    }
-                }
-            )
-        }
-    }
+    private fun updateValueByType(fieldType: EventDetailField.FieldType, value: String) {
+        val prev = _viewState.value.fields[fieldType]
+        val next = prev?.copy(value = value)
 
-    private fun updateDestination(value: String) {
-        _viewState.update {
-            it.copy(
-                fields = it.fields.map { field ->
-                    if (field.type == EventDetailField.FieldType.DESTINATION) {
-                        field.copy(value = value)
-                    } else {
-                        field
-                    }
-                }
-            )
-        }
-    }
-
-    private fun updateStartTime(value: String) {
-        _viewState.update {
-            it.copy(
-                fields = it.fields.map { field ->
-                    if (field.type == EventDetailField.FieldType.START_TIME) {
-                        field.copy(value = value)
-                    } else {
-                        field
-                    }
-                }
-            )
-        }
-    }
-
-    private fun updateEndTime(value: String) {
-        _viewState.update {
-            it.copy(
-                fields = it.fields.map { field ->
-                    if (field.type == EventDetailField.FieldType.END_TIME) {
-                        field.copy(value = value)
-                    } else {
-                        field
-                    }
-                }
-            )
+        next?.let {
+            _viewState.update { state ->
+                state.copy(
+                    fields = state.fields.apply { this[fieldType] = next }
+                )
+            }
         }
     }
 
     fun onEdit(fieldType: EventDetailField.FieldType, value: String) {
-        when (fieldType) {
-            EventDetailField.FieldType.NAME -> updateEventName(value)
-            EventDetailField.FieldType.DESTINATION -> updateDestination(value)
-            EventDetailField.FieldType.START_TIME -> updateStartTime(value)
-            EventDetailField.FieldType.END_TIME -> updateEndTime(value)
-        }
+        updateValueByType(fieldType, value)
     }
 
     internal enum class FlowType {
@@ -144,7 +97,7 @@ internal class EventDetailsViewModel(
 }
 
 internal data class EventDetailsViewState(
-    val fields: List<EventDetailField> = listOf(),
+    val fields: MutableMap<EventDetailField.FieldType, EventDetailField> = mutableMapOf(),
     val isLoading: Boolean = false,
     val errorType: UIErrorType = UIErrorType.None
 )

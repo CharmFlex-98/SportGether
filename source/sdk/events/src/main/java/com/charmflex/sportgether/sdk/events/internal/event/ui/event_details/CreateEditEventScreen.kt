@@ -1,5 +1,6 @@
 package com.charmflex.sportgether.sdk.events.internal.event.ui.event_details
 
+import android.media.metrics.Event
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -28,25 +29,24 @@ internal fun CreateEditEventScreen(
 @Composable
 fun CreateEditEventScreenContent(
     modifier: Modifier = Modifier,
-    fields: List<EventDetailField>,
+    fields: Map<EventDetailField.FieldType, EventDetailField>,
     onEditField: (EventDetailField.FieldType, String) -> Unit,
 ) {
     SportGetherScaffold {
         Box(modifier = modifier, contentAlignment = Alignment.Center) {
             Column {
-                fields.forEach { field ->
-                    key(field.type) {
-                        SGTextField(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = grid_x0_25),
-                            label = field.name,
-                            hint = field.hint,
-                            value = field.value,
-                            errorText = null,
-                            onValueChange = { onEditField(field.type, it) }
-                        )
-                    }
+                fields.values.forEach { field ->
+                    SGTextField(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = grid_x0_25),
+                        label = field.name,
+                        hint = field.hint,
+                        value = field.value,
+                        errorText = null,
+                        onValueChange = { onEditField(field.type, it) }
+                    )
+
                 }
             }
         }

@@ -10,3 +10,7 @@ data class EventDetailField(
         NAME, START_TIME, END_TIME, DESTINATION, MAX_PARTICIPANT, DESCRIPTION
     }
 }
+
+fun List<EventDetailField>.findByType(type: EventDetailField.FieldType): EventDetailField? {
+    return this.firstOrNull { it.type == type }
+}
