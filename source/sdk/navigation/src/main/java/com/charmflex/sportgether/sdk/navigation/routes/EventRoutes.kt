@@ -10,18 +10,15 @@ object EventRoutes {
 
     val eventDetailsRoute = buildRoute("$ROOT/event_details") {
         addArg(Args.EVENT_ID)
-        addArg(Args.IS_EDIT_EVENT)
     }
 
     val createEditEventRoute = buildRoute("$ROOT/event_create_edit") {
         addArg(Args.EVENT_ID)
-        addArg(Args.IS_EDIT_EVENT)
     }
 
     fun eventDetailsDestination(eventId: Int): String {
         return buildDestination(eventDetailsRoute) {
             withArg(Args.EVENT_ID, eventId.toString())
-            withArg(Args.IS_EDIT_EVENT, false.toString())
         }
     }
 
@@ -34,7 +31,6 @@ object EventRoutes {
     fun editEventDestination(eventId: Int): String {
         return buildDestination(createEditEventRoute) {
             withArg(Args.EVENT_ID, eventId.toString())
-            withArg(Args.IS_EDIT_EVENT, true.toString())
         }
     }
 }

@@ -30,16 +30,11 @@ class EventDestinationBuilder : DestinationBuilder {
                 navArgument(EventRoutes.Args.EVENT_ID) {
                     type = NavType.StringType
                     nullable = false
-                },
-                navArgument(EventRoutes.Args.IS_EDIT_EVENT) {
-                    type = NavType.BoolType
-                    nullable = false
                 }
             )
         ) {
             val eventId = it.arguments?.getString(EventRoutes.Args.EVENT_ID)?.toInt()
-            val isEdit = it.arguments?.getBoolean(EventRoutes.Args.IS_EDIT_EVENT) ?: false
-            val eventDetailsViewModel = getViewModel { eventUIComponent.getEventDetailsViewModelFactory().create(eventId, isEdit) }
+            val eventDetailsViewModel = getViewModel { eventUIComponent.getEventDetailsViewModelFactory().create(eventId) }
 
 
             EventDetailsScreen(
@@ -59,22 +54,17 @@ class EventDestinationBuilder : DestinationBuilder {
                     type = NavType.StringType
                     nullable = true
                 },
-                navArgument(EventRoutes.Args.IS_EDIT_EVENT) {
-                    type = NavType.BoolType
-                    nullable = false
-                }
             )
         ) {
             val eventId = it.arguments?.getString(EventRoutes.Args.EVENT_ID)?.toInt()
-            val isEdit = it.arguments?.getBoolean(EventRoutes.Args.IS_EDIT_EVENT) ?: false
-            val eventDetailsViewModel = getViewModel { eventUIComponent.getEventDetailsViewModelFactory().create(eventId = eventId, isEdit = isEdit) }
+            val createEditEventViewModel = getViewModel { eventUIComponent.getCreateEditEventViewModelFactory().create(eventId) }
 
 
             CreateEditEventScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(grid_x2),
-                viewModel = eventDetailsViewModel
+                viewModel = createEditEventViewModel
             )
         }
     }
