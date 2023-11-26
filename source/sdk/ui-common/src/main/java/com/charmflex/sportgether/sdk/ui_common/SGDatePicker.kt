@@ -1,54 +1,44 @@
 package com.charmflex.sportgether.sdk.ui_common
 
-import androidx.compose.material3.DatePicker
-import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.DatePickerState
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberUpdatedState
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import com.maxkeppeker.sheets.core.models.base.UseCaseState
+import com.maxkeppeler.sheets.calendar.CalendarDialog
+import com.maxkeppeler.sheets.calendar.models.CalendarConfig
+import com.maxkeppeler.sheets.calendar.models.CalendarSelection
+import java.lang.Exception
+import java.time.Instant
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
+
+const val DEFAULT_DATE_TIME_PATTERN = "dd-MM-yyyy hh:mm a"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SGDatePicker(
-    datePickerState: DatePickerState,
+    useCaseState: UseCaseState,
     onDismiss: () -> Unit,
-    onConfirm: () -> Unit,
-    date: Long?,
+    onConfirm: (LocalDateTime) -> Unit,
+    date: LocalDateTime?,
     isVisible: Boolean
 ) {
-    datePickerState.selectedDateMillis = date
-
-    val dismiss = remember {
-        {
-            datePickerState.selectedDateMillis = date
-            onDismiss()
-        }
-    }
-
-    if (isVisible) {
-        DatePickerDialog(
-            onDismissRequest = onDismiss,
-            confirmButton = { CalendarConfirmButton(onClick = onConfirm) },
-            dismissButton = { CalendarDismissButton(onClick = dismiss) }
-        ) {
-            DatePicker(state = datePickerState)
-        }
-    }
-}
-
-@Composable
-private fun CalendarConfirmButton(onClick: () -> Unit) {
-    SGMediumPrimaryButton(
-        text = stringResource(id = R.string.calendar_confirm_button_text),
-        onClick = onClick
+    CalendarDialog(
+        state = useCaseState,
+        selection = CalendarSelection.Date(
+            withButtonView = true,
+            selectedDate = date?.toLocalDate(),
+            onNegativeClick = onDismiss,
+            onSelectDate = {
+                onConfirm(it.atStartOfDay())
+            }
+        ),
+        config = CalendarConfig(monthSelection = true)
     )
-}
 
-@Composable
-private fun CalendarDismissButton(onClick: () -> Unit) {
-    SGMediumPrimaryButton(text = stringResource(id = R.string.calendar_dismiss_button_text), onClick = onClick)
+    if (isVisible) useCaseState.show()
+    else useCaseState.hide()
 }

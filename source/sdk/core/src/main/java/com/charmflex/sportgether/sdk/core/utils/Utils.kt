@@ -1,6 +1,8 @@
 package com.charmflex.sportgether.sdk.core.utils
 
 import kotlinx.coroutines.CancellationException
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 inline fun <T> resultOf(block: () -> T): Result<T> {
     return try {
@@ -15,4 +17,20 @@ inline fun <T> resultOf(block: () -> T): Result<T> {
 
 fun <T> unwrapResult(result: Result<T>): T {
     return result.getOrThrow()
+}
+
+// TO CLIENT
+fun String.toLocalDateTime(pattern: String): LocalDateTime? {
+    if (this.isEmpty()) return null
+    return LocalDateTime.parse(this, getDateTimeFormatter(pattern))
+}
+
+fun LocalDateTime?.toStringWithPattern(pattern: String): String {
+    return this?.format(getDateTimeFormatter(pattern)) ?: ""
+}
+
+// INTERNAL
+
+private fun getDateTimeFormatter(pattern: String): DateTimeFormatter {
+    return DateTimeFormatter.ofPattern(pattern)
 }

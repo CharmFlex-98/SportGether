@@ -3,11 +3,15 @@ package com.charmflex.sportgether.sdk.events.internal.event.ui.event_details
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.charmflex.sportgether.sdk.core.ui.UIErrorType
+import com.charmflex.sportgether.sdk.core.utils.toLocalDateTime
+import com.charmflex.sportgether.sdk.core.utils.toStringWithPattern
 import com.charmflex.sportgether.sdk.events.internal.event.domain.usecases.GetEventForModifyUseCase
+import com.charmflex.sportgether.sdk.ui_common.DEFAULT_DATE_TIME_PATTERN
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 internal class CreateEditEventViewModel(
@@ -131,30 +135,61 @@ internal class CreateEditEventViewModel(
         }
     }
 
-    fun onChooseDate(value: String) {
-        val isStartDateChose = _viewState.value.datePickerState.isStartDateChose
-
+    fun onChooseDate(localDateTime: LocalDateTime) {
         _viewState.update {
-            if (isStartDateChose) {
-                it.copy(
-                    startTimeField = it.startTimeField.copy(value = value),
-                    datePickerState = it.datePickerState.copy(showDatePicker = false)
-                )
-            } else {
-                it.copy(
-                    endTimeField = it.endTimeField.copy(value = value),
-                    datePickerState = it.datePickerState.copy(showDatePicker = false)
-                )
-            }
+            it.copy(
+                datePickerState = it.datePickerState.copy(cacheDateTime = localDateTime, isShowCalendar = false, isShowClock = true)
+            )
         }
     }
 
-    fun toggleCalendar(isStartDate: Boolean, show: Boolean) {
+    fun onChooseTime(hour: Int, min: Int) {
+        val prevTime = _viewState.value.datePickerState.cacheDateTime
+        val res = prevTime?.plusHours(hour.toLong())?.plusMinutes(min.toLong()).toStringWithPattern(
+            DEFAULT_DATE_TIME_PATTERN
+        )
+        val isStartDate = _viewState.value.datePickerState.isStartDateChose
+        _viewState.update {
+            if (isStartDate) {
+                it.copy(
+                    datePickerState = it.datePickerState.copy(isShowClock = false),
+                    startTimeField = it.startTimeField.copy(
+                        value = res
+                    )
+                )
+            } else {
+                it.copy(
+                    datePickerState = it.datePickerState.copy(isShowClock = false),
+                    endTimeField = it.endTimeField.copy(
+                        value = res
+                    )
+                )
+            }
+
+        }
+    }
+
+    fun toggleClock(isShow: Boolean) {
+        _viewState.update {
+            it.copy(
+                datePickerState = it.datePickerState.copy(isShowClock = isShow)
+            )
+        }
+    }
+
+    fun toggleCalendar(isShow: Boolean, isStartDate: Boolean) {
         _viewState.update {
             it.copy(
                 datePickerState = it.datePickerState.copy(
-                    showDatePicker = show,
-                    isStartDateChose = isStartDate
+                    isShowCalendar = isShow,
+                    isStartDateChose = isStartDate,
+                    initialDateTime = when {
+                        isStartDate -> it.startTimeField.value.toLocalDateTime(
+                            DEFAULT_DATE_TIME_PATTERN
+                        )
+
+                        else -> it.endTimeField.value.toLocalDateTime(DEFAULT_DATE_TIME_PATTERN)
+                    }
                 )
             )
         }
@@ -173,8 +208,11 @@ internal data class CreateEditEventViewState(
     val datePickerState: DatePickerState = DatePickerState()
 ) {
     data class DatePickerState(
-        val showDatePicker: Boolean = false,
-        val isStartDateChose: Boolean = true
+        val isShowCalendar: Boolean = false,
+        val isShowClock: Boolean = false,
+        val isStartDateChose: Boolean = true,
+        val initialDateTime: LocalDateTime? = null,
+        val cacheDateTime: LocalDateTime? = null
     )
 }
 

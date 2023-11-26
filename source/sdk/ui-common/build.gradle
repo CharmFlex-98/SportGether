@@ -60,6 +60,9 @@ dependencies {
     api 'androidx.compose.ui:ui-graphics'
     api 'androidx.compose.ui:ui-tooling-preview'
     api 'androidx.compose.material3:material3:1.2.0-alpha11'
+    api(libs.compose.dialog.calendar)
+    api(libs.compose.dialog.clock)
+    implementation(libs.compose.dialog.state)
     androidTestImplementation platform('androidx.compose:compose-bom:2022.10.00')
     androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
     debugImplementation 'androidx.compose.ui:ui-tooling'
