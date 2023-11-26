@@ -130,6 +130,35 @@ internal class CreateEditEventViewModel(
             CreateEditFieldInfo.FieldType.DESCRIPTION -> updateDescription(newValue)
         }
     }
+
+    fun onChooseDate(value: String) {
+        val isStartDateChose = _viewState.value.datePickerState.isStartDateChose
+
+        _viewState.update {
+            if (isStartDateChose) {
+                it.copy(
+                    startTimeField = it.startTimeField.copy(value = value),
+                    datePickerState = it.datePickerState.copy(showDatePicker = false)
+                )
+            } else {
+                it.copy(
+                    endTimeField = it.endTimeField.copy(value = value),
+                    datePickerState = it.datePickerState.copy(showDatePicker = false)
+                )
+            }
+        }
+    }
+
+    fun toggleCalendar(isStartDate: Boolean, show: Boolean) {
+        _viewState.update {
+            it.copy(
+                datePickerState = it.datePickerState.copy(
+                    showDatePicker = show,
+                    isStartDateChose = isStartDate
+                )
+            )
+        }
+    }
 }
 
 internal data class CreateEditEventViewState(
@@ -140,8 +169,14 @@ internal data class CreateEditEventViewState(
     val endTimeField: CreateEditFieldInfo = CreateEditFieldInfo(),
     val maxParticipantField: CreateEditFieldInfo = CreateEditFieldInfo(),
     val descriptionField: CreateEditFieldInfo = CreateEditFieldInfo(),
-    val error: UIErrorType = UIErrorType.None
-)
+    val error: UIErrorType = UIErrorType.None,
+    val datePickerState: DatePickerState = DatePickerState()
+) {
+    data class DatePickerState(
+        val showDatePicker: Boolean = false,
+        val isStartDateChose: Boolean = true
+    )
+}
 
 internal data class CreateEditFieldInfo(
     val name: String = "",

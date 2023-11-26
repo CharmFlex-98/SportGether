@@ -11,7 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SGTextField(
     modifier: Modifier,
@@ -20,6 +19,8 @@ fun SGTextField(
     value: String,
     errorText: String?,
     keyboardType: KeyboardType = KeyboardType.Text,
+    readOnly: Boolean = false,
+    enable: Boolean = true,
     onValueChange: (String) -> Unit
 ) {
     OutlinedTextField(
@@ -36,6 +37,8 @@ fun SGTextField(
                 )
             }
         },
-        keyboardOptions = KeyboardOptions(keyboardType = keyboardType)
+        keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
+        readOnly = readOnly,
+        enabled = enable
     )
 }

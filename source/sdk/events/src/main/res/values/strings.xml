@@ -18,4 +18,5 @@
     <string name="event_description_hint">Write any details of the event here</string>
     <string name="confirm_host_event_button">Host Event</string>
     <string name="confirm_edit_event_button">Update</string>
+    <string name="general_confirm_button">Confirm</string>
 </resources>

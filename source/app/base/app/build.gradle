@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace 'com.charmflex.sportgether.app'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.charmflex.sportgether.app"
