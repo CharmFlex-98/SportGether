@@ -5,6 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.charmflex.sportgether.sdk.core.ui.UIErrorType
 import com.charmflex.sportgether.sdk.core.utils.toLocalDateTime
 import com.charmflex.sportgether.sdk.core.utils.toStringWithPattern
+import com.charmflex.sportgether.sdk.events.internal.event.data.models.CreateEventInput
+import com.charmflex.sportgether.sdk.events.internal.event.domain.repositories.EventRepository
+import com.charmflex.sportgether.sdk.events.internal.event.domain.usecases.CreateEventUseCase
 import com.charmflex.sportgether.sdk.events.internal.event.domain.usecases.GetEventForModifyUseCase
 import com.charmflex.sportgether.sdk.ui_common.DEFAULT_DATE_TIME_PATTERN
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,6 +18,7 @@ import java.time.LocalDateTime
 import javax.inject.Inject
 
 internal class CreateEditEventViewModel(
+    private val repository: EventRepository,
     private val getEventForModifyUseCase: GetEventForModifyUseCase,
     private val eventFieldProvider: EventFieldProvider,
     private val eventId: Int?
@@ -23,11 +27,17 @@ internal class CreateEditEventViewModel(
     val viewState = _viewState.asStateFlow()
 
     class Factory @Inject constructor(
+        private val repository: EventRepository,
         private val getEventForModifyUseCase: GetEventForModifyUseCase,
         private val eventFieldProvider: EventFieldProvider,
     ) {
         fun create(eventId: Int?): CreateEditEventViewModel {
-            return CreateEditEventViewModel(getEventForModifyUseCase, eventFieldProvider, eventId)
+            return CreateEditEventViewModel(
+                repository,
+                getEventForModifyUseCase,
+                eventFieldProvider,
+                eventId
+            )
         }
     }
 
@@ -72,8 +82,38 @@ internal class CreateEditEventViewModel(
         return eventId != null
     }
 
-    fun onClickEdit() {
+    fun onPrimaryActionClick() {
+        if (isEdit()) updateEvent()
+        else submitEvent()
+    }
 
+    private fun updateEvent() {
+    }
+
+    private fun submitEvent() {
+        val createEventInput = CreateEventInput(
+            eventTitle = _viewState.value.nameField.value,
+            startTime = _viewState.value.startTimeField.value,
+            endTime = _viewState.value.endTimeField.value,
+            destination = _viewState.value.placeField.value,
+            description = _viewState.value.descriptionField.value,
+            eventType = "Badminton",
+            maxParticipantCount = _viewState.value.maxParticipantField.value.toInt()
+        )
+        viewModelScope.launch {
+            repository.createEvent(createEventInput).fold(
+                onSuccess = {
+                    _viewState.update {
+                        it.copy(state = CreateEditEventViewState.State.Success)
+                    }
+                },
+                onFailure = {
+                    _viewState.update {
+                        it.copy(state = CreateEditEventViewState.State.Error)
+                    }
+                }
+            )
+        }
     }
 
     private fun updateEventName(newValue: String) {
@@ -138,7 +178,11 @@ internal class CreateEditEventViewModel(
     fun onChooseDate(localDateTime: LocalDateTime) {
         _viewState.update {
             it.copy(
-                datePickerState = it.datePickerState.copy(cacheDateTime = localDateTime, isShowCalendar = false, isShowClock = true)
+                datePickerState = it.datePickerState.copy(
+                    cacheDateTime = localDateTime,
+                    isShowCalendar = false,
+                    isShowClock = true
+                )
             )
         }
     }
@@ -197,7 +241,7 @@ internal class CreateEditEventViewModel(
 }
 
 internal data class CreateEditEventViewState(
-    val isLoading: Boolean = false,
+    val state: State = State.Default,
     val nameField: CreateEditFieldInfo = CreateEditFieldInfo(),
     val placeField: CreateEditFieldInfo = CreateEditFieldInfo(),
     val startTimeField: CreateEditFieldInfo = CreateEditFieldInfo(),
@@ -207,6 +251,13 @@ internal data class CreateEditEventViewState(
     val error: UIErrorType = UIErrorType.None,
     val datePickerState: DatePickerState = DatePickerState()
 ) {
+    sealed interface State {
+        object Default: State
+        object Loading: State
+        object Error: State
+        object Success: State
+    }
+
     data class DatePickerState(
         val isShowCalendar: Boolean = false,
         val isShowClock: Boolean = false,

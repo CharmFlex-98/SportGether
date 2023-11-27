@@ -1,25 +1,20 @@
 package com.charmflex.sportgether.sdk.events
 
-import android.media.metrics.Event
 import android.util.Log
 import com.charmflex.sportgether.sdk.core.utils.SingletonHolder
-import com.charmflex.sportgether.sdk.core.utils.unwrapResult
 import com.charmflex.sportgether.sdk.events.internal.di.component.EventComponent
+import com.charmflex.sportgether.sdk.events.internal.event.data.models.CreateEventInput
 import com.charmflex.sportgether.sdk.events.internal.event.domain.models.EventInfo
 import com.charmflex.sportgether.sdk.events.internal.event.domain.repositories.EventRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 interface EventService {
     suspend fun refreshEvents()
 
     fun fetchEvents(): Flow<Result<List<EventInfo>>>
-
 
     companion object {
         fun getInstance(): EventService {
@@ -51,7 +46,6 @@ internal class EventServiceFacade @Inject constructor(
     override fun fetchEvents(): Flow<Result<List<EventInfo>>> {
         return sharedEventInfo
     }
-
 
     companion object : SingletonHolder<EventService>(
         {
