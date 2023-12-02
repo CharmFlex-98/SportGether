@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -14,16 +15,19 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.window.Dialog
 import com.charmflex.sportgether.sdk.core.utils.toLocalDateTime
 import com.charmflex.sportgether.sdk.events.R
 import com.charmflex.sportgether.sdk.ui_common.DEFAULT_DATE_TIME_PATTERN
 import com.charmflex.sportgether.sdk.ui_common.SGDatePicker
+import com.charmflex.sportgether.sdk.ui_common.SGDialog
 import com.charmflex.sportgether.sdk.ui_common.SGLargePrimaryButton
 import com.charmflex.sportgether.sdk.ui_common.SGTextField
 import com.charmflex.sportgether.sdk.ui_common.SGTimePicker
 import com.charmflex.sportgether.sdk.ui_common.SportGetherScaffold
 import com.charmflex.sportgether.sdk.ui_common.grid_x0_25
 import com.charmflex.sportgether.sdk.ui_common.grid_x1
+import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.maxkeppeker.sheets.core.models.base.UseCaseState
 import java.time.LocalDateTime
 
@@ -43,6 +47,7 @@ internal fun CreateEditEventScreen(
         onEditField = viewModel::updateField,
         toggleCalendar = viewModel::toggleCalendar,
         toggleClock = viewModel::toggleClock,
+        onBack = viewModel::back,
         onPrimaryButtonClick = viewModel::onPrimaryActionClick
     )
 }
@@ -57,10 +62,10 @@ internal fun CreateEditEventScreenContent(
     onEditField: (CreateEditFieldInfo.FieldType, String) -> Unit,
     toggleClock: (isShow: Boolean) -> Unit,
     toggleCalendar: (isShow: Boolean, isStartDate: Boolean) -> Unit,
+    onBack: () -> Unit,
     onPrimaryButtonClick: () -> Unit,
 ) {
     SportGetherScaffold {
-
         val startDatePickerState = UseCaseState()
         val endDatePickerState = UseCaseState()
         val inUseDatePickerState =
@@ -180,8 +185,17 @@ internal fun CreateEditEventScreenContent(
                 isVisible = viewState.datePickerState.isShowClock
             )
 
-            if (state is CreateEditEventViewState.State.Loading) {
-                CircularProgressIndicator()
+            when (viewState.state) {
+                is CreateEditEventViewState.State.Loading -> CircularProgressIndicator()
+                is CreateEditEventViewState.State.Success -> SGDialog(
+                    title = stringResource(id = R.string.create_event_success_title),
+                    text = stringResource(id = R.string.create_event_success_content),
+                    onDismissRequest = { },
+                    positiveText = stringResource(id = R.string.general_continue)
+                ) {
+                    onBack()
+                }
+                else -> {}
             }
         }
     }

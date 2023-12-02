@@ -93,5 +93,7 @@ dependencies {
     implementation project(":app-config-sdk")
     implementation project(":network-sdk")
     implementation project(":event-sdk")
+    implementation project(":navigation-sdk")
+    implementation project(":host")
 
 }

@@ -7,6 +7,7 @@ import com.charmflex.sportgether.sdk.events.internal.di.modules.NetworkModule
 import com.charmflex.sportgether.sdk.events.internal.di.modules.RepoModule
 import com.charmflex.sportgether.sdk.events.internal.event.ui.event_details.CreateEditEventViewModel
 import com.charmflex.sportgether.sdk.events.internal.event.ui.event_details.EventDetailsViewModel
+import com.charmflex.sportgether.sdk.navigation.di.RouteNavigatorModule
 import dagger.Component
 import javax.inject.Singleton
 
@@ -15,7 +16,8 @@ import javax.inject.Singleton
     modules = [
         RepoModule::class,
         EventUIModule::class,
-        NetworkModule::class
+        NetworkModule::class,
+        RouteNavigatorModule::class
     ],
     dependencies = [MainInjector::class]
 )

@@ -19,4 +19,7 @@
     <string name="confirm_host_event_button">Host Event</string>
     <string name="confirm_edit_event_button">Update</string>
     <string name="general_confirm_button">Confirm</string>
+    <string name="create_event_success_title">Well Done!</string>
+    <string name="create_event_success_content">You have successfully hosted an event!</string>
+    <string name="general_continue">Continue</string>
 </resources>

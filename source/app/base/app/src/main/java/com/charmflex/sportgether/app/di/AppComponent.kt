@@ -4,6 +4,8 @@ import android.content.Context
 import com.charmflex.sportgether.sdk.core.di.MainInjector
 import com.charmflex.sportgether.app.di.modules.NetworkModule
 import com.charmflex.sportgether.app.di.modules.ToolsModule
+import com.charmflex.sportgether.sdk.navigation.RouteNavigator
+import com.charmflex.sportgether.sdk.navigation.di.RouteNavigatorModule
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -13,6 +15,7 @@ import javax.inject.Singleton
     modules = [
         ToolsModule::class,
         NetworkModule::class,
+        RouteNavigatorModule::class
     ]
 )
 interface AppComponent : MainInjector {
@@ -31,7 +34,5 @@ interface AppComponent : MainInjector {
     // Entry point to get a dependency
     // Needed if want to access dependency outside the dependency graph,
     // or if another component depend on dependency in this component.
-    // fun dependency(): Dependency {
-//         return something here
-//     }
+    fun getRouteNavigator(): RouteNavigator
 }

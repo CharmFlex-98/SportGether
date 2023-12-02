@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -22,6 +23,7 @@ import com.charmflex.sportgether.sdk.core.utils.getViewModel
 import com.charmflex.sportgether.sdk.events.internal.event.domain.models.EventInfo
 import com.charmflex.sportgether.sdk.events.internal.event.domain.models.EventParticipantInfo
 import com.charmflex.sportgether.sdk.events.internal.event.domain.models.EventType
+import com.charmflex.sportgether.sdk.navigation.routes.EventRoutes
 import com.charmflex.sportgether.sdk.navigation.routes.HomeRoutes
 import com.charmflex.sportgether.sdk.ui_common.ContentState
 import com.charmflex.sportgether.sdk.ui_common.SportGetherScaffold
@@ -35,11 +37,17 @@ class HomeDestinationBuilder : DestinationBuilder {
         dashboardScreen()
     }
 
-    @OptIn(ExperimentalMaterial3Api::class)
     private fun NavGraphBuilder.dashboardScreen() {
         composable(HomeRoutes.ROOT) {
             val viewModel = getViewModel { homeUIComponent.getEventBoardViewModel() }
             val viewState by viewModel.viewState.collectAsState()
+            val shouldRefresh = it.savedStateHandle.remove<Boolean>(EventRoutes.Args.SHOULD_REFRESH) ?: false
+
+            LaunchedEffect(Unit) {
+                if (shouldRefresh) {
+                    viewModel.refresh()
+                }
+            }
 
             SportGetherScaffold {
                 Column {

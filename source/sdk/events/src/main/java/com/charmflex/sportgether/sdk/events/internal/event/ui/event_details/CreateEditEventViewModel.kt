@@ -2,13 +2,14 @@ package com.charmflex.sportgether.sdk.events.internal.event.ui.event_details
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.charmflex.sportgether.sdk.core.navigation.RouteNavigator
+import com.charmflex.sportgether.sdk.navigation.RouteNavigator
 import com.charmflex.sportgether.sdk.core.ui.UIErrorType
 import com.charmflex.sportgether.sdk.core.utils.toLocalDateTime
 import com.charmflex.sportgether.sdk.core.utils.toStringWithPattern
 import com.charmflex.sportgether.sdk.events.internal.event.data.models.CreateEventInput
 import com.charmflex.sportgether.sdk.events.internal.event.domain.repositories.EventRepository
 import com.charmflex.sportgether.sdk.events.internal.event.domain.usecases.GetEventForModifyUseCase
+import com.charmflex.sportgether.sdk.navigation.routes.EventRoutes
 import com.charmflex.sportgether.sdk.ui_common.DEFAULT_DATE_TIME_PATTERN
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -87,7 +88,9 @@ internal class CreateEditEventViewModel(
     }
 
     fun back() {
-        routeNavigator.pop()
+        routeNavigator.popWithArguments(
+            mapOf(EventRoutes.Args.SHOULD_REFRESH to true)
+        )
     }
 
     fun onPrimaryActionClick() {
@@ -114,8 +117,6 @@ internal class CreateEditEventViewModel(
                     _viewState.update {
                         it.copy(state = CreateEditEventViewState.State.Success)
                     }
-                    delay(1000)
-                    routeNavigator.popWithArguments()
                 },
                 onFailure = {
                     _viewState.update {

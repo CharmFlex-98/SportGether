@@ -6,6 +6,8 @@ import com.charmflex.sportgether.app.home.ui.HomeViewModel
 import com.charmflex.sportgether.app.home.ui.event.EventBoardViewModel
 import com.charmflex.sportgether.sdk.core.di.MainInjector
 import com.charmflex.sportgether.sdk.core.di.MainProvider
+import com.charmflex.sportgether.sdk.navigation.RouteNavigator
+import com.charmflex.sportgether.sdk.navigation.di.RouteNavigatorModule
 import dagger.Component
 import javax.inject.Singleton
 
@@ -13,7 +15,8 @@ import javax.inject.Singleton
 @Component(
     modules = [
         HomeUIModule::class,
-        ToolsModule::class
+        ToolsModule::class,
+        RouteNavigatorModule::class
     ],
     dependencies = [MainInjector::class]
 )
@@ -33,4 +36,6 @@ internal interface HomeUIComponent {
     fun getHomeViewModel(): HomeViewModel
 
     fun getEventBoardViewModel(): EventBoardViewModel
+
+    fun getRouteNavigator(): RouteNavigator
 }

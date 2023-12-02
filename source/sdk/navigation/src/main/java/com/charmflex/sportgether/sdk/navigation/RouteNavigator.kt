@@ -1,4 +1,4 @@
-package com.charmflex.sportgether.sdk.core.navigation
+package com.charmflex.sportgether.sdk.navigation
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -11,7 +11,11 @@ interface RouteNavigator {
 
     fun navigateTo(route: String)
     fun pop()
-    fun <T> popWithArguments(data: Map<String, Any>? = null)
+    fun popWithArguments(data: Map<String, Any>? = null)
+
+    companion object {
+        val instance by lazy { RouteNavigatorImpl() }
+    }
 }
 
 class RouteNavigatorImpl @Inject constructor() : RouteNavigator {
@@ -28,7 +32,7 @@ class RouteNavigatorImpl @Inject constructor() : RouteNavigator {
         _navigationEvent.tryEmit(Pop)
     }
 
-    override fun <T> popWithArguments(data: Map<String, Any>?) {
+    override fun popWithArguments(data: Map<String, Any>?) {
         _navigationEvent.tryEmit(PopWithArguments(data))
     }
 

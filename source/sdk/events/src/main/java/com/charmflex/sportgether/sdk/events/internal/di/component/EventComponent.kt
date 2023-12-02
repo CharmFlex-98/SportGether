@@ -6,6 +6,7 @@ import com.charmflex.sportgether.sdk.events.EventService
 import com.charmflex.sportgether.sdk.events.internal.di.modules.EventModule
 import com.charmflex.sportgether.sdk.events.internal.di.modules.NetworkModule
 import com.charmflex.sportgether.sdk.events.internal.di.modules.RepoModule
+import com.charmflex.sportgether.sdk.navigation.di.RouteNavigatorModule
 import dagger.Component
 import javax.inject.Singleton
 
@@ -14,7 +15,7 @@ import javax.inject.Singleton
     modules = [
         RepoModule::class,
         NetworkModule::class,
-        EventModule::class
+        EventModule::class,
     ],
     dependencies = [MainInjector::class]
 )
@@ -29,7 +30,7 @@ interface EventComponent {
 
         fun injectCreate(): EventComponent {
             val mainProviderInstance = MainProvider.instance
-            return  DaggerEventComponent.factory().create(mainProviderInstance.getMainInjector())
+            return DaggerEventComponent.factory().create(mainProviderInstance.getMainInjector())
         }
     }
 

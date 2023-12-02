@@ -8,6 +8,7 @@ import com.charmflex.sportgether.sdk.core.ui.UIErrorType
 import com.charmflex.sportgether.sdk.events.EventService
 import com.charmflex.sportgether.sdk.events.internal.event.domain.models.EventInfo
 import com.charmflex.sportgether.sdk.ui_common.ContentState
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -23,27 +24,39 @@ internal class EventBoardViewModel @Inject constructor(
     val viewState = _viewState.asStateFlow()
 
     init {
+        refresh()
+        fetchEvents()
+    }
+
+    fun refresh() {
+        _viewState.update {
+            it.copy(
+                contentState = ContentState.LoadingState
+            )
+        }
         viewModelScope.launch {
             eventService.refreshEvents()
-            fetchEvents()
         }
     }
 
-    private suspend fun fetchEvents() {
-        eventService.fetchEvents().collectLatest {
-            it.fold(
-                onSuccess = { eventInfo ->
-                    updateEvents(eventInfo)
-                },
-                onFailure = {
-                    Log.d("test", it.toString())
-                    _viewState.update { state ->
-                        state.copy(
-                            contentState = ContentState.ErrorState
-                        )
+    private fun fetchEvents() {
+        viewModelScope.launch {
+            delay(2000)
+            eventService.fetchEvents().collectLatest {
+                it.fold(
+                    onSuccess = { eventInfo ->
+                        updateEvents(eventInfo)
+                    },
+                    onFailure = {
+                        Log.d("test", it.toString())
+                        _viewState.update { state ->
+                            state.copy(
+                                contentState = ContentState.ErrorState
+                            )
+                        }
                     }
-                }
-            )
+                )
+            }
         }
     }
 
