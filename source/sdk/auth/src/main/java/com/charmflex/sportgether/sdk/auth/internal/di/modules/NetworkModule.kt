@@ -25,14 +25,12 @@ internal interface NetworkModule {
 
         @Singleton
         @Provides
-        @JvmStatic
         fun provideAuthApi(networkClientBuilder: NetworkClientBuilder): AuthApi {
             return networkClientBuilder.buildApi(AuthApi::class.java)
         }
 
         @Singleton
         @Provides
-        @JvmStatic
         fun provideApiErrorMapper(): ApiErrorMapper {
             return AuthApiErrorMapper()
         }

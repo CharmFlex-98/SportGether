@@ -16,8 +16,8 @@ internal class CreateEditFieldInfoMapper @Inject constructor(
             when (it.type) {
                 CreateEditFieldInfo.FieldType.NAME -> it.copy(value = from.eventName)
                 CreateEditFieldInfo.FieldType.DESTINATION -> it.copy(value = from.place)
-                CreateEditFieldInfo.FieldType.START_TIME -> it.copy(value = from.startTime.toString())
-                CreateEditFieldInfo.FieldType.END_TIME -> it.copy(value = from.endTime.toString())
+                CreateEditFieldInfo.FieldType.START_TIME -> it.copy(value = from.startTime)
+                CreateEditFieldInfo.FieldType.END_TIME -> it.copy(value = from.endTime)
                 CreateEditFieldInfo.FieldType.MAX_PARTICIPANT -> it.copy(value = from.maxParticipantCount.toString())
                 CreateEditFieldInfo.FieldType.DESCRIPTION -> it.copy(value = from.description)
             }

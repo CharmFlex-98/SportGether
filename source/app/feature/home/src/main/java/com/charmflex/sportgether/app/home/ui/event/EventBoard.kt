@@ -198,17 +198,17 @@ private fun EventInfoBar(
             EventDetailWidget(
                 painterId = com.charmflex.sportgether.sdk.ui_common.R.drawable.ic_calendar,
                 title = "Date",
-                subtitle = "Date detail"
+                subtitle = eventInfo.startTime
             )
             EventDetailWidget(
                 painterId = com.charmflex.sportgether.sdk.ui_common.R.drawable.icon_destination,
                 title = "Destination",
-                subtitle = "Destination description"
+                subtitle = eventInfo.place
             )
             EventDetailWidget(
                 painterId = com.charmflex.sportgether.sdk.ui_common.R.drawable.icon_people,
                 title = "Joiner",
-                subtitle = "Joiner description"
+                subtitle = "Not yet implemented"
             )
         }
 

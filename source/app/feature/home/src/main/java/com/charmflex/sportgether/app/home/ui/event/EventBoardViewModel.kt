@@ -1,5 +1,6 @@
 package com.charmflex.sportgether.app.home.ui.event
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.charmflex.sportgether.app.home.navigation.HomeNavigator
@@ -35,6 +36,7 @@ internal class EventBoardViewModel @Inject constructor(
                     updateEvents(eventInfo)
                 },
                 onFailure = {
+                    Log.d("test", it.toString())
                     _viewState.update { state ->
                         state.copy(
                             contentState = ContentState.ErrorState

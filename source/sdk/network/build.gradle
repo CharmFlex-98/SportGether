@@ -33,7 +33,9 @@ android {
 dependencies {
 
     implementation project(":app-config-sdk")
-
+    implementation(platform(libs.square.okhttp3.bom))
+    implementation(libs.square.okhttp3)
+    implementation(libs.square.okhttp3.loggingInterceptor)
     api(libs.square.retrofit)
     implementation(libs.square.retrofit.gsonConverter)
     implementation(libs.google.dagger)

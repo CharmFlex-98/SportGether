@@ -4,8 +4,8 @@ import java.time.LocalDateTime
 data class EventInfo(
     val eventId: Int,
     val eventName: String,
-    val startTime: LocalDateTime,
-    val endTime: LocalDateTime,
+    val startTime: String,
+    val endTime: String,
     val place: String,
     val eventType: EventType,
     val host: EventParticipantInfo,
@@ -17,7 +17,6 @@ data class EventInfo(
 data class EventParticipantInfo(
     val userId: Int,
     val username: String,
-    val profileIconUrl: String
 )
 
 enum class EventType {

@@ -1,5 +1,6 @@
 package com.charmflex.sportgether.sdk.events.internal.di.modules
 
+import com.charmflex.sportgether.sdk.auth.internal.AuthService
 import com.charmflex.sportgether.sdk.events.EventService
 import com.charmflex.sportgether.sdk.events.EventServiceFacade
 import dagger.Module
@@ -14,6 +15,11 @@ interface EventUIModule {
         @Singleton
         fun providesEventService(): EventService {
             return EventService.getInstance()
+        }
+
+        @Provides
+        fun provideAuthService(): AuthService {
+            return AuthService.getInstance()
         }
     }
 }

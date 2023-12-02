@@ -10,17 +10,20 @@ private const val SPORT_GETHER_FILE_PATH = "SPORT-GETHER-SHARED-PREFERENCES-PATH
 
 interface KeyStorageProvider {
     fun setString(key: String, value: String)
-    fun getString(key: String): String
+    fun getString(key: String, default: String = ""): String
 
     fun setBoolean(key: String, value: Boolean)
-    fun getBoolean(key: String): Boolean
+    fun getBoolean(key: String, default: Boolean): Boolean
 
     fun clearAllData()
 
     companion object {
+
         fun create(context: Context): KeyStorageProvider {
             return KeyStorageProviderImpl(context)
         }
+
+
     }
 }
 
@@ -49,24 +52,25 @@ class KeyStorageProviderImpl @Inject constructor(
         val keyGenParameterSpec = MasterKeys.AES256_GCM_SPEC
         return MasterKeys.getOrCreate(keyGenParameterSpec)
     }
+
     override fun setString(key: String, value: String) {
-//        TODO("Not yet implemented")
+        sharedPrefs.edit().putString(key, value).apply()
     }
 
-    override fun getString(key: String): String {
-        TODO("Not yet implemented")
+    override fun getString(key: String, default: String): String {
+        return sharedPrefs.getString(key, default) ?: default
     }
 
     override fun setBoolean(key: String, value: Boolean) {
-        TODO("Not yet implemented")
+        sharedPrefs.edit().putBoolean(key, value).apply()
     }
 
-    override fun getBoolean(key: String): Boolean {
-        TODO("Not yet implemented")
+    override fun getBoolean(key: String, default: Boolean): Boolean {
+        return sharedPrefs.getBoolean(key, default)
     }
 
     override fun clearAllData() {
-        TODO("Not yet implemented")
+        sharedPrefs.edit().clear().apply()
     }
 
 }

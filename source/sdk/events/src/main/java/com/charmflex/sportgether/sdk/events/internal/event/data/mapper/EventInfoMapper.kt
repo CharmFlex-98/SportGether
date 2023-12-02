@@ -5,7 +5,6 @@ import com.charmflex.sportgether.sdk.events.internal.event.data.models.GetEvents
 import com.charmflex.sportgether.sdk.events.internal.event.domain.models.EventInfo
 import com.charmflex.sportgether.sdk.events.internal.event.domain.models.EventParticipantInfo
 import com.charmflex.sportgether.sdk.events.internal.event.domain.models.EventType
-import java.time.LocalDateTime
 import javax.inject.Inject
 
 internal class EventInfoMapper @Inject constructor()  : Mapper<GetEventsResponse, List<EventInfo>> {
@@ -13,21 +12,19 @@ internal class EventInfoMapper @Inject constructor()  : Mapper<GetEventsResponse
         return from.events.map {
             EventInfo(
                 eventId = it.eventId,
-                eventName = it.eventTitle,
-                startTime = LocalDateTime.parse(it.startTime),
-                endTime = LocalDateTime.parse(it.endTime),
+                eventName = it.eventName,
+                startTime = it.startTime,
+                endTime = it.endTime,
                 place = it.destination,
                 eventType = getEventType(it.eventType),
                 host = EventParticipantInfo(
                     it.host.userId,
                     it.host.username,
-                    it.host.profileIconUrl
                 ),
                 joiners = it.joiners.map { participant ->
                     EventParticipantInfo(
                         participant.userId,
                         participant.username,
-                        participant.profileIconUrl
                     )
                 },
                 maxParticipantCount = it.maxParticipantCount,

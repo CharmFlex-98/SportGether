@@ -3,6 +3,8 @@ package com.charmflex.sportgether.sdk.events.internal.di.component
 import com.charmflex.sportgether.sdk.core.di.MainInjector
 import com.charmflex.sportgether.sdk.core.di.MainProvider
 import com.charmflex.sportgether.sdk.events.internal.di.modules.EventUIModule
+import com.charmflex.sportgether.sdk.events.internal.di.modules.NetworkModule
+import com.charmflex.sportgether.sdk.events.internal.di.modules.RepoModule
 import com.charmflex.sportgether.sdk.events.internal.event.ui.event_details.CreateEditEventViewModel
 import com.charmflex.sportgether.sdk.events.internal.event.ui.event_details.EventDetailsViewModel
 import dagger.Component
@@ -11,7 +13,9 @@ import javax.inject.Singleton
 @Singleton
 @Component(
     modules = [
-        EventUIModule::class
+        RepoModule::class,
+        EventUIModule::class,
+        NetworkModule::class
     ],
     dependencies = [MainInjector::class]
 )

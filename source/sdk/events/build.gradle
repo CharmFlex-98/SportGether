@@ -54,4 +54,5 @@ dependencies {
     implementation project(':network-sdk')
     implementation project(':core-sdk')
     implementation project(':navigation-sdk')
+    implementation project(':auth-sdk')
 }

@@ -7,7 +7,6 @@ import com.charmflex.sportgether.sdk.core.utils.toLocalDateTime
 import com.charmflex.sportgether.sdk.core.utils.toStringWithPattern
 import com.charmflex.sportgether.sdk.events.internal.event.data.models.CreateEventInput
 import com.charmflex.sportgether.sdk.events.internal.event.domain.repositories.EventRepository
-import com.charmflex.sportgether.sdk.events.internal.event.domain.usecases.CreateEventUseCase
 import com.charmflex.sportgether.sdk.events.internal.event.domain.usecases.GetEventForModifyUseCase
 import com.charmflex.sportgether.sdk.ui_common.DEFAULT_DATE_TIME_PATTERN
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -127,7 +126,7 @@ internal class CreateEditEventViewModel(
     private fun updatePlace(newValue: String) {
         _viewState.update {
             it.copy(
-                nameField = it.placeField.copy(value = newValue)
+                placeField = it.placeField.copy(value = newValue)
             )
         }
     }
@@ -135,7 +134,7 @@ internal class CreateEditEventViewModel(
     private fun updateStartTime(newValue: String) {
         _viewState.update {
             it.copy(
-                nameField = it.startTimeField.copy(value = newValue)
+                startTimeField = it.startTimeField.copy(value = newValue)
             )
         }
     }
@@ -143,7 +142,7 @@ internal class CreateEditEventViewModel(
     private fun updateEndTime(newValue: String) {
         _viewState.update {
             it.copy(
-                nameField = it.endTimeField.copy(value = newValue)
+                endTimeField = it.endTimeField.copy(value = newValue)
             )
         }
     }
@@ -151,7 +150,7 @@ internal class CreateEditEventViewModel(
     private fun updateMaxParticipantCount(newValue: String) {
         _viewState.update {
             it.copy(
-                nameField = it.maxParticipantField.copy(value = newValue)
+                maxParticipantField = it.maxParticipantField.copy(value = newValue)
             )
         }
     }
@@ -159,7 +158,7 @@ internal class CreateEditEventViewModel(
     private fun updateDescription(newValue: String) {
         _viewState.update {
             it.copy(
-                nameField = it.descriptionField.copy(value = newValue)
+                descriptionField = it.descriptionField.copy(value = newValue)
             )
         }
     }

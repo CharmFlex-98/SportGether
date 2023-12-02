@@ -9,10 +9,10 @@ data class GetEventsResponse(
 )
 
 data class EventResponse(
-    @SerializedName("eventId")
+    @SerializedName("id")
     val eventId: Int,
-    @SerializedName("eventTitle")
-    val eventTitle: String,
+    @SerializedName("eventName")
+    val eventName: String,
     @SerializedName("startTime")
     val startTime: String,
     @SerializedName("endTime")
@@ -25,7 +25,7 @@ data class EventResponse(
     val maxParticipantCount: Int,
     @SerializedName("host")
     val host: EventParticipantResponse,
-    @SerializedName("joiners")
+    @SerializedName("participants")
     val joiners: List<EventParticipantResponse>,
     @SerializedName("description")
     val description: String
@@ -36,6 +36,4 @@ data class EventParticipantResponse(
     val userId: Int,
     @SerializedName("username")
     val username: String,
-    @SerializedName("profileIconUrl")
-    val profileIconUrl: String
 )

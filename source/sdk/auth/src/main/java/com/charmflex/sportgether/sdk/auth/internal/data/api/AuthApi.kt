@@ -17,7 +17,7 @@ internal interface AuthApi {
     )
 
     @Headers("Content-Type: application/json")
-    @POST("/v1/user/login")
+    @POST("v1/user/login")
     suspend fun loginUser(
         @Body body: LoginUserRequest
     ): LoginUserResponse

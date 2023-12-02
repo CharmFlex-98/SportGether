@@ -9,10 +9,10 @@ import retrofit2.http.POST
 
 internal interface EventApi {
     @Headers("Content-Type: application/json")
-    @GET("/v1/event/all")
+    @GET("v1/event/all")
     suspend fun fetchAllEvents(): GetEventsResponse
 
     @Headers("Content-Type: application/json")
-    @POST("/v1/event/create")
+    @POST("v1/event/create")
     suspend fun createEvent(@Body event: CreateEventInput)
 }

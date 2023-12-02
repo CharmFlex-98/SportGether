@@ -16,6 +16,9 @@ composeCompilerVersion = "1.4.2"
 # retrofit
 retrofit_version = "2.9.0"
 
+# OkHttp3
+okhttp_bom_version = "4.11.0"
+
 # androidx security
 androidx_security_crypto_version = "1.0.0"
 androidx_security_identity_version = "1.0.0-alpha03"
@@ -58,7 +61,9 @@ compose-navigation = { module = 'androidx.navigation:navigation-compose', versio
 square-retrofit = { module = 'com.squareup.retrofit2:retrofit', version.ref = 'retrofit_version'}
 square-retrofit-gsonConverter = { module = 'com.squareup.retrofit2:converter-gson', version.ref = 'retrofit_version'}
 square-mockWebServer = { module = 'com.squareup.okhttp3:mockwebserver', version.ref = 'mock_web_server_version'}
-
+square-okhttp3-bom = { module = 'com.squareup.okhttp3:okhttp-bom', version.ref = 'okhttp_bom_version'}
+square-okhttp3 = { module = 'com.squareup.okhttp3:okhttp' }
+square-okhttp3-loggingInterceptor = { module = 'com.squareup.okhttp3:logging-interceptor'}
 # androidx
 androidx-security-crypto = { module = 'androidx.security:security-crypto', version.ref = 'androidx_security_crypto_version'}
 androidx-security-identity-credential = { module = 'androidx.security:security-identity-credential', version.ref = 'androidx_security_identity_version'}
