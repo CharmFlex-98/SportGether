@@ -4,18 +4,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.NavController
 import com.charmflex.sportgether.sdk.core.navigation.NavigateTo
-import com.charmflex.sportgether.sdk.core.navigation.NavigationEvent
 import com.charmflex.sportgether.sdk.core.navigation.Pop
 import com.charmflex.sportgether.sdk.core.navigation.RouteNavigator
-import kotlinx.coroutines.flow.collectLatest
+import com.charmflex.sportgether.sdk.core.navigation.PopWithArguments
 
 @Composable
 fun RouteNavigatorListener(routeNavigator: RouteNavigator, navController: NavController) {
     LaunchedEffect(Unit) {
-        routeNavigator.navigationEvent.collectLatest {
+        routeNavigator.navigationEvent.collect {
             when (it) {
-                is NavigateTo -> navController.navigate(it.route)
+                is NavigateTo -> navController.navigateT(it.route)
                 is Pop -> navController.popBackStack()
+                is PopWithArguments -> navController.
             }
         }
     }

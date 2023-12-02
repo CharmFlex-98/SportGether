@@ -2,6 +2,7 @@ package com.charmflex.sportgether.sdk.events.internal.event.ui.event_details
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.charmflex.sportgether.sdk.core.navigation.RouteNavigator
 import com.charmflex.sportgether.sdk.core.ui.UIErrorType
 import com.charmflex.sportgether.sdk.core.utils.toLocalDateTime
 import com.charmflex.sportgether.sdk.core.utils.toStringWithPattern
@@ -9,6 +10,7 @@ import com.charmflex.sportgether.sdk.events.internal.event.data.models.CreateEve
 import com.charmflex.sportgether.sdk.events.internal.event.domain.repositories.EventRepository
 import com.charmflex.sportgether.sdk.events.internal.event.domain.usecases.GetEventForModifyUseCase
 import com.charmflex.sportgether.sdk.ui_common.DEFAULT_DATE_TIME_PATTERN
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -20,7 +22,8 @@ internal class CreateEditEventViewModel(
     private val repository: EventRepository,
     private val getEventForModifyUseCase: GetEventForModifyUseCase,
     private val eventFieldProvider: EventFieldProvider,
-    private val eventId: Int?
+    private val eventId: Int?,
+    private val routeNavigator: RouteNavigator
 ) : ViewModel() {
     private val _viewState = MutableStateFlow(CreateEditEventViewState())
     val viewState = _viewState.asStateFlow()
@@ -29,13 +32,15 @@ internal class CreateEditEventViewModel(
         private val repository: EventRepository,
         private val getEventForModifyUseCase: GetEventForModifyUseCase,
         private val eventFieldProvider: EventFieldProvider,
+        private val routeNavigator: RouteNavigator
     ) {
         fun create(eventId: Int?): CreateEditEventViewModel {
             return CreateEditEventViewModel(
                 repository,
                 getEventForModifyUseCase,
                 eventFieldProvider,
-                eventId
+                eventId,
+                routeNavigator
             )
         }
     }
@@ -81,6 +86,10 @@ internal class CreateEditEventViewModel(
         return eventId != null
     }
 
+    fun back() {
+        routeNavigator.pop()
+    }
+
     fun onPrimaryActionClick() {
         if (isEdit()) updateEvent()
         else submitEvent()
@@ -105,12 +114,20 @@ internal class CreateEditEventViewModel(
                     _viewState.update {
                         it.copy(state = CreateEditEventViewState.State.Success)
                     }
+                    delay(1000)
+                    routeNavigator.popWithArguments()
                 },
                 onFailure = {
                     _viewState.update {
                         it.copy(state = CreateEditEventViewState.State.Error)
                     }
                 }
+            )
+        }
+
+        _viewState.update {
+            it.copy(
+                state = CreateEditEventViewState.State.Loading
             )
         }
     }

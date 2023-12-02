@@ -21,3 +21,15 @@ fun NavController.navigateAndPopUpTo(route: String, popUpToRouteInclusive: Strin
 
     }
 }
+
+fun NavController.popWithArgs(data: Map<String, Any>? = null) {
+    data?.let { args ->
+        this.currentBackStackEntry?.savedStateHandle?.let { savedStateHandler ->
+            for (arg in args) {
+                savedStateHandler[arg.key] = arg.value
+            }
+        }
+    }
+
+    popBackStack()
+}

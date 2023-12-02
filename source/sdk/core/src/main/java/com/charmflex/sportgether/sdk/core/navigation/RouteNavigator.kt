@@ -10,9 +10,8 @@ interface RouteNavigator {
     val navigationEvent: Flow<NavigationEvent>
 
     fun navigateTo(route: String)
-
     fun pop()
-
+    fun <T> popWithArguments(data: Map<String, Any>? = null)
 }
 
 class RouteNavigatorImpl @Inject constructor() : RouteNavigator {
@@ -29,9 +28,17 @@ class RouteNavigatorImpl @Inject constructor() : RouteNavigator {
         _navigationEvent.tryEmit(Pop)
     }
 
+    override fun <T> popWithArguments(data: Map<String, Any>?) {
+        _navigationEvent.tryEmit(PopWithArguments(data))
+    }
+
+
 }
 
 sealed interface NavigationEvent
 
 data class NavigateTo(val route: String) : NavigationEvent
 object Pop : NavigationEvent
+data class PopWithArguments(
+    val data: Map<String, Any>? = null
+) : NavigationEvent
