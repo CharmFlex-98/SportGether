@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.charmflex.sportgether.sdk.navigation.RouteNavigator
 import com.charmflex.sportgether.sdk.core.ui.UIErrorType
+import com.charmflex.sportgether.sdk.core.utils.toISO8601String
 import com.charmflex.sportgether.sdk.core.utils.toLocalDateTime
 import com.charmflex.sportgether.sdk.core.utils.toStringWithPattern
 import com.charmflex.sportgether.sdk.events.internal.event.data.models.CreateEventInput
@@ -11,12 +12,12 @@ import com.charmflex.sportgether.sdk.events.internal.event.domain.repositories.E
 import com.charmflex.sportgether.sdk.events.internal.event.domain.usecases.GetEventForModifyUseCase
 import com.charmflex.sportgether.sdk.navigation.routes.EventRoutes
 import com.charmflex.sportgether.sdk.ui_common.DEFAULT_DATE_TIME_PATTERN
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
+import java.time.ZoneId
 import javax.inject.Inject
 
 internal class CreateEditEventViewModel(
@@ -102,10 +103,15 @@ internal class CreateEditEventViewModel(
     }
 
     private fun submitEvent() {
+        val startTimestamp = _viewState.value.startTimeField.value.toLocalDateTime(
+            DEFAULT_DATE_TIME_PATTERN).toISO8601String(ZoneId.systemDefault())
+        val endTimeStamp = _viewState.value.endTimeField.value.toLocalDateTime(
+            DEFAULT_DATE_TIME_PATTERN).toISO8601String(ZoneId.systemDefault())
+
         val createEventInput = CreateEventInput(
             eventTitle = _viewState.value.nameField.value,
-            startTime = _viewState.value.startTimeField.value,
-            endTime = _viewState.value.endTimeField.value,
+            startTime = startTimestamp,
+            endTime = endTimeStamp,
             destination = _viewState.value.placeField.value,
             description = _viewState.value.descriptionField.value,
             eventType = "Badminton",

@@ -2,6 +2,7 @@ package com.charmflex.sportgether.sdk.core.utils
 
 import kotlinx.coroutines.CancellationException
 import java.time.LocalDateTime
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 inline fun <T> resultOf(block: () -> T): Result<T> {
@@ -27,6 +28,10 @@ fun String.toLocalDateTime(pattern: String): LocalDateTime? {
 
 fun LocalDateTime?.toStringWithPattern(pattern: String): String {
     return this?.format(getDateTimeFormatter(pattern)) ?: ""
+}
+
+fun LocalDateTime?.toISO8601String(zoneId: ZoneId): String {
+    return this?.atZone(zoneId)?.toInstant().toString()
 }
 
 // INTERNAL
