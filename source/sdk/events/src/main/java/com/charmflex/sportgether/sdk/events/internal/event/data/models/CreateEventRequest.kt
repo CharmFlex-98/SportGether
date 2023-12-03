@@ -3,8 +3,8 @@ package com.charmflex.sportgether.sdk.events.internal.event.data.models
 import com.google.gson.annotations.SerializedName
 
 data class CreateEventInput(
-    @SerializedName("eventTitle")
-    val eventTitle: String,
+    @SerializedName("eventName")
+    val eventName: String,
     @SerializedName("startTime")
     val startTime: String,
     @SerializedName("endTime")

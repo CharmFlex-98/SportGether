@@ -16,9 +16,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.window.Dialog
+import com.charmflex.sportgether.sdk.core.utils.DEFAULT_DATE_TIME_PATTERN
 import com.charmflex.sportgether.sdk.core.utils.toLocalDateTime
 import com.charmflex.sportgether.sdk.events.R
-import com.charmflex.sportgether.sdk.ui_common.DEFAULT_DATE_TIME_PATTERN
 import com.charmflex.sportgether.sdk.ui_common.SGDatePicker
 import com.charmflex.sportgether.sdk.ui_common.SGDialog
 import com.charmflex.sportgether.sdk.ui_common.SGLargePrimaryButton

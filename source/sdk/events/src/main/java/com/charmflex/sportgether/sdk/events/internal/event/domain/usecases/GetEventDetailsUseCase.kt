@@ -12,14 +12,9 @@ internal class GetEventDetailsUseCase @Inject constructor(
 ) {
 
     suspend operator fun invoke(eventId: Int): Result<List<EventDetailFieldInfo>> {
-        return eventService.fetchEvents().first().fold(
-            onSuccess = { eventInfoList ->
-                val res = eventInfoList.first { eventInfo -> eventInfo.eventId == eventId }
-                return@fold Result.success(mapper.map(res))
-            },
-            onFailure = {
-                Result.failure(it)
-            }
-        )
+        return eventService.fetchEvents().first().map { eventInfoList ->
+            val res = eventInfoList.first { eventInfo -> eventInfo.eventId == eventId }
+            mapper.map(res)
+        }
     }
 }

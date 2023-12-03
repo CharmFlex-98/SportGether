@@ -15,7 +15,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import com.charmflex.sportgether.sdk.auth.R
 import com.charmflex.sportgether.sdk.ui_common.BasicTopBar
-import com.charmflex.sportgether.sdk.ui_common.SGIconArrowBack
+import com.charmflex.sportgether.sdk.ui_common.SGIcons
 import com.charmflex.sportgether.sdk.ui_common.SGLargePrimaryButton
 import com.charmflex.sportgether.sdk.ui_common.SGTextField
 import com.charmflex.sportgether.sdk.ui_common.SportGetherScaffold
@@ -45,7 +45,7 @@ private fun ResetPasswordScreenContent(
     SportGetherScaffold(
         topBar = {
             BasicTopBar(
-                leadingIcon = { SGIconArrowBack() },
+                leadingIcon = { SGIcons.ArrowBack() },
                 leadingIconAction = onBack
             )
         }

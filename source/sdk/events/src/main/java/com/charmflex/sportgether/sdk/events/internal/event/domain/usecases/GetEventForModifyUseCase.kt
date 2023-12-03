@@ -11,14 +11,9 @@ internal class GetEventForModifyUseCase @Inject constructor(
     private val mapper: CreateEditFieldInfoMapper
 ) {
     suspend operator fun invoke(eventId: Int): Result<List<CreateEditFieldInfo>> {
-        return eventService.fetchEvents().first().fold(
-            onSuccess = { eventInfoList ->
-                val res = eventInfoList.first { eventInfo -> eventInfo.eventId == eventId }
-                return@fold Result.success(mapper.map(res))
-            },
-            onFailure = {
-                Result.failure(it)
-            }
-        )
+        return eventService.fetchEvents().first().map {
+            val res = it.first { eventInfo -> eventInfo.eventId == eventId }
+            mapper.map(res)
+        }
     }
 }

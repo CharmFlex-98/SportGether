@@ -15,8 +15,6 @@ import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 
-const val DEFAULT_DATE_TIME_PATTERN = "dd-MM-yyyy hh:mm a"
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SGDatePicker(

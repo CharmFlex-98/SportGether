@@ -1,6 +1,7 @@
 package com.charmflex.sportgether.sdk.core.utils
 
 import kotlinx.coroutines.CancellationException
+import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -20,6 +21,11 @@ fun <T> unwrapResult(result: Result<T>): T {
     return result.getOrThrow()
 }
 
+const val DEFAULT_DATE_TIME_PATTERN = "dd-MM-yyyy hh:mm a"
+const val DATE_ONLY_DEFAULT_PATTERN = "dd-MM-yyyy"
+const val TIME_ONLY_DEFAULT_PATTERN = "hh:mm a"
+
+
 // TO CLIENT
 fun String.toLocalDateTime(pattern: String): LocalDateTime? {
     if (this.isEmpty()) return null
@@ -34,8 +40,16 @@ fun LocalDateTime?.toISO8601String(zoneId: ZoneId): String {
     return this?.atZone(zoneId)?.toInstant().toString()
 }
 
+fun String.fromISOToStringWithPattern(pattern: String): String{
+    return fromISOToLocalDateTime().toStringWithPattern(pattern = pattern)
+}
+
 // INTERNAL
 
 private fun getDateTimeFormatter(pattern: String): DateTimeFormatter {
     return DateTimeFormatter.ofPattern(pattern)
+}
+
+private fun String.fromISOToLocalDateTime(): LocalDateTime {
+    return LocalDateTime.ofInstant(Instant.parse(this), ZoneId.systemDefault())
 }

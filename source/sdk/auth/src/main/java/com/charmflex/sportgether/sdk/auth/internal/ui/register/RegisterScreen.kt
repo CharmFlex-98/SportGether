@@ -23,7 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.charmflex.sportgether.sdk.auth.R
 import com.charmflex.sportgether.sdk.core.ui.UIErrorType
 import com.charmflex.sportgether.sdk.ui_common.BasicTopBar
-import com.charmflex.sportgether.sdk.ui_common.SGIconArrowBack
+import com.charmflex.sportgether.sdk.ui_common.SGIcons
 import com.charmflex.sportgether.sdk.ui_common.SGLargePrimaryButton
 import com.charmflex.sportgether.sdk.ui_common.SGSnackBar
 import com.charmflex.sportgether.sdk.ui_common.SGTextField
@@ -94,7 +94,7 @@ private fun RegisterScreenContent(
 ) {
     val textFieldErrors = viewState.formError
     SportGetherScaffold(
-        topBar = { BasicTopBar(leadingIcon = { SGIconArrowBack() }, leadingIconAction = onBack) }
+        topBar = { BasicTopBar(leadingIcon = { SGIcons.ArrowBack() }, leadingIconAction = onBack) }
     ) {
         Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
             Column {

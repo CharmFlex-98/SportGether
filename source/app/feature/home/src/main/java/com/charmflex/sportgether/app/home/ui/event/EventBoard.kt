@@ -1,6 +1,5 @@
 package com.charmflex.sportgether.app.home.ui.event
 
-import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,25 +10,20 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
-import com.charmflex.sportgether.sdk.events.internal.event.domain.models.EventInfo
 import com.charmflex.sportgether.sdk.ui_common.ContentState
 import com.charmflex.sportgether.sdk.ui_common.ListTable
 import com.charmflex.sportgether.sdk.ui_common.WithState
@@ -39,18 +33,20 @@ import com.charmflex.sportgether.sdk.ui_common.grid_x3
 import com.charmflex.sportgether.sdk.ui_common.grid_x7
 import com.charmflex.sportgether.sdk.ui_common.shimmerEffect
 import com.charmflex.sportgether.app.home.R
-import com.charmflex.sportgether.sdk.ui_common.SGLargePrimaryButton
+import com.charmflex.sportgether.sdk.core.utils.TIME_ONLY_DEFAULT_PATTERN
+import com.charmflex.sportgether.sdk.core.utils.fromISOToStringWithPattern
+import com.charmflex.sportgether.sdk.ui_common.SGIcons
 import com.charmflex.sportgether.sdk.ui_common.SGMediumPrimaryButton
 
 @Composable
 fun EventBoard(
     modifier: Modifier = Modifier,
     contentState: ContentState,
-    events: List<EventInfo>,
+    events: List<EventBoardViewState.EventDetail>,
     shownEventMaxCount: Int = -1,
     contentColor: Color = MaterialTheme.colorScheme.secondaryContainer,
     onHostEventClick: () -> Unit,
-    onEventItemClick: (EventInfo) -> Unit
+    onEventItemClick: (EventBoardViewState.EventDetail) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -118,13 +114,13 @@ fun EventBoardLoadingContent(
 @Composable
 internal fun EventBoardContent(
     modifier: Modifier = Modifier,
-    itemList: List<EventInfo>,
+    itemList: List<EventBoardViewState.EventDetail>,
     shownEventMaxCount: Int,
     contentColor: Color,
-    onItemClick: (EventInfo) -> Unit
+    onItemClick: (EventBoardViewState.EventDetail) -> Unit
 ) {
     ListTable(modifier = modifier, items = itemList, shownItemMaxCount = shownEventMaxCount) { index, item ->
-        EventInfoBar(eventInfo = item, contentColor = contentColor, onClick = onItemClick)
+        EventInfoBar(eventDetail = item, contentColor = contentColor, onClick = onItemClick)
     }
 }
 
@@ -152,9 +148,9 @@ internal fun EventBoardTextContent(
 @Composable
 private fun EventInfoBar(
     modifier: Modifier = Modifier,
-    eventInfo: EventInfo,
+    eventDetail: EventBoardViewState.EventDetail,
     contentColor: Color,
-    onClick: (EventInfo) -> Unit
+    onClick: (EventBoardViewState.EventDetail) -> Unit
 ) {
     Card(
         modifier = modifier
@@ -162,7 +158,7 @@ private fun EventInfoBar(
             .padding(vertical = grid_x1),
         elevation = CardDefaults.cardElevation(defaultElevation = grid_x1),
         colors = CardDefaults.cardColors(containerColor = contentColor),
-        onClick = { onClick(eventInfo) }
+        onClick = { onClick(eventDetail) }
     ) {
         Column(
             modifier = Modifier
@@ -170,18 +166,35 @@ private fun EventInfoBar(
                 .padding(grid_x2),
             verticalArrangement = Arrangement.Center
         ) {
-            Text(
-                modifier = Modifier.padding(end = grid_x1),
-                text = eventInfo.eventType.toString(),
-                color = MaterialTheme.colorScheme.onSurface,
-                fontWeight = FontWeight.Bold
-            )
+            Row(
+                horizontalArrangement = Arrangement.Start
+            ) {
+                Text(
+                    modifier = Modifier
+                        .padding(grid_x1)
+                        .weight(1f),
+                    text = eventDetail.eventType.toString(),
+                    color = MaterialTheme.colorScheme.onSurface,
+                    fontWeight = FontWeight.Bold
+                )
+                Box(
+
+                ) {
+                    Text(
+                        modifier = Modifier.padding(grid_x1),
+                        text = eventDetail.eventStartTime,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
+                }
+            }
+
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
                     modifier = Modifier.padding(end = grid_x1),
-                    text = eventInfo.eventName,
+                    text = eventDetail.eventName,
                     fontWeight = FontWeight.ExtraBold,
                     color = MaterialTheme.colorScheme.surfaceTint,
                     fontSize = 24.sp
@@ -190,23 +203,28 @@ private fun EventInfoBar(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = grid_x1),
-                    text = "Host: ${eventInfo.host.username}",
+                    text = "Host: ${eventDetail.eventHost}",
                     fontWeight = FontWeight.SemiBold,
                     textAlign = TextAlign.End
                 )
             }
+            Row(
+                modifier = Modifier.padding(top = grid_x2, bottom = grid_x1),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                SGIcons.Calendar(modifier = Modifier.size(grid_x3))
+                Text(modifier = Modifier.padding(horizontal = grid_x2,), text = eventDetail.eventStartTime, fontSize = 16.sp, fontWeight = FontWeight.ExtraBold)
+                SGIcons.RightArrowThin(modifier = modifier.size(grid_x3))
+                Text(modifier = Modifier.padding(horizontal = grid_x2), text = eventDetail.eventEndTime, fontSize = 16.sp, fontWeight = FontWeight.ExtraBold)
+            }
+
             EventDetailWidget(
-                painterId = com.charmflex.sportgether.sdk.ui_common.R.drawable.ic_calendar,
-                title = "Date",
-                subtitle = eventInfo.startTime
-            )
-            EventDetailWidget(
-                painterId = com.charmflex.sportgether.sdk.ui_common.R.drawable.icon_destination,
+                icon = { SGIcons.Destination(modifier = Modifier.size(grid_x3)) },
                 title = "Destination",
-                subtitle = eventInfo.place
+                subtitle = eventDetail.eventDestination
             )
             EventDetailWidget(
-                painterId = com.charmflex.sportgether.sdk.ui_common.R.drawable.icon_people,
+                icon = { SGIcons.People(modifier = Modifier.size(grid_x3)) },
                 title = "Joiner",
                 subtitle = "Not yet implemented"
             )
@@ -217,7 +235,7 @@ private fun EventInfoBar(
 
 @Composable
 private fun EventDetailWidget(
-    @DrawableRes painterId: Int,
+    icon: @Composable () -> Unit,
     title: String,
     subtitle: String
 ) {
@@ -225,11 +243,7 @@ private fun EventDetailWidget(
         modifier = Modifier.padding(vertical = grid_x1),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Icon(
-            modifier = Modifier.size(grid_x3),
-            painter = painterResource(id = painterId),
-            contentDescription = null
-        )
+        icon()
         Column {
             Text(
                 modifier = Modifier.padding(start = grid_x2),

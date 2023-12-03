@@ -4,14 +4,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.charmflex.sportgether.sdk.navigation.RouteNavigator
 import com.charmflex.sportgether.sdk.core.ui.UIErrorType
+import com.charmflex.sportgether.sdk.core.utils.DEFAULT_DATE_TIME_PATTERN
 import com.charmflex.sportgether.sdk.core.utils.toISO8601String
 import com.charmflex.sportgether.sdk.core.utils.toLocalDateTime
 import com.charmflex.sportgether.sdk.core.utils.toStringWithPattern
 import com.charmflex.sportgether.sdk.events.internal.event.data.models.CreateEventInput
+import com.charmflex.sportgether.sdk.events.internal.event.domain.models.EventType
 import com.charmflex.sportgether.sdk.events.internal.event.domain.repositories.EventRepository
 import com.charmflex.sportgether.sdk.events.internal.event.domain.usecases.GetEventForModifyUseCase
 import com.charmflex.sportgether.sdk.navigation.routes.EventRoutes
-import com.charmflex.sportgether.sdk.ui_common.DEFAULT_DATE_TIME_PATTERN
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -109,12 +110,12 @@ internal class CreateEditEventViewModel(
             DEFAULT_DATE_TIME_PATTERN).toISO8601String(ZoneId.systemDefault())
 
         val createEventInput = CreateEventInput(
-            eventTitle = _viewState.value.nameField.value,
+            eventName = _viewState.value.nameField.value,
             startTime = startTimestamp,
             endTime = endTimeStamp,
             destination = _viewState.value.placeField.value,
             description = _viewState.value.descriptionField.value,
-            eventType = "Badminton",
+            eventType = EventType.BADMINTON.toString(),
             maxParticipantCount = _viewState.value.maxParticipantField.value.toInt()
         )
         viewModelScope.launch {

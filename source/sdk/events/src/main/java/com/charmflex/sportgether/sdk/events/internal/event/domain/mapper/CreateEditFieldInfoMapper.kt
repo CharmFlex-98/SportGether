@@ -1,7 +1,9 @@
 package com.charmflex.sportgether.sdk.events.internal.event.domain.mapper
 
+import com.charmflex.sportgether.sdk.core.utils.DEFAULT_DATE_TIME_PATTERN
 import com.charmflex.sportgether.sdk.core.utils.Mapper
 import com.charmflex.sportgether.sdk.core.utils.ResourcesProvider
+import com.charmflex.sportgether.sdk.core.utils.fromISOToStringWithPattern
 import com.charmflex.sportgether.sdk.events.R
 import com.charmflex.sportgether.sdk.events.internal.event.domain.models.EventInfo
 import com.charmflex.sportgether.sdk.events.internal.event.ui.event_details.CreateEditFieldInfo
@@ -16,8 +18,11 @@ internal class CreateEditFieldInfoMapper @Inject constructor(
             when (it.type) {
                 CreateEditFieldInfo.FieldType.NAME -> it.copy(value = from.eventName)
                 CreateEditFieldInfo.FieldType.DESTINATION -> it.copy(value = from.place)
-                CreateEditFieldInfo.FieldType.START_TIME -> it.copy(value = from.startTime)
-                CreateEditFieldInfo.FieldType.END_TIME -> it.copy(value = from.endTime)
+                CreateEditFieldInfo.FieldType.START_TIME -> it.copy(value = from.startTime.fromISOToStringWithPattern(
+                    DEFAULT_DATE_TIME_PATTERN))
+                CreateEditFieldInfo.FieldType.END_TIME -> it.copy(value = from.endTime.fromISOToStringWithPattern(
+                    DEFAULT_DATE_TIME_PATTERN
+                ))
                 CreateEditFieldInfo.FieldType.MAX_PARTICIPANT -> it.copy(value = from.maxParticipantCount.toString())
                 CreateEditFieldInfo.FieldType.DESCRIPTION -> it.copy(value = from.description)
             }

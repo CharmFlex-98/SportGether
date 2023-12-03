@@ -56,7 +56,7 @@ class HomeDestinationBuilder : DestinationBuilder {
                             .weight(0.3f)
                             .fillMaxWidth(),
                         contentState = viewState.contentState,
-                        items = viewState.events.filterIndexed { index, _ -> index < 5 },
+                        items = viewState.eventDetail.filterIndexed { index, _ -> index < 5 },
                         shownItemsMaxCount = 2
                     )
                     Spacer(modifier = Modifier.height(grid_x4))
@@ -66,7 +66,7 @@ class HomeDestinationBuilder : DestinationBuilder {
                             .padding(horizontal = grid_x2)
                             .fillMaxWidth(),
                         contentState = viewState.contentState,
-                        events = viewState.events,
+                        events = viewState.eventDetail,
                         onHostEventClick = viewModel::onHostEventClick,
                         onEventItemClick = viewModel::onEventItemClick
                     )

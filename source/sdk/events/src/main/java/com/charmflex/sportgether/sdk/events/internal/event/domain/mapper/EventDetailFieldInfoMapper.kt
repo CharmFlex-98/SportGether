@@ -1,8 +1,10 @@
 package com.charmflex.sportgether.sdk.events.internal.event.domain.mapper
 
 import androidx.compose.ui.res.stringResource
+import com.charmflex.sportgether.sdk.core.utils.DEFAULT_DATE_TIME_PATTERN
 import com.charmflex.sportgether.sdk.core.utils.Mapper
 import com.charmflex.sportgether.sdk.core.utils.ResourcesProvider
+import com.charmflex.sportgether.sdk.core.utils.fromISOToStringWithPattern
 import com.charmflex.sportgether.sdk.events.R
 import com.charmflex.sportgether.sdk.events.internal.event.domain.models.EventInfo
 import com.charmflex.sportgether.sdk.events.internal.event.ui.event_details.CreateEditFieldInfo
@@ -26,11 +28,11 @@ internal class EventDetailFieldInfoMapper @Inject constructor(
             ),
             EventDetailFieldInfo(
                 name = resourcesProvider.getString(R.string.event_detail_start_time),
-                value = from.startTime.toString()
+                value = from.startTime.fromISOToStringWithPattern(DEFAULT_DATE_TIME_PATTERN)
             ),
             EventDetailFieldInfo(
                 name = resourcesProvider.getString(R.string.event_detail_end_time),
-                value = from.endTime.toString()
+                value = from.endTime.fromISOToStringWithPattern(DEFAULT_DATE_TIME_PATTERN)
             ),
             EventDetailFieldInfo(
                 name = resourcesProvider.getString(R.string.event_max_joiner_num),

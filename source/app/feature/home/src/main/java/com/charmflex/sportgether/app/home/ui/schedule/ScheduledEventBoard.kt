@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import com.charmflex.sportgether.app.home.ui.event.EventBoardViewState
 import com.charmflex.sportgether.sdk.events.internal.event.domain.models.EventInfo
 import com.charmflex.sportgether.sdk.ui_common.ContentState
 import com.charmflex.sportgether.sdk.ui_common.ListTable
@@ -35,7 +36,7 @@ import com.charmflex.sportgether.sdk.ui_common.grid_x7
 fun ScheduledEventBoard(
     modifier: Modifier,
     contentState: ContentState = ContentState.LoadingState,
-    items: List<EventInfo> = listOf(),
+    items: List<EventBoardViewState.EventDetail> = listOf(),
     shownItemsMaxCount: Int = -1,
     contentColor: Color = MaterialTheme.colorScheme.primaryContainer
 ) {
@@ -61,7 +62,7 @@ fun ScheduledEventBoard(
 @Composable
 fun ScheduleEventContent(
     modifier: Modifier,
-    items: List<EventInfo>,
+    items: List<EventBoardViewState.EventDetail>,
     shownItemsMaxCount: Int,
     contentColor: Color
 ) {
