@@ -12,7 +12,7 @@ internal class GetEventForModifyUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(eventId: Int): Result<List<CreateEditFieldInfo>> {
         return eventService.fetchEvents().first().map {
-            val res = it.first { eventInfo -> eventInfo.eventId == eventId }
+            val res = it.eventInfo.first { eventInfo -> eventInfo.eventId == eventId }
             mapper.map(res)
         }
     }

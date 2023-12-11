@@ -12,8 +12,8 @@ internal class GetEventDetailsUseCase @Inject constructor(
 ) {
 
     suspend operator fun invoke(eventId: Int): Result<List<EventDetailFieldInfo>> {
-        return eventService.fetchEvents().first().map { eventInfoList ->
-            val res = eventInfoList.first { eventInfo -> eventInfo.eventId == eventId }
+        return eventService.fetchEvents().first().map { eventPageInfo ->
+            val res = eventPageInfo.eventInfo.first { eventInfo -> eventInfo.eventId == eventId }
             mapper.map(res)
         }
     }

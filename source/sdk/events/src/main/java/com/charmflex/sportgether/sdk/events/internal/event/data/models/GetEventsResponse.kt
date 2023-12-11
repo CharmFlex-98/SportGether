@@ -5,7 +5,9 @@ import com.google.gson.annotations.SerializedName
 
 data class GetEventsResponse(
     @SerializedName("events")
-    val events: List<EventResponse>
+    val events: List<EventResponse>,
+    @SerializedName("nextCursorId")
+    val nextCursorId: String
 )
 
 data class EventResponse(

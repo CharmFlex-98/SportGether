@@ -46,6 +46,8 @@ fun EventBoard(
     shownEventMaxCount: Int = -1,
     contentColor: Color = MaterialTheme.colorScheme.secondaryContainer,
     onHostEventClick: () -> Unit,
+    onBottomReach: () -> Unit,
+    isFetchingNext: Boolean,
     onEventItemClick: (EventBoardViewState.EventDetail) -> Unit
 ) {
     Column(
@@ -75,7 +77,7 @@ fun EventBoard(
             errorState = {
                 EventBoardTextContent(text = stringResource(id = R.string.event_data_load_error))
             }) {
-            EventBoardContent(modifier = Modifier.fillMaxSize(), itemList = events, shownEventMaxCount = shownEventMaxCount, contentColor = contentColor, onItemClick = onEventItemClick)
+            EventBoardContent(modifier = Modifier.fillMaxSize(), itemList = events, shownEventMaxCount = shownEventMaxCount, contentColor = contentColor, onBottomReach = onBottomReach, isFetchingNext = isFetchingNext, onItemClick = onEventItemClick)
         }
     }
 }
@@ -117,9 +119,11 @@ internal fun EventBoardContent(
     itemList: List<EventBoardViewState.EventDetail>,
     shownEventMaxCount: Int,
     contentColor: Color,
+    onBottomReach: () -> Unit,
+    isFetchingNext: Boolean,
     onItemClick: (EventBoardViewState.EventDetail) -> Unit
 ) {
-    ListTable(modifier = modifier, items = itemList, shownItemMaxCount = shownEventMaxCount) { index, item ->
+    ListTable(modifier = modifier, items = itemList, shownItemMaxCount = shownEventMaxCount, onBottomReach = onBottomReach, isFetchingNext = isFetchingNext) { index, item ->
         EventInfoBar(eventDetail = item, contentColor = contentColor, onClick = onItemClick)
     }
 }

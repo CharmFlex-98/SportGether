@@ -1,6 +1,11 @@
 package com.charmflex.sportgether.sdk.events.internal.event.domain.models
 
 import java.time.LocalDateTime
+
+data class EventPageInfo(
+    val eventInfo: List<EventInfo>,
+    val nextCursorId: String
+)
 data class EventInfo(
     val eventId: Int,
     val eventName: String,

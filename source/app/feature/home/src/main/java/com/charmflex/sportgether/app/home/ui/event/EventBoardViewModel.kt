@@ -2,12 +2,17 @@ package com.charmflex.sportgether.app.home.ui.event
 
 import android.util.Log
 import androidx.annotation.DrawableRes
+import androidx.compose.foundation.pager.PageSize
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.charmflex.sportgether.app.home.domain.usecases.GetEventBoardDetailsUseCase
 import com.charmflex.sportgether.app.home.navigation.HomeNavigator
 import com.charmflex.sportgether.sdk.core.ui.UIErrorType
+import com.charmflex.sportgether.sdk.core.utils.DATE_ONLY_DEFAULT_PATTERN
+import com.charmflex.sportgether.sdk.core.utils.TIME_ONLY_DEFAULT_PATTERN
+import com.charmflex.sportgether.sdk.core.utils.fromISOToStringWithPattern
 import com.charmflex.sportgether.sdk.events.EventService
+import com.charmflex.sportgether.sdk.events.internal.event.data.models.GetEventsInput
 import com.charmflex.sportgether.sdk.events.internal.event.domain.models.EventInfo
 import com.charmflex.sportgether.sdk.ui_common.ContentState
 import kotlinx.coroutines.delay
@@ -27,6 +32,9 @@ internal class EventBoardViewModel @Inject constructor(
     private val _viewState = MutableStateFlow(EventBoardViewState())
     val viewState = _viewState.asStateFlow()
 
+    private val _pageViewState = MutableStateFlow(PageViewState())
+    val pageViewState = _pageViewState.asStateFlow()
+
     init {
         refresh()
         fetchEvents()
@@ -39,17 +47,22 @@ internal class EventBoardViewModel @Inject constructor(
             )
         }
         viewModelScope.launch {
-            eventService.refreshEvents()
+            eventService.refreshEvents(GetEventsInput())
         }
     }
 
     private fun fetchEvents() {
         viewModelScope.launch {
             delay(2000)
-            getEventBoardDetailsUseCase().collectLatest {
+            eventService.fetchEvents().collectLatest {
                 it.fold(
-                    onSuccess = { eventDetail ->
-                        updateEvents(eventDetail)
+                    onSuccess = { eventPageInfo ->
+                        updateEvents(eventPageInfo.eventInfo)
+                        _pageViewState.update { pageViewState ->
+                            pageViewState.copy(
+                                nextCursorId = eventPageInfo.nextCursorId
+                            )
+                        }
                     },
                     onFailure = {
                         Log.d("test", it.toString())
@@ -64,12 +77,42 @@ internal class EventBoardViewModel @Inject constructor(
         }
     }
 
+    private fun fetchNextEvents(cursorId: String) {
+        _pageViewState.update {
+            it.copy(
+                isLoading = true
+            )
+        }
+        viewModelScope.launch {
+            delay(1000)
+            eventService.refreshEvents(input = GetEventsInput(nextCursor = cursorId), isFirstLoad = false)
+        }
+    }
 
-    private fun updateEvents(eventDetail: List<EventBoardViewState.EventDetail>) {
+
+    private fun updateEvents(eventInfo: List<EventInfo>) {
+        val eventDetails = eventInfo.map {
+            EventBoardViewState.EventDetail(
+                eventId = it.eventId,
+                eventName = it.eventName,
+                eventDate = it.startTime.fromISOToStringWithPattern(DATE_ONLY_DEFAULT_PATTERN),
+                eventType = "Badminton",
+                eventHost = it.host.username,
+                eventStartTime = it.startTime.fromISOToStringWithPattern(TIME_ONLY_DEFAULT_PATTERN),
+                eventEndTime = it.endTime.fromISOToStringWithPattern(TIME_ONLY_DEFAULT_PATTERN),
+                eventDestination = it.place
+            )
+        }
         _viewState.update {
             it.copy(
-                eventDetail = eventDetail,
-                contentState = if (eventDetail.isEmpty()) ContentState.EmptyState else ContentState.LoadedState
+                eventDetail = eventDetails,
+                contentState = if (eventInfo.isEmpty()) ContentState.EmptyState else ContentState.LoadedState,
+            )
+        }
+        _pageViewState.update {
+            it.copy(
+                nextCursorId = it.nextCursorId,
+                isLoading = false
             )
         }
     }
@@ -81,12 +124,31 @@ internal class EventBoardViewModel @Inject constructor(
     fun onHostEventClick() {
         homeNavigator.toHostEventScreen()
     }
+
+    fun fetchMoreEvent() {
+        toggleLoadingMoreState(true)
+        fetchNextEvents(_pageViewState.value.nextCursorId)
+    }
+
+    private fun toggleLoadingMoreState(loadingMore: Boolean) {
+        _pageViewState.update {
+            it.copy(
+                isLoading = loadingMore
+            )
+        }
+    }
 }
+
+data class PageViewState(
+    val isLoading: Boolean = false,
+    val nextCursorId: String = "",
+    val pageSize: Int = 5,
+)
 
 data class EventBoardViewState(
     val contentState: ContentState = ContentState.LoadingState,
     val errorType: UIErrorType = UIErrorType.None,
-    val eventDetail: List<EventDetail> = listOf()
+    val eventDetail: List<EventDetail> = listOf(),
 ) {
     data class EventDetail(
         val eventId: Int,
@@ -98,4 +160,8 @@ data class EventBoardViewState(
         val eventEndTime: String,
         val eventDestination: String
     )
+
+    fun page(pageSize: Int): Int {
+        return eventDetail.size / pageSize + 1
+    }
 }
