@@ -55,3 +55,6 @@ project(':mock-sdk').projectDir = new File(rootDir, 'source/sdk/mock')
 
 include ':app-config-sdk'
 project(':app-config-sdk').projectDir = new File(rootDir, 'source/sdk/app-config')
+
+include ':profile-sdk'
+project(':profile-sdk').projectDir = new File(rootDir, 'source/sdk/profile')
