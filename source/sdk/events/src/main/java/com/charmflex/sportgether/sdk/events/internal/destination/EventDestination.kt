@@ -14,6 +14,7 @@ import com.charmflex.sportgether.sdk.events.internal.di.component.EventUICompone
 import com.charmflex.sportgether.sdk.events.internal.event.ui.event_details.CreateEditEventScreen
 import com.charmflex.sportgether.sdk.events.internal.event.ui.event_details.EventDetailsScreen
 import com.charmflex.sportgether.sdk.navigation.routes.EventRoutes
+import com.charmflex.sportgether.sdk.ui_common.SportGetherScaffold
 import com.charmflex.sportgether.sdk.ui_common.grid_x2
 
 class EventDestinationBuilder : DestinationBuilder {
@@ -35,7 +36,6 @@ class EventDestinationBuilder : DestinationBuilder {
         ) {
             val eventId = it.arguments?.getString(EventRoutes.Args.EVENT_ID)?.toInt()
             val eventDetailsViewModel = getViewModel { eventUIComponent.getEventDetailsViewModelFactory().create(eventId) }
-
 
             EventDetailsScreen(
                 modifier = Modifier

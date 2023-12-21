@@ -38,6 +38,9 @@ material = "1.10.0"
 # maxkeppeler compose dialog
 compose_dialog_version = "1.2.0"
 
+# Coil
+coil_version = "2.5.0"
+
 [libraries]
 # maxkeppper compose dialog
 compose-dialog-core = { module = 'com.maxkeppeler.sheets-compose-dialogs:core', version.ref = 'compose_dialog_version'}
@@ -76,6 +79,8 @@ espresso-core = { group = "androidx.test.espresso", name = "espresso-core", vers
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
+# coil
+coil = { module = "io.coil-kt:coil-compose", version.ref = 'coil_version'}
 
 [plugins]
 # kotlin

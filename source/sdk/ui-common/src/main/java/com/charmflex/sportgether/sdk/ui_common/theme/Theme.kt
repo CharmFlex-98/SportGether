@@ -81,8 +81,8 @@ private val DarkColors = darkColorScheme(
 
 @Composable
 fun SportGetherTheme(
-    useDarkTheme: Boolean = isSystemInDarkTheme(),
-    content: @Composable() () -> Unit
+    useDarkTheme: Boolean = false,
+    content: @Composable () -> Unit
 ) {
     val colors = if (!useDarkTheme) {
         LightColors

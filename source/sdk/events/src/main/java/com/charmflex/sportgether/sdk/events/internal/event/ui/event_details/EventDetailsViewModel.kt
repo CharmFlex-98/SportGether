@@ -3,9 +3,8 @@ package com.charmflex.sportgether.sdk.events.internal.event.ui.event_details
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.charmflex.sportgether.sdk.core.ui.UIErrorType
-import com.charmflex.sportgether.sdk.events.internal.event.domain.mapper.EventDetailFieldInfoMapper
 import com.charmflex.sportgether.sdk.events.internal.event.domain.usecases.GetEventDetailsUseCase
-import com.charmflex.sportgether.sdk.events.internal.event.domain.usecases.GetEventForModifyUseCase
+import com.charmflex.sportgether.sdk.ui_common.CompositeItem
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -63,12 +62,12 @@ internal class EventDetailsViewModel(
 }
 
 internal data class EventDetailsViewState(
-    val fields: List<EventDetailFieldInfo> = listOf(),
+    val fields: List<EventDetailContentInfo> = listOf(),
     val isLoading: Boolean = false,
     val errorType: UIErrorType = UIErrorType.None
 )
 
-internal data class EventDetailFieldInfo(
+internal data class EventDetailContentInfo(
     val name: String,
     val value: String
 )
