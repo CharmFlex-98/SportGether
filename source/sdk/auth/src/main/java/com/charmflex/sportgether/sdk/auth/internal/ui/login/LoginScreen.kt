@@ -60,36 +60,36 @@ internal fun LoginScreen(viewModel: LoginViewModel) {
         }
     }
 
-        LoginScreenContent(
-            username = viewState.username,
-            onUserNameChanged = viewModel::onUserNameChanged,
-            password = viewState.password,
-            onPasswordChanged = viewModel::onPasswordChanged,
-            onLoginClicked = viewModel::loginUser,
-            onRegisterClicked = viewModel::onRegisterClicked,
-            onForgotPasswordClicked = viewModel::onForgotPasswordClicked
-        )
+    LoginScreenContent(
+        username = viewState.username,
+        onUserNameChanged = viewModel::onUserNameChanged,
+        password = viewState.password,
+        onPasswordChanged = viewModel::onPasswordChanged,
+        onLoginClicked = viewModel::loginUser,
+        onRegisterClicked = viewModel::onRegisterClicked,
+        onForgotPasswordClicked = viewModel::onForgotPasswordClicked
+    )
 
-        if (viewState.isLoading) CircularProgressIndicator()
-        if (viewState.success) {
-            Dialog(onDismissRequest = {}) {
-                Card(
+    if (viewState.isLoading) CircularProgressIndicator()
+    if (viewState.success) {
+        Dialog(onDismissRequest = {}) {
+            Card(
+                modifier = Modifier
+                    .height(grid_x15)
+                    .fillMaxWidth(),
+                shape = RoundedCornerShape(grid_x2),
+            ) {
+                Text(
+                    text = stringResource(id = R.string.dialog_login_success_text),
                     modifier = Modifier
-                        .height(grid_x15)
-                        .fillMaxWidth(),
-                    shape = RoundedCornerShape(grid_x2),
-                ) {
-                    Text(
-                        text = stringResource(id = R.string.dialog_login_success_text),
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .wrapContentSize(Alignment.Center),
-                        textAlign = TextAlign.Center,
-                    )
-                }
+                        .fillMaxSize()
+                        .wrapContentSize(Alignment.Center),
+                    textAlign = TextAlign.Center,
+                )
             }
-
         }
+
+    }
 
 
     SGSnackBar(snackBarHostState = snackbarHostState, snackBarType = snackbarErrorType)

@@ -21,11 +21,13 @@ internal class EventPageInfoMapper @Inject constructor()  : Mapper<GetEventsResp
                 host = EventParticipantInfo(
                     it.host.userId,
                     it.host.username,
+                    profileIconName = it.host.profileIconName
                 ),
                 joiners = it.joiners.map { participant ->
                     EventParticipantInfo(
                         participant.userId,
                         participant.username,
+                        participant.profileIconName
                     )
                 },
                 maxParticipantCount = it.maxParticipantCount,

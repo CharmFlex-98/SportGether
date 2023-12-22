@@ -24,4 +24,5 @@
     <string name="general_continue">Continue</string>
     <string name="event_detail_join_button_text">Join</string>
     <string name="event_join_success_message">Joined Event!</string>
+    <string name="event_participants">Participants</string>
 </resources>

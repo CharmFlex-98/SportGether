@@ -22,6 +22,7 @@ data class EventInfo(
 data class EventParticipantInfo(
     val userId: Int,
     val username: String,
+    val profileIconName: String
 )
 
 enum class EventType {

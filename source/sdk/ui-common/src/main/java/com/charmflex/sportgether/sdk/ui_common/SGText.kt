@@ -1,8 +1,8 @@
 package com.charmflex.sportgether.sdk.ui_common
 
-import androidx.annotation.DrawableRes
+import android.graphics.drawable.Drawable
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -35,22 +35,25 @@ fun SGBasicTwoLineItem(
 }
 
 @Composable
-fun SGBasicTwoLineIconsItem(
+fun SGBasicTwoLineIconsActionItem(
     modifier: Modifier = Modifier,
     iconSize: Dp,
     title: String,
-    @DrawableRes
-    icons: List<Int>
+    icons: List<Drawable>,
+    onClick: () -> Unit
 ) {
     Column(
         modifier = modifier
             .fillMaxWidth()
+            .clickable {
+                onClick()
+            }
             .background(MaterialTheme.colorScheme.secondaryContainer)
             .padding(grid_x1)
     ) {
         Text(text = title, color = MaterialTheme.colorScheme.tertiary, fontSize = 10.sp)
         Row {
-            for (i in icons) SGRoundImage(filePath = i, modifier = Modifier.size(iconSize))
+            for (i in icons) SGRoundImage(source = i, modifier = Modifier.size(iconSize))
         }
     }
 }

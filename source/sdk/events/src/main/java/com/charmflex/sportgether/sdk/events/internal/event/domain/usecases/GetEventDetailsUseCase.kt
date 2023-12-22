@@ -3,6 +3,7 @@ package com.charmflex.sportgether.sdk.events.internal.event.domain.usecases
 import com.charmflex.sportgether.sdk.events.EventService
 import com.charmflex.sportgether.sdk.events.internal.event.domain.mapper.EventDetailFieldInfoMapper
 import com.charmflex.sportgether.sdk.events.internal.event.ui.event_details.EventDetailContentInfo
+import com.charmflex.sportgether.sdk.events.internal.event.ui.event_details.EventDetailTwoLineInfo
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 

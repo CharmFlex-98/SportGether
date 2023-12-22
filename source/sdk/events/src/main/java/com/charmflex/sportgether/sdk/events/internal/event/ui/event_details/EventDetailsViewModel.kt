@@ -1,5 +1,6 @@
 package com.charmflex.sportgether.sdk.events.internal.event.ui.event_details
 
+import android.graphics.drawable.Drawable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.charmflex.sportgether.sdk.core.ui.UIErrorType
@@ -7,7 +8,6 @@ import com.charmflex.sportgether.sdk.events.internal.event.domain.usecases.GetEv
 import com.charmflex.sportgether.sdk.events.internal.event.domain.usecases.JoinEventUseCase
 import com.charmflex.sportgether.sdk.navigation.RouteNavigator
 import com.charmflex.sportgether.sdk.navigation.routes.EventRoutes
-import com.charmflex.sportgether.sdk.ui_common.CompositeItem
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -65,6 +65,22 @@ internal class EventDetailsViewModel(
         }
     }
 
+    fun onCheckParticipants() {
+        _viewState.update {
+            it.copy(
+                bottomSheetState = EventDetailsViewState.BottomSheetState.ShowParticipantDetailState
+            )
+        }
+    }
+
+    fun resetBottomSheetState() {
+        _viewState.update {
+            it.copy(
+                bottomSheetState = EventDetailsViewState.BottomSheetState.None
+            )
+        }
+    }
+
     fun onPrimaryButtonClick() {
         // TODO: Condition need to check whether the event is host under this user
         viewModelScope.launch {
@@ -93,14 +109,31 @@ internal class EventDetailsViewModel(
     }
 }
 
+sealed interface EventDetailContentInfo
+
 internal data class EventDetailsViewState(
     val fields: List<EventDetailContentInfo> = listOf(),
     val isLoading: Boolean = false,
     val joinSuccess: Boolean = false,
-    val errorType: UIErrorType = UIErrorType.None
-)
+    val errorType: UIErrorType = UIErrorType.None,
+    val bottomSheetState: BottomSheetState = BottomSheetState.None
+) {
+    sealed class BottomSheetState {
+        object ShowParticipantDetailState : BottomSheetState()
+        object None : BottomSheetState()
+        object Error : BottomSheetState()
+    }
 
-internal data class EventDetailContentInfo(
+    fun showBottomSheet(): Boolean = bottomSheetState != BottomSheetState.None
+}
+
+internal data class EventDetailTwoLineInfo(
     val name: String,
     val value: String
-)
+) : EventDetailContentInfo
+
+internal data class EventDetailParticipantsInfo(
+    val name: String,
+    val icons: List<Drawable>
+) : EventDetailContentInfo
+

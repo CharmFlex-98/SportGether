@@ -38,4 +38,6 @@ data class EventParticipantResponse(
     val userId: Int,
     @SerializedName("username")
     val username: String,
+    @SerializedName("profileIconName")
+    val profileIconName: String
 )

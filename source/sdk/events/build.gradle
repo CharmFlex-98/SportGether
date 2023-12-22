@@ -55,4 +55,5 @@ dependencies {
     implementation project(':core-sdk')
     implementation project(':navigation-sdk')
     implementation project(':auth-sdk')
+    implementation project(':profile-sdk')
 }
