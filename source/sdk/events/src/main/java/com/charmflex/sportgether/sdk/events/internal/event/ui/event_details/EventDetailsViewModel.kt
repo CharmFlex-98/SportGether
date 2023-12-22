@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.charmflex.sportgether.sdk.core.ui.UIErrorType
 import com.charmflex.sportgether.sdk.events.internal.event.domain.usecases.GetEventDetailsUseCase
+import com.charmflex.sportgether.sdk.events.internal.event.domain.usecases.GetParticipantsUseCase
 import com.charmflex.sportgether.sdk.events.internal.event.domain.usecases.JoinEventUseCase
 import com.charmflex.sportgether.sdk.navigation.RouteNavigator
 import com.charmflex.sportgether.sdk.navigation.routes.EventRoutes
@@ -17,14 +18,19 @@ import javax.inject.Inject
 internal class EventDetailsViewModel(
     private val joinEventUseCase: JoinEventUseCase,
     private val getEventDetailsUseCase: GetEventDetailsUseCase,
+    private val getParticipantsUseCase: GetParticipantsUseCase,
     private val eventId: Int,
     private val routeNavigator: RouteNavigator
 ) : ViewModel() {
     private val _viewState = MutableStateFlow(EventDetailsViewState())
     val viewState = _viewState.asStateFlow()
 
+    private val _participantViewState = MutableStateFlow(listOf<ParticipantsData>())
+    val participantViewState = _participantViewState.asStateFlow()
+
     class Factory @Inject constructor(
         private val getEventDetailsUseCase: GetEventDetailsUseCase,
+        private val getParticipantsUseCase: GetParticipantsUseCase,
         private val joinEventUseCase: JoinEventUseCase,
         private val routeNavigator: RouteNavigator
     ) {
@@ -34,6 +40,7 @@ internal class EventDetailsViewModel(
             return EventDetailsViewModel(
                 joinEventUseCase,
                 getEventDetailsUseCase,
+                getParticipantsUseCase,
                 id,
                 routeNavigator
             )
@@ -66,9 +73,30 @@ internal class EventDetailsViewModel(
     }
 
     fun onCheckParticipants() {
+        viewModelScope.launch {
+            toggleLoading(true)
+            getParticipantsUseCase(eventId).fold(
+                onSuccess = {
+                    _participantViewState.value = it
+                    _viewState.update {
+                        it.copy(
+                            isLoading = false,
+                            bottomSheetState = EventDetailsViewState.BottomSheetState.ShowParticipantDetailState
+                        )
+                    }
+                },
+                onFailure = {
+                    // More to come
+                    toggleLoading(false)
+                }
+            )
+        }
+    }
+
+    private fun toggleLoading(loading: Boolean) {
         _viewState.update {
             it.copy(
-                bottomSheetState = EventDetailsViewState.BottomSheetState.ShowParticipantDetailState
+                isLoading = loading
             )
         }
     }
@@ -136,4 +164,10 @@ internal data class EventDetailParticipantsInfo(
     val name: String,
     val icons: List<Drawable>
 ) : EventDetailContentInfo
+
+internal class ParticipantsData(
+    val id: Int,
+    val name: String,
+    val icon: Drawable?
+)
 

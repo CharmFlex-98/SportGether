@@ -1,12 +1,19 @@
 package com.charmflex.sportgether.sdk.events.internal.event.ui.event_details
 
+import android.graphics.drawable.Icon
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -16,17 +23,25 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import com.charmflex.sportgether.sdk.core.ui.UIErrorType
 import com.charmflex.sportgether.sdk.events.R
+import com.charmflex.sportgether.sdk.ui_common.ListTable
 import com.charmflex.sportgether.sdk.ui_common.SGBasicTwoLineIconsActionItem
 import com.charmflex.sportgether.sdk.ui_common.SGBasicTwoLineItem
 import com.charmflex.sportgether.sdk.ui_common.SGLargePrimaryButton
 import com.charmflex.sportgether.sdk.ui_common.SGModalBottomSheet
+import com.charmflex.sportgether.sdk.ui_common.SGRoundImage
 import com.charmflex.sportgether.sdk.ui_common.SGSnackBar
 import com.charmflex.sportgether.sdk.ui_common.SnackBarType
 import com.charmflex.sportgether.sdk.ui_common.SportGetherScaffold
 import com.charmflex.sportgether.sdk.ui_common.grid_x0_25
+import com.charmflex.sportgether.sdk.ui_common.grid_x0_5
+import com.charmflex.sportgether.sdk.ui_common.grid_x1
+import com.charmflex.sportgether.sdk.ui_common.grid_x10
+import com.charmflex.sportgether.sdk.ui_common.grid_x2
 import com.charmflex.sportgether.sdk.ui_common.grid_x5
 import com.charmflex.sportgether.sdk.ui_common.showSnackBarImmediately
 import kotlinx.coroutines.launch
@@ -38,6 +53,7 @@ internal fun EventDetailsScreen(
     viewModel: EventDetailsViewModel,
 ) {
     val viewState by viewModel.viewState.collectAsState()
+    val participantList by viewModel.participantViewState.collectAsState()
     val fields = viewState.fields
     val snackbarHostState = remember {
         SnackbarHostState()
@@ -75,7 +91,22 @@ internal fun EventDetailsScreen(
                 viewModel.resetBottomSheetState()
             }
         }) {
-
+            ListTable(items = participantList) { index, item ->
+                Card(
+                    modifier = Modifier.fillMaxWidth().padding(vertical = grid_x0_5, horizontal = grid_x1)
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Box(modifier = Modifier.size(grid_x10), contentAlignment = Alignment.Center) {
+                            if (item.icon != null) SGRoundImage(source = item.icon, modifier = Modifier.size(
+                                grid_x5))
+                        }
+                        Text(text = item.name, modifier = Modifier.weight(1f), textAlign = TextAlign.Center)
+                        Icon(painter = painterResource(id = com.charmflex.sportgether.sdk.ui_common.R.drawable.ic_arrow_right_thin), contentDescription = null)
+                    }
+                }
+            }
         }
     }
 
