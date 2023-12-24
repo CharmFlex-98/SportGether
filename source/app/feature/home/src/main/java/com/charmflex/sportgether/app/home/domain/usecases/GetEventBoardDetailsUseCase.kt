@@ -12,7 +12,7 @@ class GetEventBoardDetailsUseCase @Inject constructor(
     private val eventBoardDetailsMapper: EventBoardDetailsMapper
 ) {
 
-    operator fun invoke(): Flow<Result<List<EventBoardViewState.EventDetail>>> {
+    operator fun invoke(): Flow<Result<List<EventBoardViewState.EventDetailPresentationModel>>> {
         return eventService.fetchEvents().map {
             it.map { eventInfos ->
                 eventInfos.eventInfoDomainModel.map { eventInfo ->

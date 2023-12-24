@@ -27,7 +27,7 @@ import com.charmflex.sportgether.sdk.ui_common.grid_x1
 fun ScheduledEventBoard(
     modifier: Modifier,
     contentState: ContentState = ContentState.LoadingState,
-    items: List<EventBoardViewState.EventDetail> = listOf(),
+    items: List<EventBoardViewState.EventDetailPresentationModel> = listOf(),
     shownItemsMaxCount: Int = -1,
     contentColor: Color = MaterialTheme.colorScheme.primaryContainer
 ) {
@@ -53,7 +53,7 @@ fun ScheduledEventBoard(
 @Composable
 fun ScheduleEventContent(
     modifier: Modifier,
-    items: List<EventBoardViewState.EventDetail>,
+    items: List<EventBoardViewState.EventDetailPresentationModel>,
     shownItemsMaxCount: Int,
     contentColor: Color
 ) {

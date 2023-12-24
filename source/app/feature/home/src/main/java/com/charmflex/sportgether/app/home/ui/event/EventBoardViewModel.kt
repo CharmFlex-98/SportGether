@@ -3,7 +3,6 @@ package com.charmflex.sportgether.app.home.ui.event
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.charmflex.sportgether.app.home.domain.usecases.GetEventBoardDetailsUseCase
 import com.charmflex.sportgether.app.home.navigation.HomeNavigator
 import com.charmflex.sportgether.sdk.core.ui.UIErrorType
 import com.charmflex.sportgether.sdk.core.utils.DATE_ONLY_DEFAULT_PATTERN
@@ -23,7 +22,6 @@ import javax.inject.Inject
 
 internal class EventBoardViewModel @Inject constructor(
     private val eventService: EventService,
-    private val getEventBoardDetailsUseCase: GetEventBoardDetailsUseCase,
     private val homeNavigator: HomeNavigator
 ) : ViewModel() {
     private val _viewState = MutableStateFlow(EventBoardViewState())
@@ -88,8 +86,8 @@ internal class EventBoardViewModel @Inject constructor(
 
 
     private fun updateEvents(eventInfoDomainModel: List<EventInfoDomainModel>) {
-        val eventDetails = eventInfoDomainModel.map {
-            EventBoardViewState.EventDetail(
+        val eventDetailPresentationModels = eventInfoDomainModel.map {
+            EventBoardViewState.EventDetailPresentationModel(
                 eventId = it.eventId,
                 eventName = it.eventName,
                 eventDate = it.startTime.fromISOToStringWithPattern(DATE_ONLY_DEFAULT_PATTERN),
@@ -102,7 +100,7 @@ internal class EventBoardViewModel @Inject constructor(
         }
         _viewState.update {
             it.copy(
-                eventDetail = eventDetails,
+                eventDetail = eventDetailPresentationModels,
                 contentState = if (eventInfoDomainModel.isEmpty()) ContentState.EmptyState else ContentState.LoadedState,
             )
         }
@@ -114,7 +112,7 @@ internal class EventBoardViewModel @Inject constructor(
         }
     }
 
-    fun onEventItemClick(eventInfo: EventBoardViewState.EventDetail) {
+    fun onEventItemClick(eventInfo: EventBoardViewState.EventDetailPresentationModel) {
         homeNavigator.toEventDetailScreen(eventInfo.eventId)
     }
 
@@ -145,9 +143,9 @@ data class PageViewState(
 data class EventBoardViewState(
     val contentState: ContentState = ContentState.LoadingState,
     val errorType: UIErrorType = UIErrorType.None,
-    val eventDetail: List<EventDetail> = listOf(),
+    val eventDetail: List<EventDetailPresentationModel> = listOf(),
 ) {
-    data class EventDetail(
+    data class EventDetailPresentationModel(
         val eventId: Int,
         val eventName: String,
         val eventDate: String,
@@ -157,8 +155,4 @@ data class EventBoardViewState(
         val eventEndTime: String,
         val eventDestination: String
     )
-
-    fun page(pageSize: Int): Int {
-        return eventDetail.size / pageSize + 1
-    }
 }

@@ -33,8 +33,6 @@ import com.charmflex.sportgether.sdk.ui_common.grid_x3
 import com.charmflex.sportgether.sdk.ui_common.grid_x7
 import com.charmflex.sportgether.sdk.ui_common.shimmerEffect
 import com.charmflex.sportgether.app.home.R
-import com.charmflex.sportgether.sdk.core.utils.TIME_ONLY_DEFAULT_PATTERN
-import com.charmflex.sportgether.sdk.core.utils.fromISOToStringWithPattern
 import com.charmflex.sportgether.sdk.ui_common.SGIcons
 import com.charmflex.sportgether.sdk.ui_common.SGMediumPrimaryButton
 
@@ -42,13 +40,13 @@ import com.charmflex.sportgether.sdk.ui_common.SGMediumPrimaryButton
 fun EventBoard(
     modifier: Modifier = Modifier,
     contentState: ContentState,
-    events: List<EventBoardViewState.EventDetail>,
+    events: List<EventBoardViewState.EventDetailPresentationModel>,
     shownEventMaxCount: Int = -1,
     contentColor: Color = MaterialTheme.colorScheme.secondaryContainer,
     onHostEventClick: () -> Unit,
     onBottomReach: () -> Unit,
     isFetchingNext: Boolean,
-    onEventItemClick: (EventBoardViewState.EventDetail) -> Unit
+    onEventItemClick: (EventBoardViewState.EventDetailPresentationModel) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -116,15 +114,15 @@ fun EventBoardLoadingContent(
 @Composable
 internal fun EventBoardContent(
     modifier: Modifier = Modifier,
-    itemList: List<EventBoardViewState.EventDetail>,
+    itemList: List<EventBoardViewState.EventDetailPresentationModel>,
     shownEventMaxCount: Int,
     contentColor: Color,
     onBottomReach: () -> Unit,
     isFetchingNext: Boolean,
-    onItemClick: (EventBoardViewState.EventDetail) -> Unit
+    onItemClick: (EventBoardViewState.EventDetailPresentationModel) -> Unit
 ) {
     ListTable(modifier = modifier, items = itemList, shownItemMaxCount = shownEventMaxCount, onBottomReach = onBottomReach, isFetchingNext = isFetchingNext) { index, item ->
-        EventInfoBar(eventDetail = item, contentColor = contentColor, onClick = onItemClick)
+        EventInfoBar(eventDetailPresentationModel = item, contentColor = contentColor, onClick = onItemClick)
     }
 }
 
@@ -152,9 +150,9 @@ internal fun EventBoardTextContent(
 @Composable
 private fun EventInfoBar(
     modifier: Modifier = Modifier,
-    eventDetail: EventBoardViewState.EventDetail,
+    eventDetailPresentationModel: EventBoardViewState.EventDetailPresentationModel,
     contentColor: Color,
-    onClick: (EventBoardViewState.EventDetail) -> Unit
+    onClick: (EventBoardViewState.EventDetailPresentationModel) -> Unit
 ) {
     Card(
         modifier = modifier
@@ -162,7 +160,7 @@ private fun EventInfoBar(
             .padding(vertical = grid_x1),
         elevation = CardDefaults.cardElevation(defaultElevation = grid_x1),
         colors = CardDefaults.cardColors(containerColor = contentColor),
-        onClick = { onClick(eventDetail) }
+        onClick = { onClick(eventDetailPresentationModel) }
     ) {
         Column(
             modifier = Modifier
@@ -177,7 +175,7 @@ private fun EventInfoBar(
                     modifier = Modifier
                         .padding(grid_x1)
                         .weight(1f),
-                    text = eventDetail.eventType.toString(),
+                    text = eventDetailPresentationModel.eventType.toString(),
                     color = MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.Bold
                 )
@@ -186,7 +184,7 @@ private fun EventInfoBar(
                 ) {
                     Text(
                         modifier = Modifier.padding(grid_x1),
-                        text = eventDetail.eventStartTime,
+                        text = eventDetailPresentationModel.eventStartTime,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
@@ -198,7 +196,7 @@ private fun EventInfoBar(
             ) {
                 Text(
                     modifier = Modifier.padding(end = grid_x1),
-                    text = eventDetail.eventName,
+                    text = eventDetailPresentationModel.eventName,
                     fontWeight = FontWeight.ExtraBold,
                     color = MaterialTheme.colorScheme.surfaceTint,
                     fontSize = 24.sp
@@ -207,7 +205,7 @@ private fun EventInfoBar(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = grid_x1),
-                    text = "Host: ${eventDetail.eventHost}",
+                    text = "Host: ${eventDetailPresentationModel.eventHost}",
                     fontWeight = FontWeight.SemiBold,
                     textAlign = TextAlign.End
                 )
@@ -217,15 +215,15 @@ private fun EventInfoBar(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 SGIcons.Calendar(modifier = Modifier.size(grid_x3))
-                Text(modifier = Modifier.padding(horizontal = grid_x2,), text = eventDetail.eventStartTime, fontSize = 16.sp, fontWeight = FontWeight.ExtraBold)
+                Text(modifier = Modifier.padding(horizontal = grid_x2,), text = eventDetailPresentationModel.eventStartTime, fontSize = 16.sp, fontWeight = FontWeight.ExtraBold)
                 SGIcons.RightArrowThin(modifier = modifier.size(grid_x3))
-                Text(modifier = Modifier.padding(horizontal = grid_x2), text = eventDetail.eventEndTime, fontSize = 16.sp, fontWeight = FontWeight.ExtraBold)
+                Text(modifier = Modifier.padding(horizontal = grid_x2), text = eventDetailPresentationModel.eventEndTime, fontSize = 16.sp, fontWeight = FontWeight.ExtraBold)
             }
 
             EventDetailWidget(
                 icon = { SGIcons.Destination(modifier = Modifier.size(grid_x3)) },
                 title = "Destination",
-                subtitle = eventDetail.eventDestination
+                subtitle = eventDetailPresentationModel.eventDestination
             )
             EventDetailWidget(
                 icon = { SGIcons.People(modifier = Modifier.size(grid_x3)) },

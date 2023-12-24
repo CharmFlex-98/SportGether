@@ -8,9 +8,9 @@ import com.charmflex.sportgether.sdk.core.utils.fromISOToStringWithPattern
 import com.charmflex.sportgether.sdk.events.internal.event.domain.models.EventInfoDomainModel
 import javax.inject.Inject
 
-class EventBoardDetailsMapper @Inject constructor() : Mapper<EventInfoDomainModel, EventBoardViewState.EventDetail> {
-    override fun map(from: EventInfoDomainModel): EventBoardViewState.EventDetail {
-        return EventBoardViewState.EventDetail(
+class EventBoardDetailsMapper @Inject constructor() : Mapper<EventInfoDomainModel, EventBoardViewState.EventDetailPresentationModel> {
+    override fun map(from: EventInfoDomainModel): EventBoardViewState.EventDetailPresentationModel {
+        return EventBoardViewState.EventDetailPresentationModel(
             eventId = from.eventId,
             eventName = from.eventName,
             eventType = from.eventType.toString(),
