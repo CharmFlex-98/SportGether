@@ -6,48 +6,54 @@ import com.charmflex.sportgether.sdk.core.utils.Mapper
 import com.charmflex.sportgether.sdk.core.utils.ResourcesProvider
 import com.charmflex.sportgether.sdk.core.utils.fromISOToStringWithPattern
 import com.charmflex.sportgether.sdk.events.R
-import com.charmflex.sportgether.sdk.events.internal.event.domain.models.EventInfo
-import com.charmflex.sportgether.sdk.events.internal.event.ui.event_details.EventDetailContentInfo
-import com.charmflex.sportgether.sdk.events.internal.event.ui.event_details.EventDetailParticipantsInfo
-import com.charmflex.sportgether.sdk.events.internal.event.ui.event_details.EventDetailTwoLineInfo
+import com.charmflex.sportgether.sdk.events.internal.event.domain.models.EventInfoDomainModel
+import com.charmflex.sportgether.sdk.events.internal.event.ui.event_details.EventParticipantDetailPresentationModel
+import com.charmflex.sportgether.sdk.events.internal.event.ui.event_details.EventDetailBasicPresentationModel
+import com.charmflex.sportgether.sdk.events.internal.event.ui.event_details.EventInfoPresentationModel
 import com.charmflex.sportgether.sdk.profile.internal.domain.UserProfileIconType
 import javax.inject.Inject
 
-internal class EventDetailFieldInfoMapper @Inject constructor(
+internal class EventDetailPresentationModelMapper @Inject constructor(
     private val resourcesProvider: ResourcesProvider
-) : Mapper<EventInfo, List<EventDetailContentInfo>> {
+) : Mapper<EventInfoDomainModel, List<EventInfoPresentationModel>> {
 
-    override fun map(from: EventInfo): List<EventDetailContentInfo> {
+    override fun map(from: EventInfoDomainModel): List<EventInfoPresentationModel> {
         return listOf(
-            EventDetailTwoLineInfo(
+            EventDetailBasicPresentationModel(
                 name = resourcesProvider.getString(R.string.event_detail_name),
                 value = from.eventName
             ),
-            EventDetailTwoLineInfo(
+            EventDetailBasicPresentationModel(
                 name = resourcesProvider.getString(R.string.event_detail_place),
                 value = from.place
             ),
-            EventDetailTwoLineInfo(
+            EventDetailBasicPresentationModel(
                 name = resourcesProvider.getString(R.string.event_detail_start_time),
                 value = from.startTime.fromISOToStringWithPattern(DEFAULT_DATE_TIME_PATTERN)
             ),
-            EventDetailTwoLineInfo(
+            EventDetailBasicPresentationModel(
                 name = resourcesProvider.getString(R.string.event_detail_end_time),
                 value = from.endTime.fromISOToStringWithPattern(DEFAULT_DATE_TIME_PATTERN)
             ),
-            EventDetailTwoLineInfo(
+            EventDetailBasicPresentationModel(
                 name = resourcesProvider.getString(R.string.event_max_joiner_num),
                 value = from.maxParticipantCount.toString()
             ),
-            EventDetailTwoLineInfo(
+            EventDetailBasicPresentationModel(
                 name = resourcesProvider.getString(R.string.event_description),
                 value = from.description
             ),
-            EventDetailParticipantsInfo(
+            if (from.joiners.isNotEmpty()) EventParticipantDetailPresentationModel(
                 name = resourcesProvider.getString(R.string.event_participants),
-                icons = from.joiners.mapNotNull { info ->
+                joinedCount = from.joiners.size,
+                icons = from.joiners.mapIndexedNotNull { index, info ->
+                    if (index > 6) return@mapIndexedNotNull null
                     getIcon(info.profileIconName)
-                }
+                },
+                maxAvailableCount = from.maxParticipantCount
+            ) else EventDetailBasicPresentationModel(
+                name = resourcesProvider.getString(R.string.event_description),
+                value = resourcesProvider.getString(R.string.event_detail_no_participant_yet)
             )
         )
     }

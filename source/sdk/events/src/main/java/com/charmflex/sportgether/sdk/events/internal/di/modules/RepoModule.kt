@@ -1,7 +1,7 @@
 package com.charmflex.sportgether.sdk.events.internal.di.modules
 
+import com.charmflex.sportgether.sdk.events.internal.event.data.repository.EventRepositoryImpl
 import com.charmflex.sportgether.sdk.events.internal.event.domain.repositories.EventRepository
-import com.charmflex.sportgether.sdk.events.internal.event.domain.repositories.EventRepositoryImpl
 import dagger.Binds
 import dagger.Module
 

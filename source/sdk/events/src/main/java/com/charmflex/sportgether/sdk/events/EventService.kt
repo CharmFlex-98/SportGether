@@ -3,23 +3,19 @@ package com.charmflex.sportgether.sdk.events
 import android.util.Log
 import com.charmflex.sportgether.sdk.core.utils.SingletonHolder
 import com.charmflex.sportgether.sdk.events.internal.di.component.EventComponent
-import com.charmflex.sportgether.sdk.events.internal.event.data.models.CreateEventInput
 import com.charmflex.sportgether.sdk.events.internal.event.data.models.GetEventsInput
-import com.charmflex.sportgether.sdk.events.internal.event.data.models.isLoadFirstPage
-import com.charmflex.sportgether.sdk.events.internal.event.domain.models.EventInfo
-import com.charmflex.sportgether.sdk.events.internal.event.domain.models.EventPageInfo
+import com.charmflex.sportgether.sdk.events.internal.event.domain.models.EventPageInfoDomainModel
 import com.charmflex.sportgether.sdk.events.internal.event.domain.repositories.EventRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 interface EventService {
     suspend fun refreshEvents(input: GetEventsInput, isFirstLoad: Boolean = true)
 
-    fun fetchEvents(): Flow<Result<EventPageInfo>>
+    fun fetchEvents(): Flow<Result<EventPageInfoDomainModel>>
 
     companion object {
         fun getInstance(): EventService {
@@ -33,7 +29,7 @@ internal class EventServiceFacade @Inject constructor(
     private val repository: EventRepository
 ) : EventService {
 
-    private val _sharedEventInfo = MutableSharedFlow<Result<EventPageInfo>>(replay = 1)
+    private val _sharedEventInfo = MutableSharedFlow<Result<EventPageInfoDomainModel>>(replay = 1)
     private val sharedEventInfo = _sharedEventInfo.asSharedFlow()
 
     override suspend fun refreshEvents(input: GetEventsInput, isFirstLoad: Boolean) {
@@ -43,9 +39,9 @@ internal class EventServiceFacade @Inject constructor(
                    true -> Result.success(it)
                    false -> {
                        sharedEventInfo.first().map { existing ->
-                           val newList = existing.eventInfo.toMutableList().apply { addAll(it.eventInfo) }
+                           val newList = existing.eventInfoDomainModel.toMutableList().apply { addAll(it.eventInfoDomainModel) }
                            existing.copy(
-                               eventInfo = newList,
+                               eventInfoDomainModel = newList,
                                nextCursorId = it.nextCursorId
                            )
                        }
@@ -60,7 +56,7 @@ internal class EventServiceFacade @Inject constructor(
        )
     }
 
-    override fun fetchEvents(): Flow<Result<EventPageInfo>> {
+    override fun fetchEvents(): Flow<Result<EventPageInfoDomainModel>> {
         return sharedEventInfo
     }
 

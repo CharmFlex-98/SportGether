@@ -9,9 +9,10 @@ import com.charmflex.sportgether.sdk.core.utils.toISO8601String
 import com.charmflex.sportgether.sdk.core.utils.toLocalDateTime
 import com.charmflex.sportgether.sdk.core.utils.toStringWithPattern
 import com.charmflex.sportgether.sdk.events.internal.event.data.models.CreateEventInput
+import com.charmflex.sportgether.sdk.events.internal.event.domain.mapper.CreateEditFieldPresentationModelMapper
 import com.charmflex.sportgether.sdk.events.internal.event.domain.models.EventType
 import com.charmflex.sportgether.sdk.events.internal.event.domain.repositories.EventRepository
-import com.charmflex.sportgether.sdk.events.internal.event.domain.usecases.GetEventForModifyUseCase
+import com.charmflex.sportgether.sdk.events.internal.event.domain.usecases.GetEventDetailsUseCase
 import com.charmflex.sportgether.sdk.navigation.routes.EventRoutes
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -23,7 +24,8 @@ import javax.inject.Inject
 
 internal class CreateEditEventViewModel(
     private val repository: EventRepository,
-    private val getEventForModifyUseCase: GetEventForModifyUseCase,
+    private val getEventDetailUseCase: GetEventDetailsUseCase,
+    private val mapper: CreateEditFieldPresentationModelMapper,
     private val eventFieldProvider: EventFieldProvider,
     private val eventId: Int?,
     private val routeNavigator: RouteNavigator
@@ -33,14 +35,16 @@ internal class CreateEditEventViewModel(
 
     class Factory @Inject constructor(
         private val repository: EventRepository,
-        private val getEventForModifyUseCase: GetEventForModifyUseCase,
+        private val getEventDetailUseCase: GetEventDetailsUseCase,
+        private val mapper: CreateEditFieldPresentationModelMapper,
         private val eventFieldProvider: EventFieldProvider,
         private val routeNavigator: RouteNavigator
     ) {
         fun create(eventId: Int?): CreateEditEventViewModel {
             return CreateEditEventViewModel(
                 repository,
-                getEventForModifyUseCase,
+                getEventDetailUseCase,
+                mapper,
                 eventFieldProvider,
                 eventId,
                 routeNavigator
@@ -56,8 +60,8 @@ internal class CreateEditEventViewModel(
     private fun loadData() {
         eventId?.let {
             viewModelScope.launch {
-                getEventForModifyUseCase(eventId = it).fold(
-                    onSuccess = ::mapData,
+                getEventDetailUseCase(eventId = it).fold(
+                    onSuccess = { mapData(mapper.map(it)) },
                     onFailure = {}
                 )
             }
@@ -68,18 +72,18 @@ internal class CreateEditEventViewModel(
         eventFieldProvider.getFieldList().forEach { field ->
             _viewState.update {
                 when (field.type) {
-                    CreateEditFieldInfo.FieldType.NAME -> it.copy(nameField = field)
-                    CreateEditFieldInfo.FieldType.DESCRIPTION -> it.copy(descriptionField = field)
-                    CreateEditFieldInfo.FieldType.START_TIME -> it.copy(startTimeField = field)
-                    CreateEditFieldInfo.FieldType.END_TIME -> it.copy(endTimeField = field)
-                    CreateEditFieldInfo.FieldType.MAX_PARTICIPANT -> it.copy(maxParticipantField = field)
-                    CreateEditFieldInfo.FieldType.DESTINATION -> it.copy(placeField = field)
+                    CreateEditFieldPresentationModel.FieldType.NAME -> it.copy(nameField = field)
+                    CreateEditFieldPresentationModel.FieldType.DESCRIPTION -> it.copy(descriptionField = field)
+                    CreateEditFieldPresentationModel.FieldType.START_TIME -> it.copy(startTimeField = field)
+                    CreateEditFieldPresentationModel.FieldType.END_TIME -> it.copy(endTimeField = field)
+                    CreateEditFieldPresentationModel.FieldType.MAX_PARTICIPANT -> it.copy(maxParticipantField = field)
+                    CreateEditFieldPresentationModel.FieldType.DESTINATION -> it.copy(placeField = field)
                 }
             }
         }
     }
 
-    private fun mapData(fields: List<CreateEditFieldInfo>) {
+    private fun mapData(fields: List<CreateEditFieldPresentationModel>) {
         fields.forEach {
             updateField(it.type, it.value)
         }
@@ -188,14 +192,14 @@ internal class CreateEditEventViewModel(
         }
     }
 
-    fun updateField(type: CreateEditFieldInfo.FieldType, newValue: String) {
+    fun updateField(type: CreateEditFieldPresentationModel.FieldType, newValue: String) {
         when (type) {
-            CreateEditFieldInfo.FieldType.NAME -> updateEventName(newValue)
-            CreateEditFieldInfo.FieldType.DESTINATION -> updatePlace(newValue)
-            CreateEditFieldInfo.FieldType.START_TIME -> updateStartTime(newValue)
-            CreateEditFieldInfo.FieldType.END_TIME -> updateEndTime(newValue)
-            CreateEditFieldInfo.FieldType.MAX_PARTICIPANT -> updateMaxParticipantCount(newValue)
-            CreateEditFieldInfo.FieldType.DESCRIPTION -> updateDescription(newValue)
+            CreateEditFieldPresentationModel.FieldType.NAME -> updateEventName(newValue)
+            CreateEditFieldPresentationModel.FieldType.DESTINATION -> updatePlace(newValue)
+            CreateEditFieldPresentationModel.FieldType.START_TIME -> updateStartTime(newValue)
+            CreateEditFieldPresentationModel.FieldType.END_TIME -> updateEndTime(newValue)
+            CreateEditFieldPresentationModel.FieldType.MAX_PARTICIPANT -> updateMaxParticipantCount(newValue)
+            CreateEditFieldPresentationModel.FieldType.DESCRIPTION -> updateDescription(newValue)
         }
     }
 
@@ -266,12 +270,12 @@ internal class CreateEditEventViewModel(
 
 internal data class CreateEditEventViewState(
     val state: State = State.Default,
-    val nameField: CreateEditFieldInfo = CreateEditFieldInfo(),
-    val placeField: CreateEditFieldInfo = CreateEditFieldInfo(),
-    val startTimeField: CreateEditFieldInfo = CreateEditFieldInfo(),
-    val endTimeField: CreateEditFieldInfo = CreateEditFieldInfo(),
-    val maxParticipantField: CreateEditFieldInfo = CreateEditFieldInfo(),
-    val descriptionField: CreateEditFieldInfo = CreateEditFieldInfo(),
+    val nameField: CreateEditFieldPresentationModel = CreateEditFieldPresentationModel(),
+    val placeField: CreateEditFieldPresentationModel = CreateEditFieldPresentationModel(),
+    val startTimeField: CreateEditFieldPresentationModel = CreateEditFieldPresentationModel(),
+    val endTimeField: CreateEditFieldPresentationModel = CreateEditFieldPresentationModel(),
+    val maxParticipantField: CreateEditFieldPresentationModel = CreateEditFieldPresentationModel(),
+    val descriptionField: CreateEditFieldPresentationModel = CreateEditFieldPresentationModel(),
     val error: UIErrorType = UIErrorType.None,
     val datePickerState: DatePickerState = DatePickerState()
 ) {
@@ -291,7 +295,7 @@ internal data class CreateEditEventViewState(
     )
 }
 
-internal data class CreateEditFieldInfo(
+internal data class CreateEditFieldPresentationModel(
     val name: String = "",
     val hint: String = "",
     val value: String = "",

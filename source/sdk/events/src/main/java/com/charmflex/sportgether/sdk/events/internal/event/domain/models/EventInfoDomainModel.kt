@@ -1,25 +1,23 @@
 package com.charmflex.sportgether.sdk.events.internal.event.domain.models
 
-import java.time.LocalDateTime
-
-data class EventPageInfo(
-    val eventInfo: List<EventInfo>,
+data class EventPageInfoDomainModel(
+    val eventInfoDomainModel: List<EventInfoDomainModel>,
     val nextCursorId: String
 )
-data class EventInfo(
+data class EventInfoDomainModel(
     val eventId: Int,
     val eventName: String,
     val startTime: String,
     val endTime: String,
     val place: String,
     val eventType: EventType,
-    val host: EventParticipantInfo,
-    val joiners: List<EventParticipantInfo>,
+    val host: EventParticipantInfoDomainModel,
+    val joiners: List<EventParticipantInfoDomainModel>,
     val maxParticipantCount: Int,
     val description: String
 )
 
-data class EventParticipantInfo(
+data class EventParticipantInfoDomainModel(
     val userId: Int,
     val username: String,
     val profileIconName: String

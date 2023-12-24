@@ -4,6 +4,7 @@ import android.graphics.drawable.Drawable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.charmflex.sportgether.sdk.core.ui.UIErrorType
+import com.charmflex.sportgether.sdk.events.internal.event.domain.mapper.EventDetailPresentationModelMapper
 import com.charmflex.sportgether.sdk.events.internal.event.domain.usecases.GetEventDetailsUseCase
 import com.charmflex.sportgether.sdk.events.internal.event.domain.usecases.GetParticipantsUseCase
 import com.charmflex.sportgether.sdk.events.internal.event.domain.usecases.JoinEventUseCase
@@ -18,6 +19,7 @@ import javax.inject.Inject
 internal class EventDetailsViewModel(
     private val joinEventUseCase: JoinEventUseCase,
     private val getEventDetailsUseCase: GetEventDetailsUseCase,
+    private val mapper: EventDetailPresentationModelMapper,
     private val getParticipantsUseCase: GetParticipantsUseCase,
     private val eventId: Int,
     private val routeNavigator: RouteNavigator
@@ -30,6 +32,7 @@ internal class EventDetailsViewModel(
 
     class Factory @Inject constructor(
         private val getEventDetailsUseCase: GetEventDetailsUseCase,
+        private val mapper: EventDetailPresentationModelMapper,
         private val getParticipantsUseCase: GetParticipantsUseCase,
         private val joinEventUseCase: JoinEventUseCase,
         private val routeNavigator: RouteNavigator
@@ -40,6 +43,7 @@ internal class EventDetailsViewModel(
             return EventDetailsViewModel(
                 joinEventUseCase,
                 getEventDetailsUseCase,
+                mapper,
                 getParticipantsUseCase,
                 id,
                 routeNavigator
@@ -61,7 +65,7 @@ internal class EventDetailsViewModel(
                 onSuccess = {
                     _viewState.update { state ->
                         state.copy(
-                            fields = it
+                            fields = mapper.map(it)
                         )
                     }
                 },
@@ -137,10 +141,8 @@ internal class EventDetailsViewModel(
     }
 }
 
-sealed interface EventDetailContentInfo
-
 internal data class EventDetailsViewState(
-    val fields: List<EventDetailContentInfo> = listOf(),
+    val fields: List<EventInfoPresentationModel> = listOf(),
     val isLoading: Boolean = false,
     val joinSuccess: Boolean = false,
     val errorType: UIErrorType = UIErrorType.None,
@@ -155,15 +157,19 @@ internal data class EventDetailsViewState(
     fun showBottomSheet(): Boolean = bottomSheetState != BottomSheetState.None
 }
 
-internal data class EventDetailTwoLineInfo(
+internal sealed interface EventInfoPresentationModel
+
+internal data class EventDetailBasicPresentationModel(
     val name: String,
     val value: String
-) : EventDetailContentInfo
+) : EventInfoPresentationModel
 
-internal data class EventDetailParticipantsInfo(
+internal data class EventParticipantDetailPresentationModel(
     val name: String,
-    val icons: List<Drawable>
-) : EventDetailContentInfo
+    val joinedCount: Int,
+    val icons: List<Drawable>,
+    val maxAvailableCount: Int
+) : EventInfoPresentationModel
 
 internal class ParticipantsData(
     val id: Int,

@@ -8,43 +8,43 @@ internal class EventFieldProvider @Inject constructor(
     private val resourcesProvider: ResourcesProvider,
 ) {
 
-    fun getFieldList(): List<CreateEditFieldInfo> {
+    fun getFieldList(): List<CreateEditFieldPresentationModel> {
         return listOf(
-            CreateEditFieldInfo(
+            CreateEditFieldPresentationModel(
                 name = resourcesProvider.getString(R.string.event_detail_name),
                 hint = resourcesProvider.getString(R.string.event_detail_name_hint),
                 value = "",
-                type = CreateEditFieldInfo.FieldType.NAME
+                type = CreateEditFieldPresentationModel.FieldType.NAME
             ),
-            CreateEditFieldInfo(
+            CreateEditFieldPresentationModel(
                 name = resourcesProvider.getString(R.string.event_detail_place),
                 hint = resourcesProvider.getString(R.string.event_detail_place_hint),
                 value = "",
-                type = CreateEditFieldInfo.FieldType.DESTINATION
+                type = CreateEditFieldPresentationModel.FieldType.DESTINATION
             ),
-            CreateEditFieldInfo(
+            CreateEditFieldPresentationModel(
                 name = resourcesProvider.getString(R.string.event_detail_start_time),
                 hint = "",
                 value = "",
-                type = CreateEditFieldInfo.FieldType.START_TIME
+                type = CreateEditFieldPresentationModel.FieldType.START_TIME
             ),
-            CreateEditFieldInfo(
+            CreateEditFieldPresentationModel(
                 name = resourcesProvider.getString(R.string.event_detail_end_time),
                 hint = "",
                 value = "",
-                type = CreateEditFieldInfo.FieldType.END_TIME
+                type = CreateEditFieldPresentationModel.FieldType.END_TIME
             ),
-            CreateEditFieldInfo(
+            CreateEditFieldPresentationModel(
                 name = resourcesProvider.getString(R.string.event_max_joiner_num),
                 hint = resourcesProvider.getString(R.string.event_max_joiner_num_hint),
                 value = "",
-                type = CreateEditFieldInfo.FieldType.MAX_PARTICIPANT
+                type = CreateEditFieldPresentationModel.FieldType.MAX_PARTICIPANT
             ),
-            CreateEditFieldInfo(
+            CreateEditFieldPresentationModel(
                 name = resourcesProvider.getString(R.string.event_description),
                 hint = resourcesProvider.getString(R.string.event_description_hint),
                 value = "",
-                type = CreateEditFieldInfo.FieldType.DESCRIPTION
+                type = CreateEditFieldPresentationModel.FieldType.DESCRIPTION
             )
         )
     }

@@ -1,6 +1,5 @@
 package com.charmflex.sportgether.sdk.events.internal.event.ui.event_details
 
-import android.graphics.drawable.Icon
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -8,7 +7,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -41,7 +39,6 @@ import com.charmflex.sportgether.sdk.ui_common.grid_x0_25
 import com.charmflex.sportgether.sdk.ui_common.grid_x0_5
 import com.charmflex.sportgether.sdk.ui_common.grid_x1
 import com.charmflex.sportgether.sdk.ui_common.grid_x10
-import com.charmflex.sportgether.sdk.ui_common.grid_x2
 import com.charmflex.sportgether.sdk.ui_common.grid_x5
 import com.charmflex.sportgether.sdk.ui_common.showSnackBarImmediately
 import kotlinx.coroutines.launch
@@ -84,32 +81,13 @@ internal fun EventDetailsScreen(
     )
 
     if (viewState.showBottomSheet()) {
-        SGModalBottomSheet(
-            onDismiss = {
+        ParticipantsInfoBottomSheet(participantList = participantList) {
             coroutineScope.launch {
                 bottomSheetState.hide()
                 viewModel.resetBottomSheetState()
             }
-        }) {
-            ListTable(items = participantList) { index, item ->
-                Card(
-                    modifier = Modifier.fillMaxWidth().padding(vertical = grid_x0_5, horizontal = grid_x1)
-                ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Box(modifier = Modifier.size(grid_x10), contentAlignment = Alignment.Center) {
-                            if (item.icon != null) SGRoundImage(source = item.icon, modifier = Modifier.size(
-                                grid_x5))
-                        }
-                        Text(text = item.name, modifier = Modifier.weight(1f), textAlign = TextAlign.Center)
-                        Icon(painter = painterResource(id = com.charmflex.sportgether.sdk.ui_common.R.drawable.ic_arrow_right_thin), contentDescription = null)
-                    }
-                }
-            }
         }
     }
-
 
     SGSnackBar(
         snackBarHostState = snackbarHostState,
@@ -121,7 +99,7 @@ internal fun EventDetailsScreen(
 @Composable
 internal fun EventDetailsScreenContent(
     modifier: Modifier,
-    fields: List<EventDetailContentInfo>,
+    fields: List<EventInfoPresentationModel>,
     onCheckParticipants: () -> Unit,
     onPrimaryButtonClick: () -> Unit
 ) {
@@ -131,7 +109,7 @@ internal fun EventDetailsScreenContent(
                 Column {
                     fields.forEach { field ->
                         when (field) {
-                            is EventDetailTwoLineInfo -> {
+                            is EventDetailBasicPresentationModel -> {
                                 SGBasicTwoLineItem(
                                     modifier = Modifier.padding(vertical = grid_x0_25),
                                     title = field.name,
@@ -139,12 +117,14 @@ internal fun EventDetailsScreenContent(
                                 )
                             }
 
-                            is EventDetailParticipantsInfo -> {
+                            is EventParticipantDetailPresentationModel -> {
                                 SGBasicTwoLineIconsActionItem(
                                     modifier = Modifier.padding(grid_x0_25),
                                     iconSize = grid_x5,
                                     title = field.name,
                                     icons = field.icons,
+                                    joinedCount = field.icons.size,
+                                    maxAvailableCount = field.maxAvailableCount,
                                     onClick = onCheckParticipants
                                 )
                             }
@@ -158,6 +138,44 @@ internal fun EventDetailsScreenContent(
                 onClick = onPrimaryButtonClick
             )
         }
+    }
+}
 
+@Composable
+private fun ParticipantsInfoBottomSheet(
+    participantList: List<ParticipantsData>,
+    onDismiss: () -> Unit
+) {
+    SGModalBottomSheet(
+        onDismiss = onDismiss
+    ) {
+        ListTable(items = participantList) { index, item ->
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = grid_x0_5, horizontal = grid_x1)
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Box(modifier = Modifier.size(grid_x10), contentAlignment = Alignment.Center) {
+                        if (item.icon != null) SGRoundImage(
+                            source = item.icon, modifier = Modifier.size(
+                                grid_x5
+                            )
+                        )
+                    }
+                    Text(
+                        text = item.name,
+                        modifier = Modifier.weight(1f),
+                        textAlign = TextAlign.Center
+                    )
+                    Icon(
+                        painter = painterResource(id = com.charmflex.sportgether.sdk.ui_common.R.drawable.ic_arrow_right_thin),
+                        contentDescription = null
+                    )
+                }
+            }
+        }
     }
 }

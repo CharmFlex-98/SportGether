@@ -1,8 +1,6 @@
 package com.charmflex.sportgether.app.home.ui.event
 
 import android.util.Log
-import androidx.annotation.DrawableRes
-import androidx.compose.foundation.pager.PageSize
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.charmflex.sportgether.app.home.domain.usecases.GetEventBoardDetailsUseCase
@@ -13,12 +11,11 @@ import com.charmflex.sportgether.sdk.core.utils.TIME_ONLY_DEFAULT_PATTERN
 import com.charmflex.sportgether.sdk.core.utils.fromISOToStringWithPattern
 import com.charmflex.sportgether.sdk.events.EventService
 import com.charmflex.sportgether.sdk.events.internal.event.data.models.GetEventsInput
-import com.charmflex.sportgether.sdk.events.internal.event.domain.models.EventInfo
+import com.charmflex.sportgether.sdk.events.internal.event.domain.models.EventInfoDomainModel
 import com.charmflex.sportgether.sdk.ui_common.ContentState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -57,7 +54,7 @@ internal class EventBoardViewModel @Inject constructor(
             eventService.fetchEvents().collectLatest {
                 it.fold(
                     onSuccess = { eventPageInfo ->
-                        updateEvents(eventPageInfo.eventInfo)
+                        updateEvents(eventPageInfo.eventInfoDomainModel)
                         _pageViewState.update { pageViewState ->
                             pageViewState.copy(
                                 nextCursorId = eventPageInfo.nextCursorId
@@ -90,8 +87,8 @@ internal class EventBoardViewModel @Inject constructor(
     }
 
 
-    private fun updateEvents(eventInfo: List<EventInfo>) {
-        val eventDetails = eventInfo.map {
+    private fun updateEvents(eventInfoDomainModel: List<EventInfoDomainModel>) {
+        val eventDetails = eventInfoDomainModel.map {
             EventBoardViewState.EventDetail(
                 eventId = it.eventId,
                 eventName = it.eventName,
@@ -106,7 +103,7 @@ internal class EventBoardViewModel @Inject constructor(
         _viewState.update {
             it.copy(
                 eventDetail = eventDetails,
-                contentState = if (eventInfo.isEmpty()) ContentState.EmptyState else ContentState.LoadedState,
+                contentState = if (eventInfoDomainModel.isEmpty()) ContentState.EmptyState else ContentState.LoadedState,
             )
         }
         _pageViewState.update {

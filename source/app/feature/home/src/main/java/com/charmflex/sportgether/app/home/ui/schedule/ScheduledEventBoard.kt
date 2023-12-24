@@ -3,13 +3,9 @@ package com.charmflex.sportgether.app.home.ui.schedule
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -20,17 +16,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.charmflex.sportgether.app.home.ui.event.EventBoardViewState
-import com.charmflex.sportgether.sdk.events.internal.event.domain.models.EventInfo
 import com.charmflex.sportgether.sdk.ui_common.ContentState
 import com.charmflex.sportgether.sdk.ui_common.ListTable
 import com.charmflex.sportgether.sdk.ui_common.ListTableContentAlignment
 import com.charmflex.sportgether.sdk.ui_common.WithState
 import com.charmflex.sportgether.sdk.ui_common.grid_x0_25
-import com.charmflex.sportgether.sdk.ui_common.grid_x0_5
 import com.charmflex.sportgether.sdk.ui_common.grid_x1
-import com.charmflex.sportgether.sdk.ui_common.grid_x2
-import com.charmflex.sportgether.sdk.ui_common.grid_x4
-import com.charmflex.sportgether.sdk.ui_common.grid_x7
 
 @Composable
 fun ScheduledEventBoard(

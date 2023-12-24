@@ -6,16 +6,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.window.Dialog
 import com.charmflex.sportgether.sdk.core.utils.DEFAULT_DATE_TIME_PATTERN
 import com.charmflex.sportgether.sdk.core.utils.toLocalDateTime
 import com.charmflex.sportgether.sdk.events.R
@@ -27,7 +24,6 @@ import com.charmflex.sportgether.sdk.ui_common.SGTimePicker
 import com.charmflex.sportgether.sdk.ui_common.SportGetherScaffold
 import com.charmflex.sportgether.sdk.ui_common.grid_x0_25
 import com.charmflex.sportgether.sdk.ui_common.grid_x1
-import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.maxkeppeker.sheets.core.models.base.UseCaseState
 import java.time.LocalDateTime
 
@@ -59,7 +55,7 @@ internal fun CreateEditEventScreenContent(
     isEdit: Boolean,
     onChooseDate: (LocalDateTime) -> Unit,
     onChooseTime: (Int, Int) -> Unit,
-    onEditField: (CreateEditFieldInfo.FieldType, String) -> Unit,
+    onEditField: (CreateEditFieldPresentationModel.FieldType, String) -> Unit,
     toggleClock: (isShow: Boolean) -> Unit,
     toggleCalendar: (isShow: Boolean, isStartDate: Boolean) -> Unit,
     onBack: () -> Unit,
@@ -93,7 +89,7 @@ internal fun CreateEditEventScreenContent(
                     label = nameField.name,
                     hint = nameField.hint,
                     value = nameField.value,
-                    fieldType = CreateEditFieldInfo.FieldType.NAME,
+                    fieldType = CreateEditFieldPresentationModel.FieldType.NAME,
                     onEditField = onEditField
                 )
 
@@ -102,7 +98,7 @@ internal fun CreateEditEventScreenContent(
                     label = placeField.name,
                     hint = placeField.hint,
                     value = placeField.value,
-                    fieldType = CreateEditFieldInfo.FieldType.DESTINATION,
+                    fieldType = CreateEditFieldPresentationModel.FieldType.DESTINATION,
                     onEditField = onEditField
                 )
                 Row {
@@ -117,7 +113,7 @@ internal fun CreateEditEventScreenContent(
                         label = startTimeField.name,
                         hint = startTimeField.hint,
                         value = startTimeField.value,
-                        fieldType = CreateEditFieldInfo.FieldType.START_TIME,
+                        fieldType = CreateEditFieldPresentationModel.FieldType.START_TIME,
                         readOnly = true,
                         enable = false,
                         onEditField = onEditField
@@ -133,7 +129,7 @@ internal fun CreateEditEventScreenContent(
                         label = endTimeField.name,
                         hint = endTimeField.hint,
                         value = endTimeField.value,
-                        fieldType = CreateEditFieldInfo.FieldType.END_TIME,
+                        fieldType = CreateEditFieldPresentationModel.FieldType.END_TIME,
                         readOnly = true,
                         enable = false,
                         onEditField = onEditField
@@ -144,7 +140,7 @@ internal fun CreateEditEventScreenContent(
                     label = maxCountField.name,
                     hint = maxCountField.hint,
                     value = maxCountField.value,
-                    fieldType = CreateEditFieldInfo.FieldType.MAX_PARTICIPANT,
+                    fieldType = CreateEditFieldPresentationModel.FieldType.MAX_PARTICIPANT,
                     onEditField = onEditField
                 )
                 CreateEditTextField(
@@ -155,7 +151,7 @@ internal fun CreateEditEventScreenContent(
                     label = descriptionField.name,
                     hint = descriptionField.hint,
                     value = descriptionField.value,
-                    fieldType = CreateEditFieldInfo.FieldType.DESCRIPTION,
+                    fieldType = CreateEditFieldPresentationModel.FieldType.DESCRIPTION,
                     onEditField = onEditField
                 )
 
@@ -215,10 +211,10 @@ private fun CreateEditTextField(
     value: String,
     label: String,
     hint: String,
-    fieldType: CreateEditFieldInfo.FieldType,
+    fieldType: CreateEditFieldPresentationModel.FieldType,
     readOnly: Boolean = false,
     enable: Boolean = true,
-    onEditField: (CreateEditFieldInfo.FieldType, String) -> Unit
+    onEditField: (CreateEditFieldPresentationModel.FieldType, String) -> Unit
 ) {
     SGTextField(
         modifier = modifier

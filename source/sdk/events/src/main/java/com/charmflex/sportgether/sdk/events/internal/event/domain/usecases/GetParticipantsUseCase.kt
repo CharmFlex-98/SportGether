@@ -15,7 +15,7 @@ internal class GetParticipantsUseCase @Inject constructor(
 
     suspend operator fun invoke(eventId: Int): Result<List<ParticipantsData>> {
         return eventService.fetchEvents().first().map {
-            val event = it.eventInfo.first { event -> event.eventId == eventId }
+            val event = it.eventInfoDomainModel.first { event -> event.eventId == eventId }
             event.joiners.map { pInfo ->
                 ParticipantsData(
                     id = pInfo.userId,
