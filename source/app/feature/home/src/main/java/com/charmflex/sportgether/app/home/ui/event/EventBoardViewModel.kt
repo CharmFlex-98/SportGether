@@ -84,7 +84,6 @@ internal class EventBoardViewModel @Inject constructor(
         }
     }
 
-
     private fun updateEvents(eventInfoDomainModel: List<EventInfoDomainModel>) {
         val eventDetailPresentationModels = eventInfoDomainModel.map {
             EventBoardViewState.EventDetailPresentationModel(

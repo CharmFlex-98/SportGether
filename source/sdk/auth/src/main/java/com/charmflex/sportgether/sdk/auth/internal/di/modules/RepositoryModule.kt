@@ -1,7 +1,7 @@
 package com.charmflex.sportgether.sdk.auth.internal.di.modules
 
+import com.charmflex.sportgether.sdk.auth.internal.data.repository.AuthRepositoryImp
 import com.charmflex.sportgether.sdk.auth.internal.domain.repositories.AuthRepository
-import com.charmflex.sportgether.sdk.auth.internal.domain.repositories.AuthRepositoryImp
 import com.charmflex.sportgether.sdk.auth.internal.domain.repositories.TokenRepository
 import com.charmflex.sportgether.sdk.auth.internal.domain.repositories.TokenRepositoryImpl
 import dagger.Binds
