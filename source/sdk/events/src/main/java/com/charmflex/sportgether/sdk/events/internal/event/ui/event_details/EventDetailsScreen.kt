@@ -26,10 +26,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import com.charmflex.sportgether.sdk.core.ui.UIErrorType
 import com.charmflex.sportgether.sdk.events.R
+import com.charmflex.sportgether.sdk.ui_common.GenericErrorBottomSheet
 import com.charmflex.sportgether.sdk.ui_common.ListTable
+import com.charmflex.sportgether.sdk.ui_common.SGAlertBottomSheet
 import com.charmflex.sportgether.sdk.ui_common.SGBasicTwoLineIconsActionItem
 import com.charmflex.sportgether.sdk.ui_common.SGBasicTwoLineItem
+import com.charmflex.sportgether.sdk.ui_common.SGButtonGroupVertical
 import com.charmflex.sportgether.sdk.ui_common.SGLargePrimaryButton
+import com.charmflex.sportgether.sdk.ui_common.SGLargeSecondaryButton
 import com.charmflex.sportgether.sdk.ui_common.SGModalBottomSheet
 import com.charmflex.sportgether.sdk.ui_common.SGRoundImage
 import com.charmflex.sportgether.sdk.ui_common.SGSnackBar
@@ -61,6 +65,12 @@ internal fun EventDetailsScreen(
     }
     val bottomSheetState = rememberModalBottomSheetState()
     val coroutineScope = rememberCoroutineScope()
+    val hideBottomSheet = {
+        coroutineScope.launch {
+            bottomSheetState.hide()
+            viewModel.resetBottomSheetState()
+        }
+    }
 
     BackHandler(enabled = !viewState.joinSuccess) {
         viewModel.onBack()
@@ -76,16 +86,38 @@ internal fun EventDetailsScreen(
     EventDetailsScreenContent(
         modifier = modifier,
         fields = fields,
+        isHost = viewState.isHost,
         onCheckParticipants = viewModel::onCheckParticipants,
-        onPrimaryButtonClick = viewModel::onPrimaryButtonClick
+        onSecondaryButtonClick = viewModel::onSecondaryAction,
+        onPrimaryButtonClick = viewModel::onPrimaryAction
     )
 
     if (viewState.showBottomSheet()) {
-        ParticipantsInfoBottomSheet(participantList = participantList) {
-            coroutineScope.launch {
-                bottomSheetState.hide()
-                viewModel.resetBottomSheetState()
+        when (viewState.bottomSheetState) {
+            EventDetailsViewState.BottomSheetState.ShowParticipantDetailState -> ParticipantsInfoBottomSheet(
+                participantList = participantList
+            ) { hideBottomSheet() }
+
+            EventDetailsViewState.BottomSheetState.CancelEventConfirmationState -> SGAlertBottomSheet(
+                title = stringResource(R.string.event_detail_cancel_alert_bottomsheet_title),
+                subtitle = stringResource(id = R.string.event_detail_cancel_alert_bottomsheet_subtitle),
+                onDismiss = { hideBottomSheet() }
+            ) {
+                SGButtonGroupVertical {
+                    SGLargePrimaryButton(
+                        modifier = Modifier.fillMaxWidth(),
+                        text = stringResource(R.string.generic_cancel)
+                    ) {
+                        hideBottomSheet()
+                    }
+                    SGLargeSecondaryButton(
+                        modifier = Modifier.fillMaxWidth(), text = stringResource(
+                            id = R.string.generic_continue
+                        )
+                    ) { viewModel.onCancelEvent() }
+                }
             }
+            else -> GenericErrorBottomSheet { hideBottomSheet() }
         }
     }
 
@@ -100,7 +132,9 @@ internal fun EventDetailsScreen(
 internal fun EventDetailsScreenContent(
     modifier: Modifier,
     fields: List<EventInfoPresentationModel>,
+    isHost: Boolean,
     onCheckParticipants: () -> Unit,
+    onSecondaryButtonClick: () -> Unit,
     onPrimaryButtonClick: () -> Unit
 ) {
     SportGetherScaffold {
@@ -132,11 +166,29 @@ internal fun EventDetailsScreenContent(
                     }
                 }
             }
-            SGLargePrimaryButton(
-                modifier = Modifier.fillMaxWidth(),
-                text = stringResource(id = R.string.event_detail_join_button_text),
-                onClick = onPrimaryButtonClick
-            )
+
+            if (isHost) {
+                SGButtonGroupVertical {
+                    SGLargePrimaryButton(
+                        modifier = Modifier.fillMaxWidth(),
+                        text = stringResource(id = R.string.event_detail_modify_event),
+                        onClick = onPrimaryButtonClick
+                    )
+                    SGLargeSecondaryButton(
+                        modifier = Modifier.fillMaxWidth(), text = stringResource(
+                            id = R.string.event_detail_cancel_event
+                        )
+                    ) {
+                        onSecondaryButtonClick()
+                    }
+                }
+            } else {
+                SGLargePrimaryButton(
+                    modifier = Modifier.fillMaxWidth(),
+                    text = stringResource(id = R.string.event_detail_join_button_text),
+                    onClick = onPrimaryButtonClick
+                )
+            }
         }
     }
 }

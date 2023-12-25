@@ -27,6 +27,8 @@ data class EventResponse(
     val maxParticipantCount: Int,
     @SerializedName("host")
     val host: EventParticipantResponse,
+    @SerializedName("isHost")
+    val isHost: Boolean,
     @SerializedName("participants")
     val joiners: List<EventParticipantResponse>,
     @SerializedName("description")

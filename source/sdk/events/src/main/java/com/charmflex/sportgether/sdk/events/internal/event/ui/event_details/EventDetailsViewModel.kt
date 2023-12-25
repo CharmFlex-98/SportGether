@@ -65,6 +65,7 @@ internal class EventDetailsViewModel(
                 onSuccess = {
                     _viewState.update { state ->
                         state.copy(
+                            isHost = it.isHost,
                             fields = mapper.map(it)
                         )
                     }
@@ -82,8 +83,8 @@ internal class EventDetailsViewModel(
             getParticipantsUseCase(eventId).fold(
                 onSuccess = {
                     _participantViewState.value = it
-                    _viewState.update {
-                        it.copy(
+                    _viewState.update { viewState ->
+                        viewState.copy(
                             isLoading = false,
                             bottomSheetState = EventDetailsViewState.BottomSheetState.ShowParticipantDetailState
                         )
@@ -113,8 +114,30 @@ internal class EventDetailsViewModel(
         }
     }
 
-    fun onPrimaryButtonClick() {
-        // TODO: Condition need to check whether the event is host under this user
+    fun onPrimaryAction() {
+        if (_viewState.value.isHost) editEvent()
+        else joinEvent()
+    }
+
+    fun onSecondaryAction() {
+        if (_viewState.value.isHost) {
+            _viewState.update {
+                it.copy(
+                    bottomSheetState = EventDetailsViewState.BottomSheetState.CancelEventConfirmationState
+                )
+            }
+        }
+    }
+
+    private fun editEvent() {
+        // Edit event logic
+    }
+
+    fun onCancelEvent() {
+        // Cancel Event logic
+    }
+
+    private fun joinEvent() {
         viewModelScope.launch {
             joinEventUseCase.invoke(eventId = eventId).fold(
                 onSuccess = {
@@ -143,6 +166,7 @@ internal class EventDetailsViewModel(
 
 internal data class EventDetailsViewState(
     val fields: List<EventInfoPresentationModel> = listOf(),
+    val isHost: Boolean = false,
     val isLoading: Boolean = false,
     val joinSuccess: Boolean = false,
     val errorType: UIErrorType = UIErrorType.None,
@@ -150,6 +174,7 @@ internal data class EventDetailsViewState(
 ) {
     sealed class BottomSheetState {
         object ShowParticipantDetailState : BottomSheetState()
+        object CancelEventConfirmationState : BottomSheetState()
         object None : BottomSheetState()
         object Error : BottomSheetState()
     }

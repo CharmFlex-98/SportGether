@@ -23,6 +23,7 @@ internal class EventPageInfoDomainModelMapper @Inject constructor()  : Mapper<Ge
                     it.host.username,
                     profileIconName = it.host.profileIconName
                 ),
+                isHost = it.isHost,
                 joiners = it.joiners.map { participant ->
                     EventParticipantInfoDomainModel(
                         participant.userId,

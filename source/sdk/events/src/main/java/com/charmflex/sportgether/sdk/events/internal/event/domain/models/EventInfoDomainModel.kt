@@ -12,6 +12,7 @@ data class EventInfoDomainModel(
     val place: String,
     val eventType: EventType,
     val host: EventParticipantInfoDomainModel,
+    val isHost: Boolean,
     val joiners: List<EventParticipantInfoDomainModel>,
     val maxParticipantCount: Int,
     val description: String

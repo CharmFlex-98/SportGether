@@ -21,9 +21,16 @@
     <string name="general_confirm_button">Confirm</string>
     <string name="create_event_success_title">Well Done!</string>
     <string name="create_event_success_content">You have successfully hosted an event!</string>
-    <string name="general_continue">Continue</string>
+    <string name="generic_continue">Continue</string>
     <string name="event_detail_join_button_text">Join</string>
     <string name="event_join_success_message">Joined Event!</string>
     <string name="event_participants">Participants</string>
     <string name="event_detail_no_participant_yet">No participants yet</string>
+    <string name="event_detail_modify_event">Edit</string>
+    <string name="event_detail_cancel_event">Cancel Event</string>
+    <string name="event_detail_cancel_alert_bottomsheet_title">Are you sure?</string>
+    <string name="event_detail_cancel_alert_bottomsheet_subtitle">You are going to cancel this event. All the participants will be notified and remove from the event. Continue?</string>
+    <string name="generic_cancel">Cancel</string>
+    <string name="generic_error_bottomsheet_title">Something went wrong</string>
+    <string name="generic_error_bottomsheet_subtitle">Oops, something is breaking up. Please try again later.</string>
 </resources>

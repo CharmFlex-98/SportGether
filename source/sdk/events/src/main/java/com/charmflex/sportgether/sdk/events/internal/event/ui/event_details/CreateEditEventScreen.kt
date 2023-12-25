@@ -187,7 +187,7 @@ internal fun CreateEditEventScreenContent(
                     title = stringResource(id = R.string.create_event_success_title),
                     text = stringResource(id = R.string.create_event_success_content),
                     onDismissRequest = { },
-                    positiveText = stringResource(id = R.string.general_continue)
+                    positiveText = stringResource(id = R.string.generic_continue)
                 ) {
                     onBack()
                 }
