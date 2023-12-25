@@ -5,6 +5,7 @@ import com.charmflex.sportgether.sdk.auth.internal.data.errors.ApiErrorHandler
 import com.charmflex.sportgether.sdk.auth.internal.data.models.LoginUserRequest
 import com.charmflex.sportgether.sdk.auth.internal.data.models.LoginUserResponse
 import com.charmflex.sportgether.sdk.auth.internal.data.models.RegisterUserRequest
+import com.charmflex.sportgether.sdk.auth.internal.domain.LoginUserResponseDomainModel
 import com.charmflex.sportgether.sdk.auth.internal.domain.repositories.AuthRepository
 import javax.inject.Inject
 
@@ -23,15 +24,14 @@ internal class AuthRepositoryImp @Inject constructor(
         }
     }
 
-    override suspend fun loginUser(username: String, password: String): LoginUserResponse {
+    override suspend fun loginUser(username: String, password: String): LoginUserResponseDomainModel {
         val request = LoginUserRequest(
             username = username,
             password = password
         )
         return errorHandler {
-            api.loginUser(request)
+            val res = api.loginUser(request)
+            LoginUserResponseDomainModel(token = res.token)
         }
     }
-
-
 }
