@@ -37,10 +37,14 @@ class HomeDestinationBuilder : DestinationBuilder {
             val scheduledEventViewState by scheduledViewModel.viewState.collectAsState()
             val pageViewState by eventViewModel.pageViewState.collectAsState()
             val shouldRefresh = it.savedStateHandle.remove<Boolean>(EventRoutes.Args.SHOULD_REFRESH) ?: false
+            val refreshScheduledEvents = it.savedStateHandle.remove<Boolean>(EventRoutes.Args.SHOULD_REFRESH_SCHEDULED) ?: false
 
             LaunchedEffect(Unit) {
                 if (shouldRefresh) {
                     eventViewModel.refresh()
+                }
+                if (refreshScheduledEvents) {
+                    scheduledViewModel.refresh()
                 }
             }
 
@@ -50,8 +54,8 @@ class HomeDestinationBuilder : DestinationBuilder {
                         modifier = Modifier
                             .weight(0.3f)
                             .fillMaxWidth(),
-                        contentState = eventViewState.contentState,
-                        items = scheduledEventViewState.scheduleEvents.filterIndexed { index, _ -> index < 5 },
+                        contentState = scheduledEventViewState.contentState,
+                        items = scheduledEventViewState.scheduleEvents,
                         shownItemsMaxCount = 2
                     )
                     Spacer(modifier = Modifier.height(grid_x4))

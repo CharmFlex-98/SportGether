@@ -7,6 +7,7 @@ object EventRoutes {
         const val EVENT_ID = "event_id"
         const val IS_EDIT_EVENT = "is_edit_event"
         const val SHOULD_REFRESH = "should_refresh"
+        const val SHOULD_REFRESH_SCHEDULED = "should_refresh_scheduled"
     }
 
     val eventDetailsRoute = buildRoute("$ROOT/event_details") {

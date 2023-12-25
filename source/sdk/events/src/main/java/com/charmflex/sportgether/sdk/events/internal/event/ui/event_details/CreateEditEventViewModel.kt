@@ -95,7 +95,10 @@ internal class CreateEditEventViewModel(
 
     fun back() {
         routeNavigator.popWithArguments(
-            mapOf(EventRoutes.Args.SHOULD_REFRESH to true)
+            mapOf(
+                EventRoutes.Args.SHOULD_REFRESH to true,
+                EventRoutes.Args.SHOULD_REFRESH_SCHEDULED to true
+            )
         )
     }
 

@@ -9,6 +9,7 @@ import javax.inject.Inject
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 
+// TODO: To delete 
 internal class ScheduledEventsPresentationModelMapper @Inject constructor(
 
 ) : Mapper<List<EventInfoDomainModel>, List<ScheduleEventPresentationModel>>{

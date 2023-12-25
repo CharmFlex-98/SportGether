@@ -5,7 +5,7 @@ import com.charmflex.sportgether.sdk.core.utils.SingletonHolder
 import com.charmflex.sportgether.sdk.events.internal.di.component.EventComponent
 import com.charmflex.sportgether.sdk.events.internal.event.data.models.GetEventsInput
 import com.charmflex.sportgether.sdk.events.internal.event.domain.models.EventPageInfoDomainModel
-import com.charmflex.sportgether.sdk.events.internal.event.domain.models.ScheduledEventPageInfoDomainModel
+import com.charmflex.sportgether.sdk.events.internal.event.domain.models.ScheduledEventInfoDomainModel
 import com.charmflex.sportgether.sdk.events.internal.event.domain.repositories.EventRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -18,7 +18,7 @@ interface EventService {
 
     fun fetchEvents(): Flow<Result<EventPageInfoDomainModel>>
 
-    suspend fun fetchUserEvents(): ScheduledEventPageInfoDomainModel
+    suspend fun fetchUserEvents(): List<ScheduledEventInfoDomainModel>
 
     companion object {
         fun getInstance(): EventService {
@@ -63,7 +63,7 @@ internal class EventServiceFacade @Inject constructor(
         return sharedEventInfo
     }
 
-    override suspend fun fetchUserEvents(): ScheduledEventPageInfoDomainModel {
+    override suspend fun fetchUserEvents(): List<ScheduledEventInfoDomainModel> {
         return repository.fetchUserEvents()
     }
 
