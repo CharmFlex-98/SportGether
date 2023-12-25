@@ -130,7 +130,7 @@ internal class EventDetailsViewModel(
     }
 
     private fun editEvent() {
-        // Edit event logic
+        routeNavigator.navigateTo(EventRoutes.editEventDestination(eventId = eventId))
     }
 
     fun onCancelEvent() {

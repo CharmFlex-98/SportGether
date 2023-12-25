@@ -40,7 +40,7 @@ fun LocalDateTime?.toISO8601String(zoneId: ZoneId): String {
     return this?.atZone(zoneId)?.toInstant().toString()
 }
 
-fun String.fromISOToStringWithPattern(pattern: String): String{
+fun String.fromISOToStringWithPattern(pattern: String): String {
     return fromISOToLocalDateTime().toStringWithPattern(pattern = pattern)
 }
 
@@ -50,6 +50,6 @@ private fun getDateTimeFormatter(pattern: String): DateTimeFormatter {
     return DateTimeFormatter.ofPattern(pattern)
 }
 
-private fun String.fromISOToLocalDateTime(): LocalDateTime {
+fun String.fromISOToLocalDateTime(): LocalDateTime {
     return LocalDateTime.ofInstant(Instant.parse(this), ZoneId.systemDefault())
 }

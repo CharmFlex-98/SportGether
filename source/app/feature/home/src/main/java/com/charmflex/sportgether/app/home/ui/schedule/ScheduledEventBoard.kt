@@ -24,10 +24,10 @@ import com.charmflex.sportgether.sdk.ui_common.grid_x0_25
 import com.charmflex.sportgether.sdk.ui_common.grid_x1
 
 @Composable
-fun ScheduledEventBoard(
+internal fun ScheduledEventBoard(
     modifier: Modifier,
     contentState: ContentState = ContentState.LoadingState,
-    items: List<EventBoardViewState.EventDetailPresentationModel> = listOf(),
+    items: List<ScheduleEventPresentationModel> = listOf(),
     shownItemsMaxCount: Int = -1,
     contentColor: Color = MaterialTheme.colorScheme.primaryContainer
 ) {
@@ -51,9 +51,9 @@ fun ScheduledEventBoard(
 }
 
 @Composable
-fun ScheduleEventContent(
+internal fun ScheduleEventContent(
     modifier: Modifier,
-    items: List<EventBoardViewState.EventDetailPresentationModel>,
+    items: List<ScheduleEventPresentationModel>,
     shownItemsMaxCount: Int,
     contentColor: Color
 ) {
@@ -74,7 +74,7 @@ fun ScheduleEventContent(
             colors = CardDefaults.cardColors(containerColor = contentColor)
         ) {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text(text = item.eventName)
+                Text(text = item.eventTitle)
             }
         }
     }

@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -30,17 +29,18 @@ class HomeDestinationBuilder : DestinationBuilder {
         dashboardScreen()
     }
 
-    @OptIn(ExperimentalMaterial3Api::class)
     private fun NavGraphBuilder.dashboardScreen() {
         composable(HomeRoutes.ROOT) {
-            val viewModel = getViewModel { homeUIComponent.getEventBoardViewModel() }
-            val viewState by viewModel.viewState.collectAsState()
-            val pageViewState by viewModel.pageViewState.collectAsState()
+            val eventViewModel = getViewModel { homeUIComponent.getEventBoardViewModel() }
+            val scheduledViewModel = getViewModel { homeUIComponent.getScheduledEventBoardViewModel() }
+            val eventViewState by eventViewModel.viewState.collectAsState()
+            val scheduledEventViewState by scheduledViewModel.viewState.collectAsState()
+            val pageViewState by eventViewModel.pageViewState.collectAsState()
             val shouldRefresh = it.savedStateHandle.remove<Boolean>(EventRoutes.Args.SHOULD_REFRESH) ?: false
 
             LaunchedEffect(Unit) {
                 if (shouldRefresh) {
-                    viewModel.refresh()
+                    eventViewModel.refresh()
                 }
             }
 
@@ -50,8 +50,8 @@ class HomeDestinationBuilder : DestinationBuilder {
                         modifier = Modifier
                             .weight(0.3f)
                             .fillMaxWidth(),
-                        contentState = viewState.contentState,
-                        items = viewState.eventDetail.filterIndexed { index, _ -> index < 5 },
+                        contentState = eventViewState.contentState,
+                        items = scheduledEventViewState.scheduleEvents.filterIndexed { index, _ -> index < 5 },
                         shownItemsMaxCount = 2
                     )
                     Spacer(modifier = Modifier.height(grid_x4))
@@ -60,12 +60,12 @@ class HomeDestinationBuilder : DestinationBuilder {
                             .weight(0.7f)
                             .padding(horizontal = grid_x2)
                             .fillMaxWidth(),
-                        contentState = viewState.contentState,
-                        events = viewState.eventDetail,
-                        onHostEventClick = viewModel::onHostEventClick,
-                        onBottomReach = viewModel::fetchMoreEvent,
+                        contentState = eventViewState.contentState,
+                        events = eventViewState.eventDetail,
+                        onHostEventClick = eventViewModel::onHostEventClick,
+                        onBottomReach = eventViewModel::fetchMoreEvent,
                         isFetchingNext = pageViewState.isLoading,
-                        onEventItemClick = viewModel::onEventItemClick
+                        onEventItemClick = eventViewModel::onEventItemClick
                     )
                 }
             }

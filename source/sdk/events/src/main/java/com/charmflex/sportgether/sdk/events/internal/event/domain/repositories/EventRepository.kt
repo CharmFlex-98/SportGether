@@ -7,10 +7,13 @@ import com.charmflex.sportgether.sdk.events.internal.event.data.models.CreateEve
 import com.charmflex.sportgether.sdk.events.internal.event.data.models.GetEventsInput
 import com.charmflex.sportgether.sdk.events.internal.event.data.models.JoinEventInput
 import com.charmflex.sportgether.sdk.events.internal.event.domain.models.EventPageInfoDomainModel
+import com.charmflex.sportgether.sdk.events.internal.event.domain.models.ScheduledEventPageInfoDomainModel
 import javax.inject.Inject
 
 internal interface EventRepository {
     suspend fun fetchEvents(input: GetEventsInput): Result<EventPageInfoDomainModel>
+
+    suspend fun fetchUserEvents(): ScheduledEventPageInfoDomainModel
 
     suspend fun createEvent(input: CreateEventInput): Result<Unit>
 
