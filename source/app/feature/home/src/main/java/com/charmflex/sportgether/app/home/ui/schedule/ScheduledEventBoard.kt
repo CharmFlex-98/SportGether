@@ -1,6 +1,7 @@
 package com.charmflex.sportgether.app.home.ui.schedule
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,15 +18,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import com.charmflex.sportgether.app.home.ui.event.EventBoardViewState
 import com.charmflex.sportgether.sdk.events.internal.event.domain.models.ScheduledEventInfoDomainModel
 import com.charmflex.sportgether.sdk.ui_common.ContentState
 import com.charmflex.sportgether.sdk.ui_common.ListTable
 import com.charmflex.sportgether.sdk.ui_common.ListTableContentAlignment
 import com.charmflex.sportgether.sdk.ui_common.WithState
-import com.charmflex.sportgether.sdk.ui_common.grid_x0
 import com.charmflex.sportgether.sdk.ui_common.grid_x0_25
-import com.charmflex.sportgether.sdk.ui_common.grid_x0_5
 import com.charmflex.sportgether.sdk.ui_common.grid_x1
 import com.charmflex.sportgether.sdk.ui_common.grid_x2
 
@@ -35,7 +33,8 @@ internal fun ScheduledEventBoard(
     contentState: ContentState = ContentState.LoadingState,
     items: List<ScheduledEventInfoDomainModel> = listOf(),
     shownItemsMaxCount: Int = -1,
-    contentColor: Color = MaterialTheme.colorScheme.primaryContainer
+    contentColor: Color = MaterialTheme.colorScheme.primaryContainer,
+    onItemClick: (Int) -> Unit
 ) {
     Column(
         modifier = modifier,
@@ -51,6 +50,7 @@ internal fun ScheduledEventBoard(
                 items = items,
                 shownItemsMaxCount = shownItemsMaxCount,
                 contentColor = contentColor,
+                onItemClick = onItemClick
             )
         }
     }
@@ -61,7 +61,8 @@ internal fun ScheduleEventContent(
     modifier: Modifier,
     items: List<ScheduledEventInfoDomainModel>,
     shownItemsMaxCount: Int,
-    contentColor: Color
+    contentColor: Color,
+    onItemClick: (Int) -> Unit
 ) {
     ListTable(
         modifier = modifier,
@@ -71,6 +72,9 @@ internal fun ScheduleEventContent(
     ) { index, item ->
         Card(
             modifier = Modifier
+                .clickable {
+                    onItemClick(item.eventId)
+                }
                 .padding(grid_x1)
                 .fillMaxSize(),
             elevation = CardDefaults.cardElevation(defaultElevation = grid_x1),

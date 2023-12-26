@@ -56,7 +56,8 @@ class HomeDestinationBuilder : DestinationBuilder {
                             .fillMaxWidth(),
                         contentState = scheduledEventViewState.contentState,
                         items = scheduledEventViewState.scheduleEvents,
-                        shownItemsMaxCount = 2
+                        shownItemsMaxCount = 2,
+                        onItemClick = scheduledViewModel::navigateToEventDetail
                     )
                     Spacer(modifier = Modifier.height(grid_x4))
                     EventBoard(

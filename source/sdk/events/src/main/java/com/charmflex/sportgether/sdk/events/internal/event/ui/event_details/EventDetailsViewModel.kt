@@ -22,6 +22,7 @@ internal class EventDetailsViewModel(
     private val mapper: EventDetailPresentationModelMapper,
     private val getParticipantsUseCase: GetParticipantsUseCase,
     private val eventId: Int,
+    private val shouldRefresh: Boolean,
     private val routeNavigator: RouteNavigator
 ) : ViewModel() {
     private val _viewState = MutableStateFlow(EventDetailsViewState())
@@ -37,7 +38,7 @@ internal class EventDetailsViewModel(
         private val joinEventUseCase: JoinEventUseCase,
         private val routeNavigator: RouteNavigator
     ) {
-        fun create(eventId: Int?): EventDetailsViewModel {
+        fun create(eventId: Int?, shouldRefresh: Boolean): EventDetailsViewModel {
             val id = checkNotNull(eventId)
 
             return EventDetailsViewModel(
@@ -46,6 +47,7 @@ internal class EventDetailsViewModel(
                 mapper,
                 getParticipantsUseCase,
                 id,
+                shouldRefresh,
                 routeNavigator
             )
         }
@@ -61,7 +63,7 @@ internal class EventDetailsViewModel(
 
     private fun loadEventDetails(eventId: Int) {
         viewModelScope.launch {
-            getEventDetailsUseCase(eventId = eventId).fold(
+            getEventDetailsUseCase(eventId = eventId, refresh = shouldRefresh).fold(
                 onSuccess = {
                     _viewState.update { state ->
                         state.copy(

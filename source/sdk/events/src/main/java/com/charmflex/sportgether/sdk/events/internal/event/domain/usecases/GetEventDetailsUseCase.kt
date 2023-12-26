@@ -1,5 +1,6 @@
 package com.charmflex.sportgether.sdk.events.internal.event.domain.usecases
 
+import com.charmflex.sportgether.sdk.core.utils.resultOf
 import com.charmflex.sportgether.sdk.events.EventService
 import com.charmflex.sportgether.sdk.events.internal.event.domain.models.EventInfoDomainModel
 import kotlinx.coroutines.flow.first
@@ -9,9 +10,13 @@ internal class GetEventDetailsUseCase @Inject constructor(
     private val eventService: EventService,
 ) {
 
-    suspend operator fun invoke(eventId: Int): Result<EventInfoDomainModel> {
-        return eventService.fetchEvents().first().map { eventPageInfo ->
-            eventPageInfo.eventInfoDomainModel.first { eventInfo -> eventInfo.eventId == eventId }
+    suspend operator fun invoke(eventId: Int, refresh: Boolean = false): Result<EventInfoDomainModel> {
+        return if (refresh) {
+           resultOf { eventService.fetchEventById(eventId = eventId) }
+        } else {
+            eventService.fetchEvents().first().map { eventPageInfo ->
+                eventPageInfo.eventInfoDomainModel.first { eventInfo -> eventInfo.eventId == eventId }
+            }
         }
     }
 }

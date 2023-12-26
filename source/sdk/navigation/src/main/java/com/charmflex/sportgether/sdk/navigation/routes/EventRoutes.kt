@@ -12,15 +12,17 @@ object EventRoutes {
 
     val eventDetailsRoute = buildRoute("$ROOT/event_details") {
         addArg(Args.EVENT_ID)
+        addArg(Args.SHOULD_REFRESH)
     }
 
     val createEditEventRoute = buildRoute("$ROOT/event_create_edit") {
         addArg(Args.EVENT_ID)
     }
 
-    fun eventDetailsDestination(eventId: Int): String {
+    fun eventDetailsDestination(eventId: Int, refresh: Boolean = false): String {
         return buildDestination(eventDetailsRoute) {
             withArg(Args.EVENT_ID, eventId.toString())
+            withArg(Args.SHOULD_REFRESH, refresh.toString())
         }
     }
 

@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.charmflex.sportgether.app.home.domain.usecases.GetScheduledEventsUseCase
 import com.charmflex.sportgether.sdk.events.internal.event.domain.models.ScheduledEventInfoDomainModel
 import com.charmflex.sportgether.sdk.navigation.RouteNavigator
+import com.charmflex.sportgether.sdk.navigation.routes.EventRoutes
 import com.charmflex.sportgether.sdk.ui_common.ContentState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -49,6 +50,10 @@ internal class ScheduledEventBoardViewModel @Inject constructor(
 
     fun refresh() {
         viewModelScope.launch { load() }
+    }
+
+    fun navigateToEventDetail(eventId: Int) {
+        routeNavigator.navigateTo(EventRoutes.eventDetailsDestination(eventId = eventId, refresh = true))
     }
 }
 

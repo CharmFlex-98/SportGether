@@ -31,11 +31,17 @@ class EventDestinationBuilder : DestinationBuilder {
                 navArgument(EventRoutes.Args.EVENT_ID) {
                     type = NavType.StringType
                     nullable = false
+                },
+                navArgument(EventRoutes.Args.SHOULD_REFRESH) {
+                    type = NavType.BoolType
+                    nullable = false
                 }
             )
         ) {
             val eventId = it.arguments?.getString(EventRoutes.Args.EVENT_ID)?.toInt()
-            val eventDetailsViewModel = getViewModel { eventUIComponent.getEventDetailsViewModelFactory().create(eventId) }
+            val shouldRefresh = it.arguments?.getBoolean(EventRoutes.Args.SHOULD_REFRESH) ?: false
+
+            val eventDetailsViewModel = getViewModel { eventUIComponent.getEventDetailsViewModelFactory().create(eventId, shouldRefresh) }
 
             EventDetailsScreen(
                 modifier = Modifier

@@ -1,6 +1,7 @@
 package com.charmflex.sportgether.sdk.events.internal.event.data.api
 
 import com.charmflex.sportgether.sdk.events.internal.event.data.models.CreateEventInput
+import com.charmflex.sportgether.sdk.events.internal.event.data.models.EventResponse
 import com.charmflex.sportgether.sdk.events.internal.event.data.models.GetEventsInput
 import com.charmflex.sportgether.sdk.events.internal.event.data.models.GetEventsResponse
 import com.charmflex.sportgether.sdk.events.internal.event.data.models.GetUserEventsResponse
@@ -9,6 +10,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 internal interface EventApi {
     @Headers("Content-Type: application/json")
@@ -18,6 +20,10 @@ internal interface EventApi {
     @Headers("Content-Type: application/json")
     @POST("v1/user/event")
     suspend fun fetchUserEvents(): GetUserEventsResponse
+
+    @Headers("Content-Type: application/json")
+    @GET("v1/event/{eventId}")
+    suspend fun fetchEvent(@Path("eventId") eventId: Int): EventResponse
 
     @Headers("Content-Type: application/json")
     @POST("v1/event/create")
