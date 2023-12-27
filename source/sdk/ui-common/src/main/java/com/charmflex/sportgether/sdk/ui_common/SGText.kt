@@ -20,7 +20,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.sp
 import com.charmflex.sportgether.sdk.ui_common.theme.SportGetherTheme
-import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 
 @Composable
 fun SGBasicTwoLineItem(

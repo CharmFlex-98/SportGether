@@ -16,12 +16,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import com.charmflex.sportgether.app.home.R
 import com.charmflex.sportgether.sdk.events.internal.event.domain.models.ScheduledEventInfoDomainModel
 import com.charmflex.sportgether.sdk.ui_common.ContentState
+import com.charmflex.sportgether.sdk.ui_common.ImageOverlay
 import com.charmflex.sportgether.sdk.ui_common.ListTable
 import com.charmflex.sportgether.sdk.ui_common.ListTableContentAlignment
+import com.charmflex.sportgether.sdk.ui_common.SGRoundCornerImage
 import com.charmflex.sportgether.sdk.ui_common.WithState
 import com.charmflex.sportgether.sdk.ui_common.grid_x0_25
 import com.charmflex.sportgether.sdk.ui_common.grid_x1
@@ -39,7 +43,12 @@ internal fun ScheduledEventBoard(
     Column(
         modifier = modifier,
     ) {
-        Text(modifier = Modifier.padding(grid_x1), text = "Scheduled Event", fontWeight = FontWeight.Bold, fontSize = 16.sp)
+        Text(
+            modifier = Modifier.padding(grid_x1),
+            text = "Scheduled Event",
+            fontWeight = FontWeight.Bold,
+            fontSize = 16.sp
+        )
         WithState(
             contentState = contentState,
             loadingState = { Text(text = "Loading") },
@@ -49,7 +58,6 @@ internal fun ScheduledEventBoard(
                 modifier = Modifier.fillMaxSize(),
                 items = items,
                 shownItemsMaxCount = shownItemsMaxCount,
-                contentColor = contentColor,
                 onItemClick = onItemClick
             )
         }
@@ -61,7 +69,6 @@ internal fun ScheduleEventContent(
     modifier: Modifier,
     items: List<ScheduledEventInfoDomainModel>,
     shownItemsMaxCount: Int,
-    contentColor: Color,
     onItemClick: (Int) -> Unit
 ) {
     ListTable(
@@ -70,39 +77,50 @@ internal fun ScheduleEventContent(
         alignment = ListTableContentAlignment.HORIZONTAL,
         shownItemMaxCount = shownItemsMaxCount,
     ) { index, item ->
-        Card(
+        Box(
             modifier = Modifier
                 .clickable {
                     onItemClick(item.eventId)
                 }
                 .padding(grid_x1)
-                .fillMaxSize(),
-            elevation = CardDefaults.cardElevation(defaultElevation = grid_x1),
-            border = BorderStroke(
-                grid_x0_25, Color.Black,
-            ),
-            colors = CardDefaults.cardColors(containerColor = contentColor)
+                .fillMaxSize()
         ) {
-            Box(modifier = Modifier.fillMaxSize().padding(grid_x2), contentAlignment = Alignment.Center) {
-                Column(
-                    horizontalAlignment = Alignment.Start
-                ) {
-                    Text(text = item.eventName, fontWeight = FontWeight.Bold)
-                    Text(text = "In ${item.dayRemaining} days", fontWeight = FontWeight.Medium)
-                    Box(modifier = Modifier
-                        .weight(1f)
-                        .fillMaxWidth(), contentAlignment = Alignment.Center) {
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.Center
-                        ) {
-                            Text(text = item.destination)
-                            Text(text = item.startTime)
-                        }
-                    }
-                }
+            ScheduledEventCard(modifier = Modifier.fillMaxSize(), item = item)
+        }
+    }
+}
+
+@Composable
+private fun ScheduledEventCard(
+    modifier: Modifier = Modifier,
+    item: ScheduledEventInfoDomainModel,
+
+) {
+    SGRoundCornerImage(
+        modifier = modifier,
+        source = R.drawable.badminton_event_image
+    )
+    ImageOverlay(modifier = Modifier.fillMaxSize())
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(grid_x2),
+        horizontalAlignment = Alignment.Start
+    ) {
+        Text(text = item.eventName, fontWeight = FontWeight.Bold)
+        Text(text = "In ${item.dayRemaining} days", fontWeight = FontWeight.Medium)
+        Box(
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth(), contentAlignment = Alignment.Center
+        ) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text(text = item.destination)
+                Text(text = item.startTime)
             }
         }
     }
-
 }
