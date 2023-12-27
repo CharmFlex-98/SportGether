@@ -4,4 +4,8 @@
     <string name="host_event_button">Host</string>
     <string name="no_content">No content</string>
     <string name="event_data_load_error">Cannot load the data</string>
+    <string name="scheduled_events_load_error">Oops, can\'t load the contents!</string>
+    <string name="event_board_load_error">Failed to load events</string>
+    <string name="scheduled_event_empty_state_text">Your ongoing event will be shown here</string>
+    <string name="no_event_found">No events found</string>
 </resources>

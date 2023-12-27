@@ -188,12 +188,16 @@ internal class EventDetailsViewModel(
         }
     }
 
-    fun onBack() {
-        val data = mapOf(
-            EventRoutes.Args.SHOULD_REFRESH to true,
-            EventRoutes.Args.SHOULD_REFRESH_SCHEDULED to true
-        )
-        routeNavigator.popWithArguments(data)
+    fun onBack(needRefresh: Boolean) {
+        if (needRefresh) {
+            val data = mapOf(
+                EventRoutes.Args.SHOULD_REFRESH to true,
+                EventRoutes.Args.SHOULD_REFRESH_SCHEDULED to true
+            )
+            routeNavigator.popWithArguments(data)
+        } else {
+            routeNavigator.pop()
+        }
     }
 }
 

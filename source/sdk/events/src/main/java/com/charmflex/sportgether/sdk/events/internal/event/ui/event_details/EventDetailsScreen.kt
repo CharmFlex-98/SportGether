@@ -75,14 +75,14 @@ internal fun EventDetailsScreen(
         }
     }
 
-    BackHandler(enabled = !viewState.joinSuccess && !viewState.quitSuccess) {
-        viewModel.onBack()
+    BackHandler {
+        if (!viewState.joinSuccess && !viewState.quitSuccess) viewModel.onBack(false)
     }
 
     LaunchedEffect(key1 = viewState.joinSuccess, key2 = viewState.quitSuccess) {
         if (viewState.joinSuccess || viewState.quitSuccess) {
             snackbarHostState.showSnackBarImmediately(snackbarMessage)
-            viewModel.onBack()
+            viewModel.onBack(true)
         }
     }
 

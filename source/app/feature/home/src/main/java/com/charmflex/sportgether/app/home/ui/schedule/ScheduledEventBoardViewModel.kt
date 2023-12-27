@@ -8,6 +8,7 @@ import com.charmflex.sportgether.sdk.events.internal.event.domain.models.Schedul
 import com.charmflex.sportgether.sdk.navigation.RouteNavigator
 import com.charmflex.sportgether.sdk.navigation.routes.EventRoutes
 import com.charmflex.sportgether.sdk.ui_common.ContentState
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -28,6 +29,7 @@ internal class ScheduledEventBoardViewModel @Inject constructor(
     }
 
     private suspend fun load() {
+        toggleContentState(ContentState.LoadingState)
         getScheduleEventsUseCase().fold(
             onSuccess = {
                 _viewState.update { viewState ->
@@ -39,13 +41,17 @@ internal class ScheduledEventBoardViewModel @Inject constructor(
             },
             onFailure = {
                 Log.d("test", it.message.toString())
-                _viewState.update {
-                    it.copy(
-                        contentState = ContentState.ErrorState
-                    )
-                }
+                toggleContentState(ContentState.ErrorState)
             }
         )
+    }
+
+    private fun toggleContentState(state: ContentState) {
+        _viewState.update {
+            it.copy(
+                contentState = state
+            )
+        }
     }
 
     fun refresh() {

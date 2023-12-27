@@ -1,5 +1,6 @@
 package com.charmflex.sportgether.app.home.ui.event
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -30,11 +32,12 @@ import com.charmflex.sportgether.sdk.ui_common.WithState
 import com.charmflex.sportgether.sdk.ui_common.grid_x1
 import com.charmflex.sportgether.sdk.ui_common.grid_x2
 import com.charmflex.sportgether.sdk.ui_common.grid_x3
-import com.charmflex.sportgether.sdk.ui_common.grid_x7
 import com.charmflex.sportgether.sdk.ui_common.shimmerEffect
 import com.charmflex.sportgether.app.home.R
 import com.charmflex.sportgether.sdk.ui_common.SGIcons
 import com.charmflex.sportgether.sdk.ui_common.SGMediumPrimaryButton
+import com.charmflex.sportgether.sdk.ui_common.grid_x10
+import com.charmflex.sportgether.sdk.ui_common.grid_x9
 
 @Composable
 fun EventBoard(
@@ -70,10 +73,10 @@ fun EventBoard(
                 EventBoardLoadingContent()
             },
             emptyState = {
-                EventBoardTextContent(text = stringResource(id = R.string.no_content))
+                EventBoardEmptyContent()
             },
             errorState = {
-                EventBoardTextContent(text = stringResource(id = R.string.event_data_load_error))
+                EventBoardErrorContent()
             }) {
             EventBoardContent(modifier = Modifier.fillMaxSize(), itemList = events, shownEventMaxCount = shownEventMaxCount, contentColor = contentColor, onBottomReach = onBottomReach, isFetchingNext = isFetchingNext, onItemClick = onEventItemClick)
         }
@@ -92,8 +95,8 @@ fun EventBoardLoadingContent(
         ) {
             val mod = Modifier
                 .fillMaxWidth()
-                .height(grid_x7)
-                .padding(grid_x2)
+                .height(grid_x9)
+                .padding(horizontal = grid_x3, vertical = grid_x2)
                 .shimmerEffect()
 
             Column {
@@ -127,21 +130,27 @@ internal fun EventBoardContent(
 }
 
 @Composable
-internal fun EventBoardTextContent(
-    modifier: Modifier = Modifier,
-    text: String,
-) {
-    Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+internal fun EventBoardEmptyContent() {
+    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            Text(
+                text = stringResource(id = R.string.no_event_found),
+                color = Color.Black,
+                fontWeight = FontWeight.Medium,
+                fontSize = 16.sp
+            )
+
+    }
+}
+
+@Composable
+private fun EventBoardErrorContent() {
+    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = modifier.height(grid_x2))
-            Text(
-                text = text,
-                color = Color.Red,
-                fontWeight = FontWeight.ExtraBold,
-                fontSize = 20.sp
-            )
+            Image(modifier = Modifier.size(grid_x10), painter = painterResource(id = com.charmflex.sportgether.sdk.ui_common.R.drawable.error_image), contentDescription = "")
+            Spacer(modifier = Modifier.height(grid_x2))
+            Text(text = stringResource(R.string.event_board_load_error), fontSize = 18.sp, fontWeight = FontWeight.Medium)
         }
     }
 }
