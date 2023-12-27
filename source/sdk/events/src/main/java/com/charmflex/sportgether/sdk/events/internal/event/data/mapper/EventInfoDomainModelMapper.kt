@@ -30,7 +30,8 @@ internal class EventInfoDomainModelMapper @Inject constructor() : Mapper<EventRe
                 )
             },
             maxParticipantCount = from.maxParticipantCount,
-            description = from.description
+            description = from.description,
+            isJoined = from.isJoined
         )
     }
 

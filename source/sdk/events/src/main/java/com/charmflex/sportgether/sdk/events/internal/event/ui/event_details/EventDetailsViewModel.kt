@@ -8,6 +8,7 @@ import com.charmflex.sportgether.sdk.events.internal.event.domain.mapper.EventDe
 import com.charmflex.sportgether.sdk.events.internal.event.domain.usecases.GetEventDetailsUseCase
 import com.charmflex.sportgether.sdk.events.internal.event.domain.usecases.GetParticipantsUseCase
 import com.charmflex.sportgether.sdk.events.internal.event.domain.usecases.JoinEventUseCase
+import com.charmflex.sportgether.sdk.events.internal.event.domain.usecases.QuitEventUseCase
 import com.charmflex.sportgether.sdk.navigation.RouteNavigator
 import com.charmflex.sportgether.sdk.navigation.routes.EventRoutes
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,6 +19,7 @@ import javax.inject.Inject
 
 internal class EventDetailsViewModel(
     private val joinEventUseCase: JoinEventUseCase,
+    private val quitEventUseCase: QuitEventUseCase,
     private val getEventDetailsUseCase: GetEventDetailsUseCase,
     private val mapper: EventDetailPresentationModelMapper,
     private val getParticipantsUseCase: GetParticipantsUseCase,
@@ -33,6 +35,7 @@ internal class EventDetailsViewModel(
 
     class Factory @Inject constructor(
         private val getEventDetailsUseCase: GetEventDetailsUseCase,
+        private val quitEventUseCase: QuitEventUseCase,
         private val mapper: EventDetailPresentationModelMapper,
         private val getParticipantsUseCase: GetParticipantsUseCase,
         private val joinEventUseCase: JoinEventUseCase,
@@ -43,6 +46,7 @@ internal class EventDetailsViewModel(
 
             return EventDetailsViewModel(
                 joinEventUseCase,
+                quitEventUseCase,
                 getEventDetailsUseCase,
                 mapper,
                 getParticipantsUseCase,
@@ -68,6 +72,7 @@ internal class EventDetailsViewModel(
                     _viewState.update { state ->
                         state.copy(
                             isHost = it.isHost,
+                            isJoined = it.isJoined,
                             fields = mapper.map(it)
                         )
                     }
@@ -118,7 +123,13 @@ internal class EventDetailsViewModel(
 
     fun onPrimaryAction() {
         if (_viewState.value.isHost) editEvent()
-        else joinEvent()
+        else if (_viewState.value.isJoined) {
+            _viewState.update {
+                it.copy(
+                    bottomSheetState = EventDetailsViewState.BottomSheetState.QuitEventConfirmationState
+                )
+            }
+        } else joinEvent()
     }
 
     fun onSecondaryAction() {
@@ -137,6 +148,23 @@ internal class EventDetailsViewModel(
 
     fun onCancelEvent() {
         // Cancel Event logic
+    }
+
+    fun onQuitEvent() {
+        viewModelScope.launch {
+            quitEventUseCase.invoke(eventId = eventId).fold(
+                onSuccess = {
+                    _viewState.update {
+                        it.copy(
+                            quitSuccess = true
+                        )
+                    }
+                },
+                onFailure = {
+                    // todo
+                }
+            )
+        }
     }
 
     private fun joinEvent() {
@@ -161,7 +189,10 @@ internal class EventDetailsViewModel(
     }
 
     fun onBack() {
-        val data = mapOf(EventRoutes.Args.SHOULD_REFRESH to true)
+        val data = mapOf(
+            EventRoutes.Args.SHOULD_REFRESH to true,
+            EventRoutes.Args.SHOULD_REFRESH_SCHEDULED to true
+        )
         routeNavigator.popWithArguments(data)
     }
 }
@@ -169,14 +200,17 @@ internal class EventDetailsViewModel(
 internal data class EventDetailsViewState(
     val fields: List<EventInfoPresentationModel> = listOf(),
     val isHost: Boolean = false,
+    val isJoined: Boolean = false,
     val isLoading: Boolean = false,
     val joinSuccess: Boolean = false,
+    val quitSuccess: Boolean = false,
     val errorType: UIErrorType = UIErrorType.None,
     val bottomSheetState: BottomSheetState = BottomSheetState.None
 ) {
     sealed class BottomSheetState {
         object ShowParticipantDetailState : BottomSheetState()
         object CancelEventConfirmationState : BottomSheetState()
+        object QuitEventConfirmationState : BottomSheetState()
         object None : BottomSheetState()
         object Error : BottomSheetState()
     }

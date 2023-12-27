@@ -5,9 +5,12 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -94,33 +97,22 @@ internal fun ScheduleEventContent(
 private fun ScheduledEventCard(
     modifier: Modifier = Modifier,
     item: ScheduledEventInfoDomainModel,
-
 ) {
     SGRoundCornerImage(
         modifier = modifier,
-        source = R.drawable.badminton_event_image
+        source = com.charmflex.sportgether.sdk.events.R.drawable.badminton_event_image
     )
-    ImageOverlay(modifier = Modifier.fillMaxSize())
+    ImageOverlay(modifier = Modifier.fillMaxSize(), shape = RoundedCornerShape(grid_x2))
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(grid_x2),
         horizontalAlignment = Alignment.Start
     ) {
-        Text(text = item.eventName, fontWeight = FontWeight.Bold)
-        Text(text = "In ${item.dayRemaining} days", fontWeight = FontWeight.Medium)
-        Box(
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxWidth(), contentAlignment = Alignment.Center
-        ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
-                Text(text = item.destination)
-                Text(text = item.startTime)
-            }
-        }
+        Spacer(modifier = Modifier.weight(1f))
+        Text(text = item.eventName, fontWeight = FontWeight.Bold, color = Color.White, fontSize = 14.sp)
+        Text(text = "In ${item.dayRemaining} days", fontWeight = FontWeight.Medium, color = Color.White, fontSize = 14.sp, lineHeight = 14.sp)
+        Text(text = item.destination, fontWeight = FontWeight.Medium, color = Color.White, fontSize = 11.sp, lineHeight = 11.sp)
+        Text(text = item.startTime, fontWeight = FontWeight.Medium, color = Color.White, fontSize = 11.sp, lineHeight = 11.sp)
     }
 }

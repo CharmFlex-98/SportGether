@@ -7,6 +7,7 @@ import com.charmflex.sportgether.sdk.events.internal.event.data.models.GetEvents
 import com.charmflex.sportgether.sdk.events.internal.event.data.models.GetUserEventsResponse
 import com.charmflex.sportgether.sdk.events.internal.event.data.models.JoinEventInput
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.POST
@@ -32,4 +33,8 @@ internal interface EventApi {
     @Headers("Content-Type: application/json")
     @POST("v1/event/join")
     suspend fun joinEvent(@Body input: JoinEventInput)
+
+    @Headers("Content-Type: application/json")
+    @DELETE("v1/event/quit/{eventId}")
+    suspend fun quitEvent(@Path("eventId") eventId: Int)
 }

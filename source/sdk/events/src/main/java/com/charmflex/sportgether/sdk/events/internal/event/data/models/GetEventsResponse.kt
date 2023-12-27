@@ -32,7 +32,9 @@ data class EventResponse(
     @SerializedName("participants")
     val joiners: List<EventParticipantResponse>,
     @SerializedName("description")
-    val description: String
+    val description: String,
+    @SerializedName("isJoined")
+    val isJoined: Boolean
 )
 
 data class EventParticipantResponse(

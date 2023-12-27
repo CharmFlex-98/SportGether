@@ -45,8 +45,7 @@ class EventDestinationBuilder : DestinationBuilder {
 
             EventDetailsScreen(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(grid_x2),
+                    .fillMaxSize(),
                 viewModel = eventDetailsViewModel
             )
         }

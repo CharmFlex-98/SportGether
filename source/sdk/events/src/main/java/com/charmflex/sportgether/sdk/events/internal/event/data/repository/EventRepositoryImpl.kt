@@ -42,4 +42,8 @@ internal class EventRepositoryImpl @Inject constructor(
     override suspend fun joinEvent(eventId: Int): Result<Unit> {
         return resultOf { eventApi.joinEvent(JoinEventInput(eventId = eventId)) }
     }
+
+    override suspend fun quitEvent(eventId: Int) {
+        return eventApi.quitEvent(eventId = eventId)
+    }
 }

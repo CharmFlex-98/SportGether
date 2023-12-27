@@ -16,4 +16,6 @@ internal interface EventRepository {
     suspend fun createEvent(input: CreateEventInput): Result<Unit>
 
     suspend fun joinEvent(eventId: Int): Result<Unit>
+
+    suspend fun quitEvent(eventId: Int)
 }

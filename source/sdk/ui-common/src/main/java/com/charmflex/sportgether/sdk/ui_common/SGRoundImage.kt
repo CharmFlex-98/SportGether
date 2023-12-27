@@ -36,16 +36,20 @@ fun SGRoundCornerImage(
 }
 
 @Composable
-private fun SGImage(
+fun SGImage(
     modifier: Modifier = Modifier,
     source: Any?,
-    shape: Shape
+    shape: Shape? = null
 ) {
     AsyncImage(
         model = ImageRequest.Builder(LocalContext.current).data(source).build(),
         contentScale = ContentScale.Crop,
         modifier = modifier
-            .clip(shape),
+            .run {
+               if (shape != null) {
+                   clip(shape)
+               } else this
+            },
         contentDescription = null
     )
 }
@@ -56,10 +60,7 @@ fun ImageOverlay(
     colorTop: Color = Color(0F, 0F, 0F, 0F),
     colorBottom: Color = Color(0F, 0F, 0F, 0.75F),
     alpha: Float = 0.5f,
-    topStart: Dp = grid_x3,
-    topEnd: Dp = grid_x3,
-    bottomEnd: Dp = grid_x3,
-    bottomStart: Dp = grid_x3
+    shape: Shape
 ) {
     Box(
         modifier = modifier
@@ -67,7 +68,7 @@ fun ImageOverlay(
                 Brush.verticalGradient(
                     colors = listOf(colorTop, colorBottom)
                 ),
-                shape = RoundedCornerShape(topStart, topEnd, bottomEnd, bottomStart)
+                shape = shape
             )
             .alpha(alpha)
     ) {}

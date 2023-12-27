@@ -21,8 +21,6 @@ interface EventService {
 
     suspend fun fetchUserEvents(): List<ScheduledEventInfoDomainModel>
 
-    suspend fun fetchEventById(eventId: Int): EventInfoDomainModel
-
     companion object {
         fun getInstance(): EventService {
             return EventServiceFacade.getInstance()
@@ -68,10 +66,6 @@ internal class EventServiceFacade @Inject constructor(
 
     override suspend fun fetchUserEvents(): List<ScheduledEventInfoDomainModel> {
         return repository.fetchUserEvents()
-    }
-
-    override suspend fun fetchEventById(eventId: Int): EventInfoDomainModel {
-        return repository.fetchEventById(eventId)
     }
 
     companion object : SingletonHolder<EventService>(

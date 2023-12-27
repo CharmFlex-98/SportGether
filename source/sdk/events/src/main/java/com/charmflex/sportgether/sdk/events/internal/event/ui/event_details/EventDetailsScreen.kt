@@ -44,6 +44,7 @@ import com.charmflex.sportgether.sdk.ui_common.grid_x0_25
 import com.charmflex.sportgether.sdk.ui_common.grid_x0_5
 import com.charmflex.sportgether.sdk.ui_common.grid_x1
 import com.charmflex.sportgether.sdk.ui_common.grid_x10
+import com.charmflex.sportgether.sdk.ui_common.grid_x2
 import com.charmflex.sportgether.sdk.ui_common.grid_x5
 import com.charmflex.sportgether.sdk.ui_common.showSnackBarImmediately
 import kotlinx.coroutines.launch
@@ -62,6 +63,7 @@ internal fun EventDetailsScreen(
     }
     val snackbarMessage = when {
         viewState.joinSuccess -> stringResource(id = R.string.event_join_success_message)
+        viewState.quitSuccess -> stringResource(id = R.string.event_quit_success_message)
         else -> ""
     }
     val bottomSheetState = rememberModalBottomSheetState()
@@ -73,12 +75,12 @@ internal fun EventDetailsScreen(
         }
     }
 
-    BackHandler(enabled = !viewState.joinSuccess) {
+    BackHandler(enabled = !viewState.joinSuccess && !viewState.quitSuccess) {
         viewModel.onBack()
     }
 
-    LaunchedEffect(key1 = viewState.joinSuccess) {
-        if (viewState.joinSuccess) {
+    LaunchedEffect(key1 = viewState.joinSuccess, key2 = viewState.quitSuccess) {
+        if (viewState.joinSuccess || viewState.quitSuccess) {
             snackbarHostState.showSnackBarImmediately(snackbarMessage)
             viewModel.onBack()
         }
@@ -88,6 +90,7 @@ internal fun EventDetailsScreen(
         modifier = modifier,
         fields = fields,
         isHost = viewState.isHost,
+        isJoined = viewState.isJoined,
         onCheckParticipants = viewModel::onCheckParticipants,
         onSecondaryButtonClick = viewModel::onSecondaryAction,
         onPrimaryButtonClick = viewModel::onPrimaryAction
@@ -118,6 +121,30 @@ internal fun EventDetailsScreen(
                     ) { viewModel.onCancelEvent() }
                 }
             }
+            EventDetailsViewState.BottomSheetState.QuitEventConfirmationState -> {
+                SGAlertBottomSheet(
+                    title = stringResource(R.string.event_detail_quit_alert_bottomsheet_title),
+                    subtitle = stringResource(id = R.string.event_detail_quit_alert_bottomsheet_subtitle),
+                    onDismiss = { hideBottomSheet() }
+                ) {
+                    SGButtonGroupVertical {
+                        SGLargePrimaryButton(
+                            modifier = Modifier.fillMaxWidth(),
+                            text = stringResource(R.string.generic_cancel)
+                        ) {
+                            hideBottomSheet()
+                        }
+                        SGLargeSecondaryButton(
+                            modifier = Modifier.fillMaxWidth(), text = stringResource(
+                                id = R.string.generic_continue
+                            )
+                        ) {
+                            hideBottomSheet()
+                            viewModel.onQuitEvent()
+                        }
+                    }
+                }
+            }
             else -> GenericErrorBottomSheet { hideBottomSheet() }
         }
     }
@@ -134,12 +161,13 @@ internal fun EventDetailsScreenContent(
     modifier: Modifier,
     fields: List<EventInfoPresentationModel>,
     isHost: Boolean,
+    isJoined: Boolean,
     onCheckParticipants: () -> Unit,
     onSecondaryButtonClick: () -> Unit,
     onPrimaryButtonClick: () -> Unit
 ) {
     SportGetherScaffold {
-        Column(modifier = modifier) {
+        Column(modifier = modifier.padding(grid_x2)) {
             Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
                 Column {
                     fields.forEach { field ->
@@ -168,27 +196,30 @@ internal fun EventDetailsScreenContent(
                 }
             }
 
-            if (isHost) {
-                SGButtonGroupVertical {
-                    SGLargePrimaryButton(
-                        modifier = Modifier.fillMaxWidth(),
-                        text = stringResource(id = R.string.event_detail_modify_event),
-                        onClick = onPrimaryButtonClick
-                    )
-                    SGLargeSecondaryButton(
-                        modifier = Modifier.fillMaxWidth(), text = stringResource(
-                            id = R.string.event_detail_cancel_event
+            when {
+                isHost -> {
+                    SGButtonGroupVertical {
+                        SGLargePrimaryButton(
+                            modifier = Modifier.fillMaxWidth(),
+                            text = stringResource(id = R.string.event_detail_modify_event),
+                            onClick = onPrimaryButtonClick
                         )
-                    ) {
-                        onSecondaryButtonClick()
+                        SGLargeSecondaryButton(
+                            modifier = Modifier.fillMaxWidth(), text = stringResource(
+                                id = R.string.event_detail_cancel_event
+                            )
+                        ) {
+                            onSecondaryButtonClick()
+                        }
                     }
                 }
-            } else {
-                SGLargePrimaryButton(
-                    modifier = Modifier.fillMaxWidth(),
-                    text = stringResource(id = R.string.event_detail_join_button_text),
-                    onClick = onPrimaryButtonClick
-                )
+                else -> {
+                    SGLargePrimaryButton(
+                        modifier = Modifier.fillMaxWidth(),
+                        text = stringResource(id = if (isJoined)R.string.event_detail_unjoin_button_text else R.string.event_detail_join_button_text),
+                        onClick = onPrimaryButtonClick
+                    )
+                }
             }
         }
     }

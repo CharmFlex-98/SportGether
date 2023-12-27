@@ -33,4 +33,8 @@
     <string name="generic_cancel">Cancel</string>
     <string name="generic_error_bottomsheet_title">Something went wrong</string>
     <string name="generic_error_bottomsheet_subtitle">Oops, something is breaking up. Please try again later.</string>
+    <string name="event_detail_unjoin_button_text">Quit</string>
+    <string name="event_detail_quit_alert_bottomsheet_title">Are you sure?</string>
+    <string name="event_detail_quit_alert_bottomsheet_subtitle">You are going to quit this event. Continue?</string>
+    <string name="event_quit_success_message">You have quitted the event!</string>
 </resources>
