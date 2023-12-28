@@ -1,5 +1,6 @@
 package com.charmflex.sportgether.sdk.auth.internal
 
+import android.content.Context
 import com.charmflex.sportgether.sdk.auth.internal.di.AuthComponent
 import com.charmflex.sportgether.sdk.auth.internal.di.AuthUIComponent
 import com.charmflex.sportgether.sdk.auth.internal.network.AuthTokenInterceptor
@@ -11,7 +12,7 @@ interface AuthService {
 
     companion object {
         fun getInstance(): AuthService {
-            return AuthServiceFacade.getInstance()
+            return AuthServiceFacade.getInstance(null)
         }
     }
 }
@@ -23,7 +24,7 @@ internal class AuthServiceFacade @Inject constructor(
         return authTokenInterceptor
     }
 
-    companion object : SingletonHolder<AuthService>(
+    companion object : SingletonHolder<Context?, AuthService>(
         {
             AuthComponent.injectCreate().authService()
         }

@@ -1,5 +1,6 @@
 package com.charmflex.sportgether.app.home.navigation
 
+import android.content.Context
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,8 +24,10 @@ import com.charmflex.sportgether.sdk.ui_common.SportGetherScaffold
 import com.charmflex.sportgether.sdk.ui_common.grid_x2
 import com.charmflex.sportgether.sdk.ui_common.grid_x4
 
-class HomeDestinationBuilder : DestinationBuilder {
-    private val homeUIComponent by lazy { HomeUIComponent.injectCreate() }
+class HomeDestinationBuilder(
+    private val appContext: Context
+) : DestinationBuilder {
+    private val homeUIComponent by lazy { HomeUIComponent.injectCreate(appContext) }
     override fun NavGraphBuilder.buildGraph() {
         dashboardScreen()
     }

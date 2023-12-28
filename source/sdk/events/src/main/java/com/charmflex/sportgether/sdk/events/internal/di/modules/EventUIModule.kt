@@ -1,5 +1,6 @@
 package com.charmflex.sportgether.sdk.events.internal.di.modules
 
+import android.content.Context
 import com.charmflex.sportgether.sdk.auth.internal.AuthService
 import com.charmflex.sportgether.sdk.events.EventService
 import com.charmflex.sportgether.sdk.events.EventServiceFacade
@@ -13,8 +14,8 @@ interface EventUIModule {
     companion object {
         @Provides
         @Singleton
-        fun providesEventService(): EventService {
-            return EventService.getInstance()
+        fun providesEventService(context: Context): EventService {
+            return EventService.getInstance(context)
         }
 
         @Provides

@@ -1,5 +1,6 @@
 package com.charmflex.sportgether.app.home.di.modules
 
+import android.content.Context
 import com.charmflex.sportgether.sdk.events.EventService
 import dagger.Module
 import dagger.Provides
@@ -10,8 +11,8 @@ class HomeUIModule {
     companion object {
         @Singleton
         @Provides
-        fun providesEventService(): EventService {
-            return EventService.getInstance()
+        fun providesEventService(context: Context): EventService {
+            return EventService.getInstance(context = context)
         }
     }
 }

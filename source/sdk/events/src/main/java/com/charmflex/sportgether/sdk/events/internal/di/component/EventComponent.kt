@@ -1,18 +1,22 @@
 package com.charmflex.sportgether.sdk.events.internal.di.component
 
+import android.content.Context
 import com.charmflex.sportgether.sdk.core.di.MainInjector
 import com.charmflex.sportgether.sdk.core.di.MainProvider
 import com.charmflex.sportgether.sdk.events.EventService
 import com.charmflex.sportgether.sdk.events.internal.di.modules.EventModule
 import com.charmflex.sportgether.sdk.events.internal.di.modules.NetworkModule
 import com.charmflex.sportgether.sdk.events.internal.di.modules.RepoModule
-import com.charmflex.sportgether.sdk.navigation.di.RouteNavigatorModule
+import com.charmflex.sportgether.sdk.events.internal.di.modules.ToolsModule
+import com.charmflex.sportgether.sdk.events.internal.place.PlaceClientManager
+import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
 @Component(
     modules = [
+        ToolsModule::class,
         RepoModule::class,
         NetworkModule::class,
         EventModule::class,
@@ -23,14 +27,14 @@ interface EventComponent {
 
     @Component.Factory
     interface Factory {
-        fun create(mainInjector: MainInjector): EventComponent
+        fun create(mainInjector: MainInjector, @BindsInstance context: Context): EventComponent
     }
 
     companion object {
 
-        fun injectCreate(): EventComponent {
+        fun injectCreate(context: Context): EventComponent {
             val mainProviderInstance = MainProvider.instance
-            return DaggerEventComponent.factory().create(mainProviderInstance.getMainInjector())
+            return DaggerEventComponent.factory().create(mainProviderInstance.getMainInjector(), context = context)
         }
     }
 
@@ -39,4 +43,6 @@ interface EventComponent {
     // This component is separated out to provide service dependency only, without being consumed by the component itself.
     // So that each module will have and only have this event service singleton instance.
     fun getEventService(): EventService
+
+    fun getPlaceClientManager(): PlaceClientManager
 }

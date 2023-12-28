@@ -1,5 +1,6 @@
 package com.charmflex.sportgether.sdk.events.internal.destination
 
+import android.content.Context
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.LaunchedEffect
@@ -17,8 +18,10 @@ import com.charmflex.sportgether.sdk.navigation.routes.EventRoutes
 import com.charmflex.sportgether.sdk.ui_common.SportGetherScaffold
 import com.charmflex.sportgether.sdk.ui_common.grid_x2
 
-class EventDestinationBuilder : DestinationBuilder {
-    private val eventUIComponent by lazy { EventUIComponent.injectCreate() }
+class EventDestinationBuilder(
+    private val appContext: Context
+) : DestinationBuilder {
+    private val eventUIComponent by lazy { EventUIComponent.injectCreate(context = appContext) }
     override fun NavGraphBuilder.buildGraph() {
         eventDetailsScreen()
         createEditEventScreen()

@@ -1,5 +1,6 @@
 package com.charmflex.sportgether.sdk.events
 
+import android.content.Context
 import android.util.Log
 import com.charmflex.sportgether.sdk.core.utils.SingletonHolder
 import com.charmflex.sportgether.sdk.events.internal.di.component.EventComponent
@@ -22,11 +23,10 @@ interface EventService {
     suspend fun fetchUserEvents(): List<ScheduledEventInfoDomainModel>
 
     companion object {
-        fun getInstance(): EventService {
-            return EventServiceFacade.getInstance()
+        fun getInstance(context: Context): EventService {
+            return EventServiceFacade.getInstance(context)
         }
     }
-
 }
 
 internal class EventServiceFacade @Inject constructor(
@@ -68,9 +68,9 @@ internal class EventServiceFacade @Inject constructor(
         return repository.fetchUserEvents()
     }
 
-    companion object : SingletonHolder<EventService>(
+    companion object : SingletonHolder<Context, EventService>(
         {
-            EventComponent.injectCreate().getEventService()
+            EventComponent.injectCreate(it).getEventService()
         }
     )
 }

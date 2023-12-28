@@ -31,6 +31,7 @@ android {
     }
     buildFeatures {
         compose true
+        buildConfig true
     }
     composeOptions {
         kotlinCompilerExtensionVersion '1.4.2'
@@ -40,6 +41,7 @@ android {
 dependencies {
 
     implementation(libs.google.dagger)
+    implementation(libs.google.place)
     kapt(libs.google.daggerAP)
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
     implementation 'androidx.core:core-ktx:1.8.0'
@@ -56,4 +58,5 @@ dependencies {
     implementation project(':navigation-sdk')
     implementation project(':auth-sdk')
     implementation project(':profile-sdk')
+    implementation project(':app-config-sdk')
 }

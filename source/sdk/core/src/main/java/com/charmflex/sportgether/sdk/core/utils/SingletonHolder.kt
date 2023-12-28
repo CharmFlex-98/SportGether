@@ -1,12 +1,12 @@
 package com.charmflex.sportgether.sdk.core.utils
 
-open class SingletonHolder<T>(
-    val init: () -> T
+open class SingletonHolder<in Arg, out T>(
+    val factory: (Arg) -> T
 ) {
     @Volatile
     private var _instance: T? = null
 
-    fun getInstance(): T {
-        return _instance ?: init().also { _instance = it }
+    fun getInstance(arg: Arg): T {
+        return _instance ?: factory(arg).also { _instance = it }
     }
 }
