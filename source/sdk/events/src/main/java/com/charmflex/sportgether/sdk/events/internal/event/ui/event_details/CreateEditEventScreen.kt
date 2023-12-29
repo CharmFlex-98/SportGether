@@ -63,8 +63,8 @@ internal fun CreateEditEventScreen(
     val coroutineScope = rememberCoroutineScope()
     val onBottomSheetDismiss = {
         coroutineScope.launch {
-            bottomSheetState.hide()
             viewModel.resetBottomSheetState()
+            bottomSheetState.hide()
         }
     }
 

@@ -124,7 +124,7 @@ fun <T> SearchBottomSheet(
     onChanged: (String) -> Unit,
     itemLayout: @Composable (index: Int, item: T) -> Unit,
     ) {
-    SGModalBottomSheet(onDismiss = { /*TODO*/ }) {
+    SGModalBottomSheet(onDismiss = onDismiss) {
         Column {
             SGTextField(
                 modifier = Modifier.fillMaxWidth(), label = searchFieldLabel, hint = "search",
