@@ -106,7 +106,7 @@ private fun RegisterScreenContent(
                     }
 
                     SGTextField(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth().padding(bottom = grid_x2),
                         label = stringResource(id = item.labelId),
                         hint = stringResource(id = item.hintId),
                         keyboardType = item.keyboardType,

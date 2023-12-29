@@ -95,7 +95,6 @@ fun <T> ListTable(
                 }
             }
         }
-
     }
 }
 fun <T> LazyListScope.items(alignment: ListTableContentAlignment, items: List<T>, itemSize: Dp, itemContent: @Composable (Int, T) -> Unit) {

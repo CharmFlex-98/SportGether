@@ -17,21 +17,10 @@ import com.charmflex.sportgether.sdk.core.di.MainProvider
 import com.charmflex.sportgether.sdk.core.utils.DestinationBuilder
 import com.charmflex.sportgether.sdk.navigation.RouteNavigatorListener
 import com.charmflex.sportgether.sdk.events.internal.destination.EventDestinationBuilder
-import com.charmflex.sportgether.sdk.events.internal.place.PlaceClientManager
+import com.charmflex.sportgether.sdk.events.internal.place.PlaceAutoCompleteExecutor
 import com.charmflex.sportgether.sdk.navigation.routes.AuthRoutes
 
 class HostActivity : ComponentActivity() {
-    private lateinit var placeClientManager: PlaceClientManager
-
-    override fun onStart() {
-        super.onStart()
-        initialisePlaceClientManager()
-    }
-
-    private fun initialisePlaceClientManager() {
-        placeClientManager.initialise()
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {

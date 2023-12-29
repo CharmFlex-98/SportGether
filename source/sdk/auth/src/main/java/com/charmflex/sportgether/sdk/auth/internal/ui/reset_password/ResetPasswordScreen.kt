@@ -20,6 +20,7 @@ import com.charmflex.sportgether.sdk.ui_common.SGLargePrimaryButton
 import com.charmflex.sportgether.sdk.ui_common.SGTextField
 import com.charmflex.sportgether.sdk.ui_common.SportGetherScaffold
 import com.charmflex.sportgether.sdk.ui_common.grid_x10
+import com.charmflex.sportgether.sdk.ui_common.grid_x2
 import com.charmflex.sportgether.sdk.ui_common.theme.SportGetherTheme
 
 @Composable
@@ -52,7 +53,7 @@ private fun ResetPasswordScreenContent(
     ) {
         Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
             SGTextField(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth().padding(bottom = grid_x2),
                 label = stringResource(id = R.string.reset_password_email),
                 hint = stringResource(id = R.string.reset_password_email_hint),
                 value = email,

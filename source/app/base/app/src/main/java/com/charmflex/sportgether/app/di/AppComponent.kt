@@ -4,6 +4,8 @@ import android.content.Context
 import com.charmflex.sportgether.sdk.core.di.MainInjector
 import com.charmflex.sportgether.app.di.modules.NetworkModule
 import com.charmflex.sportgether.app.di.modules.ToolsModule
+import com.charmflex.sportgether.sdk.app_config.AppConfig
+import com.charmflex.sportgether.sdk.app_config.AppConfigProvider
 import com.charmflex.sportgether.sdk.navigation.RouteNavigator
 import com.charmflex.sportgether.sdk.navigation.di.RouteNavigatorModule
 import dagger.BindsInstance
@@ -35,4 +37,5 @@ interface AppComponent : MainInjector {
     // Needed if want to access dependency outside the dependency graph,
     // or if another component depend on dependency in this component.
     fun getRouteNavigator(): RouteNavigator
+    fun getAppConfig(): AppConfig
 }

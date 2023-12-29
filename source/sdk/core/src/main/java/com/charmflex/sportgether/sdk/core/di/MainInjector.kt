@@ -9,5 +9,4 @@ interface MainInjector {
     fun keyStorageProvider(): KeyStorageProvider
     fun getNetworkClientBuilder(): NetworkClientBuilder
     fun getResourcesProvider(): ResourcesProvider
-
 }

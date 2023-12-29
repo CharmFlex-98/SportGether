@@ -4,12 +4,19 @@ import android.content.Context
 import com.charmflex.sportgether.sdk.auth.internal.AuthService
 import com.charmflex.sportgether.sdk.events.EventService
 import com.charmflex.sportgether.sdk.events.EventServiceFacade
+import com.charmflex.sportgether.sdk.events.internal.place.PlaceAutoCompleteExecutor
+import com.charmflex.sportgether.sdk.events.internal.place.PlaceAutoCompleteExecutorImpl
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-interface EventUIModule {
+internal interface EventUIModule {
+
+    @Binds
+    @Singleton
+    fun bindsPlaceAutoCompleteExecutor(placeAutoCompleteExecutorImpl: PlaceAutoCompleteExecutorImpl): PlaceAutoCompleteExecutor
 
     companion object {
         @Provides

@@ -3,3 +3,7 @@ interface AppConfig {
     val baseUrl: String
     val placeAPIKey: String
 }
+
+interface AppConfigProvider {
+    fun getAppConfig(): AppConfig
+}

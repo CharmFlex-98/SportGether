@@ -1,6 +1,7 @@
 package com.charmflex.sportgether.app.di.modules
 import com.charmflex.sportgether.app.configs.DefaultAppConfig
 import com.charmflex.sportgether.sdk.app_config.AppConfig
+import com.charmflex.sportgether.sdk.app_config.AppConfigProvider
 import com.charmflex.sportgether.sdk.navigation.RouteNavigator
 import com.charmflex.sportgether.sdk.navigation.RouteNavigatorImpl
 import com.charmflex.sportgether.sdk.core.storage.KeyStorageProvider

@@ -8,7 +8,7 @@ import com.charmflex.sportgether.sdk.events.internal.di.modules.EventModule
 import com.charmflex.sportgether.sdk.events.internal.di.modules.NetworkModule
 import com.charmflex.sportgether.sdk.events.internal.di.modules.RepoModule
 import com.charmflex.sportgether.sdk.events.internal.di.modules.ToolsModule
-import com.charmflex.sportgether.sdk.events.internal.place.PlaceClientManager
+import com.charmflex.sportgether.sdk.events.internal.place.PlaceAutoCompleteExecutor
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -44,5 +44,5 @@ interface EventComponent {
     // So that each module will have and only have this event service singleton instance.
     fun getEventService(): EventService
 
-    fun getPlaceClientManager(): PlaceClientManager
+    fun getPlaceClientManager(): PlaceAutoCompleteExecutor
 }

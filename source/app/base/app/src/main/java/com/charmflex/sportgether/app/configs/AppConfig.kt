@@ -8,5 +8,5 @@ internal class DefaultAppConfig : AppConfig {
         get() = BuildConfig.BASE_URL
 
     override val placeAPIKey: String
-        get() = ""
+        get() = BuildConfig.PLACE_API_KEY
 }

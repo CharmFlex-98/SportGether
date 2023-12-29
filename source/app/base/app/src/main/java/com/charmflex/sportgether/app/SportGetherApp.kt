@@ -4,6 +4,8 @@ import android.app.Application
 import android.util.Log
 import com.charmflex.sportgether.app.di.AppComponent
 import com.charmflex.sportgether.app.host.RouteNavigatorProvider
+import com.charmflex.sportgether.sdk.app_config.AppConfig
+import com.charmflex.sportgether.sdk.app_config.AppConfigProvider
 import com.charmflex.sportgether.sdk.core.di.MainInjector
 import com.charmflex.sportgether.sdk.core.di.MainProvider
 import com.charmflex.sportgether.sdk.mock.FakeWebServer
@@ -13,7 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 
-class SportGetherApp : Application(), MainProvider, RouteNavigatorProvider {
+class SportGetherApp : Application(), MainProvider, RouteNavigatorProvider, AppConfigProvider {
     private var appComponent: AppComponent? = null
     private val fakeWebServer: FakeWebServer by lazy { FakeWebServer(applicationContext) }
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
@@ -42,5 +44,9 @@ class SportGetherApp : Application(), MainProvider, RouteNavigatorProvider {
 
     override fun provideRouteNavigator(): RouteNavigator {
         return appComponent?.getRouteNavigator() ?: throw IllegalStateException("AppComponent is not initialized yet!")
+    }
+
+    override fun getAppConfig(): AppConfig {
+        return appComponent?.getAppConfig() ?: throw IllegalStateException("AppComponent is not initialized yet")
     }
 }

@@ -116,7 +116,7 @@ private fun LoginScreenContent(
             verticalArrangement = Arrangement.Center
         ) {
             SGTextField(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth().padding(bottom = grid_x2),
                 label = stringResource(id = R.string.login_username),
                 hint = stringResource(id = R.string.enter_username_hint_text),
                 value = username,
@@ -125,7 +125,7 @@ private fun LoginScreenContent(
                 errorText = null
             )
             SGTextField(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth().padding(bottom = grid_x2),
                 value = password,
                 label = stringResource(id = R.string.login_password),
                 hint = stringResource(id = R.string.enter_password_hint_text),

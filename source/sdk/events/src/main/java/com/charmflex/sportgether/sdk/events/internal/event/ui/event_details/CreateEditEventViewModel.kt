@@ -1,5 +1,6 @@
 package com.charmflex.sportgether.sdk.events.internal.event.ui.event_details
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.charmflex.sportgether.sdk.navigation.RouteNavigator
@@ -13,11 +14,20 @@ import com.charmflex.sportgether.sdk.events.internal.event.domain.mapper.CreateE
 import com.charmflex.sportgether.sdk.events.internal.event.domain.models.EventType
 import com.charmflex.sportgether.sdk.events.internal.event.domain.repositories.EventRepository
 import com.charmflex.sportgether.sdk.events.internal.event.domain.usecases.GetEventDetailsUseCase
+import com.charmflex.sportgether.sdk.events.internal.place.PlaceAutoCompleteExecutor
 import com.charmflex.sportgether.sdk.navigation.routes.EventRoutes
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.transform
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.selects.select
 import java.time.LocalDateTime
 import java.time.ZoneId
 import javax.inject.Inject
@@ -28,17 +38,30 @@ internal class CreateEditEventViewModel(
     private val mapper: CreateEditFieldPresentationModelMapper,
     private val eventFieldProvider: EventFieldProvider,
     private val eventId: Int?,
-    private val routeNavigator: RouteNavigator
+    private val routeNavigator: RouteNavigator,
+    private val placeAutoCompleteExecutor: PlaceAutoCompleteExecutor
 ) : ViewModel() {
     private val _viewState = MutableStateFlow(CreateEditEventViewState())
     val viewState = _viewState.asStateFlow()
+
+    private val _destinationQuery = MutableStateFlow("")
+
+    @OptIn(FlowPreview::class)
+    val destinationQuery =
+        _destinationQuery.transform {
+            if (showSearchBottomSheet()) {
+                emit(it)
+            }
+        }.debounce(500)
+    private var selectedPlaceId: String = ""
 
     class Factory @Inject constructor(
         private val repository: EventRepository,
         private val getEventDetailUseCase: GetEventDetailsUseCase,
         private val mapper: CreateEditFieldPresentationModelMapper,
         private val eventFieldProvider: EventFieldProvider,
-        private val routeNavigator: RouteNavigator
+        private val routeNavigator: RouteNavigator,
+        private val placeAutoCompleteExecutor: PlaceAutoCompleteExecutor
     ) {
         fun create(eventId: Int?): CreateEditEventViewModel {
             return CreateEditEventViewModel(
@@ -47,7 +70,8 @@ internal class CreateEditEventViewModel(
                 mapper,
                 eventFieldProvider,
                 eventId,
-                routeNavigator
+                routeNavigator,
+                placeAutoCompleteExecutor
             )
         }
     }
@@ -55,6 +79,70 @@ internal class CreateEditEventViewModel(
     init {
         if (isEdit()) loadData()
         else clearData()
+
+        observeDestinationSuggestion()
+    }
+
+    private fun showSearchBottomSheet() =
+        _viewState.value.bottomSheetState is CreateEditEventViewState.BottomSheetState.SearchState
+
+    private fun observeDestinationSuggestion() {
+        viewModelScope.launch {
+            destinationQuery.collectLatest {
+                if (it.isNotEmpty()) {
+                    queryDestAutoComplete(it)
+                } else {
+                    _viewState.update { viewState ->
+                        viewState.copy(
+                            bottomSheetState = CreateEditEventViewState.BottomSheetState.SearchState(
+                                searchKey = it,
+                                options = listOf(),
+                                isError = false
+                            )
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    private fun queryDestAutoComplete(query: String) {
+        placeAutoCompleteExecutor.onQuery(
+            searchQuery = query,
+            onFailure = {
+                when (val state = _viewState.value.bottomSheetState) {
+                    is CreateEditEventViewState.BottomSheetState.SearchState -> {
+                        _viewState.update { viewState ->
+                            viewState.copy(
+                                bottomSheetState = CreateEditEventViewState.BottomSheetState.SearchState(
+                                    searchKey = state.searchKey,
+                                    options = listOf(),
+                                    isError = true
+                                )
+                            )
+                        }
+                    }
+
+                    else -> {}
+                }
+            }
+        ) {
+            when (val state = _viewState.value.bottomSheetState) {
+                is CreateEditEventViewState.BottomSheetState.SearchState -> {
+                    _viewState.update { viewState ->
+                        viewState.copy(
+                            bottomSheetState = CreateEditEventViewState.BottomSheetState.SearchState(
+                                searchKey = state.searchKey,
+                                options = it,
+                                isError = false
+                            )
+                        )
+                    }
+                }
+
+                else -> {}
+            }
+        }
     }
 
     private fun loadData() {
@@ -73,10 +161,16 @@ internal class CreateEditEventViewModel(
             _viewState.update {
                 when (field.type) {
                     CreateEditFieldPresentationModel.FieldType.NAME -> it.copy(nameField = field)
-                    CreateEditFieldPresentationModel.FieldType.DESCRIPTION -> it.copy(descriptionField = field)
+                    CreateEditFieldPresentationModel.FieldType.DESCRIPTION -> it.copy(
+                        descriptionField = field
+                    )
+
                     CreateEditFieldPresentationModel.FieldType.START_TIME -> it.copy(startTimeField = field)
                     CreateEditFieldPresentationModel.FieldType.END_TIME -> it.copy(endTimeField = field)
-                    CreateEditFieldPresentationModel.FieldType.MAX_PARTICIPANT -> it.copy(maxParticipantField = field)
+                    CreateEditFieldPresentationModel.FieldType.MAX_PARTICIPANT -> it.copy(
+                        maxParticipantField = field
+                    )
+
                     CreateEditFieldPresentationModel.FieldType.DESTINATION -> it.copy(placeField = field)
                 }
             }
@@ -111,39 +205,56 @@ internal class CreateEditEventViewModel(
     }
 
     private fun submitEvent() {
-        val startTimestamp = _viewState.value.startTimeField.value.toLocalDateTime(
-            DEFAULT_DATE_TIME_PATTERN).toISO8601String(ZoneId.systemDefault())
-        val endTimeStamp = _viewState.value.endTimeField.value.toLocalDateTime(
-            DEFAULT_DATE_TIME_PATTERN).toISO8601String(ZoneId.systemDefault())
-
-        val createEventInput = CreateEventInput(
-            eventName = _viewState.value.nameField.value,
-            startTime = startTimestamp,
-            endTime = endTimeStamp,
-            destination = _viewState.value.placeField.value,
-            description = _viewState.value.descriptionField.value,
-            eventType = EventType.BADMINTON.toString(),
-            maxParticipantCount = _viewState.value.maxParticipantField.value.toInt()
-        )
-        viewModelScope.launch {
-            repository.createEvent(createEventInput).fold(
-                onSuccess = {
-                    _viewState.update {
-                        it.copy(state = CreateEditEventViewState.State.Success)
-                    }
-                },
-                onFailure = {
-                    _viewState.update {
-                        it.copy(state = CreateEditEventViewState.State.Error)
-                    }
-                }
-            )
-        }
-
+        // Toggle loading state
         _viewState.update {
             it.copy(
                 state = CreateEditEventViewState.State.Loading
             )
+        }
+
+        // Process
+        val startTimestamp = _viewState.value.startTimeField.value.toLocalDateTime(
+            DEFAULT_DATE_TIME_PATTERN
+        ).toISO8601String(ZoneId.systemDefault())
+        val endTimeStamp = _viewState.value.endTimeField.value.toLocalDateTime(
+            DEFAULT_DATE_TIME_PATTERN
+        ).toISO8601String(ZoneId.systemDefault())
+
+        if (selectedPlaceId.isNotEmpty()) {
+            placeAutoCompleteExecutor.onFetchPlaceDetails(
+                selectedPlaceId,
+                onFailure = {
+                    _viewState.update {
+                        it.copy(
+                            error = UIErrorType.GenericError
+                        )
+                    }
+                }
+            ) {
+                val createEventInput = CreateEventInput(
+                    eventName = _viewState.value.nameField.value,
+                    startTime = startTimestamp,
+                    endTime = endTimeStamp,
+                    destination = _viewState.value.placeField.value,
+                    description = _viewState.value.descriptionField.value,
+                    eventType = EventType.BADMINTON.toString(),
+                    maxParticipantCount = _viewState.value.maxParticipantField.value.toInt()
+                )
+                viewModelScope.launch {
+                    repository.createEvent(createEventInput).fold(
+                        onSuccess = {
+                            _viewState.update {
+                                it.copy(state = CreateEditEventViewState.State.Success)
+                            }
+                        },
+                        onFailure = {
+                            _viewState.update {
+                                it.copy(state = CreateEditEventViewState.State.Error)
+                            }
+                        }
+                    )
+                }
+            }
         }
     }
 
@@ -201,8 +312,49 @@ internal class CreateEditEventViewModel(
             CreateEditFieldPresentationModel.FieldType.DESTINATION -> updatePlace(newValue)
             CreateEditFieldPresentationModel.FieldType.START_TIME -> updateStartTime(newValue)
             CreateEditFieldPresentationModel.FieldType.END_TIME -> updateEndTime(newValue)
-            CreateEditFieldPresentationModel.FieldType.MAX_PARTICIPANT -> updateMaxParticipantCount(newValue)
+            CreateEditFieldPresentationModel.FieldType.MAX_PARTICIPANT -> updateMaxParticipantCount(
+                newValue
+            )
+
             CreateEditFieldPresentationModel.FieldType.DESCRIPTION -> updateDescription(newValue)
+        }
+    }
+
+    fun onTapDestField() {
+        _viewState.update {
+            it.copy(
+                bottomSheetState = CreateEditEventViewState.BottomSheetState.SearchState()
+            )
+        }
+    }
+
+    fun onSuggestedDestSelected(placeId: String, placeAddress: String) {
+        selectedPlaceId = placeId
+        _viewState.update {
+            it.copy(
+                placeField = it.placeField.copy(
+                    value = placeAddress
+                ),
+                bottomSheetState = CreateEditEventViewState.BottomSheetState.None
+            )
+        }
+    }
+
+    fun updateSearchKey(key: String) {
+        _destinationQuery.value = key
+        when (val state = _viewState.value.bottomSheetState) {
+            is CreateEditEventViewState.BottomSheetState.SearchState -> {
+                _viewState.update {
+                    it.copy(
+                        bottomSheetState = CreateEditEventViewState.BottomSheetState.SearchState(
+                            searchKey = key,
+                            options = state.options
+                        )
+                    )
+                }
+            }
+
+            else -> {}
         }
     }
 
@@ -220,9 +372,10 @@ internal class CreateEditEventViewModel(
 
     fun onChooseTime(hour: Int, min: Int) {
         val prevTime = _viewState.value.datePickerState.cacheDateTime
-        val res = prevTime?.plusHours(hour.toLong())?.plusMinutes(min.toLong()).toStringWithPattern(
-            DEFAULT_DATE_TIME_PATTERN
-        )
+        val res =
+            prevTime?.plusHours(hour.toLong())?.plusMinutes(min.toLong()).toStringWithPattern(
+                DEFAULT_DATE_TIME_PATTERN
+            )
         val isStartDate = _viewState.value.datePickerState.isStartDateChose
         _viewState.update {
             if (isStartDate) {
@@ -269,6 +422,14 @@ internal class CreateEditEventViewModel(
             )
         }
     }
+
+    fun resetBottomSheetState() {
+        _viewState.update {
+            it.copy(
+                bottomSheetState = CreateEditEventViewState.BottomSheetState.None
+            )
+        }
+    }
 }
 
 internal data class CreateEditEventViewState(
@@ -280,13 +441,17 @@ internal data class CreateEditEventViewState(
     val maxParticipantField: CreateEditFieldPresentationModel = CreateEditFieldPresentationModel(),
     val descriptionField: CreateEditFieldPresentationModel = CreateEditFieldPresentationModel(),
     val error: UIErrorType = UIErrorType.None,
-    val datePickerState: DatePickerState = DatePickerState()
+    val datePickerState: DatePickerState = DatePickerState(),
+    val bottomSheetState: BottomSheetState = BottomSheetState.None
 ) {
+
+    fun showBottomSheet(): Boolean = bottomSheetState != BottomSheetState.None
+
     sealed interface State {
-        object Default: State
-        object Loading: State
-        object Error: State
-        object Success: State
+        object Default : State
+        object Loading : State
+        object Error : State
+        object Success : State
     }
 
     data class DatePickerState(
@@ -296,6 +461,15 @@ internal data class CreateEditEventViewState(
         val initialDateTime: LocalDateTime? = null,
         val cacheDateTime: LocalDateTime? = null
     )
+
+    sealed class BottomSheetState {
+        object None : BottomSheetState()
+        data class SearchState(
+            val searchKey: String = "",
+            val options: List<Pair<String, String>> = listOf(),
+            val isError: Boolean = false
+        ) : BottomSheetState()
+    }
 }
 
 internal data class CreateEditFieldPresentationModel(
