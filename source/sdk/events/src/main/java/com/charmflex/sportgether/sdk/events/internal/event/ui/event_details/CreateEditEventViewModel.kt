@@ -1,6 +1,5 @@
 package com.charmflex.sportgether.sdk.events.internal.event.ui.event_details
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.charmflex.sportgether.sdk.navigation.RouteNavigator
@@ -21,13 +20,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.transform
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.selects.select
 import java.time.LocalDateTime
 import java.time.ZoneId
 import javax.inject.Inject
@@ -80,13 +75,13 @@ internal class CreateEditEventViewModel(
         if (isEdit()) loadData()
         else clearData()
 
-        observeDestinationSuggestion()
+        observeDestinationQueryEvent()
     }
 
     private fun showSearchBottomSheet() =
         _viewState.value.bottomSheetState is CreateEditEventViewState.BottomSheetState.SearchState
 
-    private fun observeDestinationSuggestion() {
+    private fun observeDestinationQueryEvent() {
         viewModelScope.launch {
             destinationQuery.collectLatest {
                 if (it.isNotEmpty()) {

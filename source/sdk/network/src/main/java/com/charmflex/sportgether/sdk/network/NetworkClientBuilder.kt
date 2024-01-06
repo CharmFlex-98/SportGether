@@ -1,8 +1,10 @@
 package com.charmflex.sportgether.sdk.network
 
+import android.net.Uri
 import android.os.Debug
 import android.util.Log
 import com.charmflex.sportgether.sdk.app_config.AppConfig
+import okhttp3.CertificatePinner
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -54,7 +56,16 @@ class DefaultNetworkClientBuilder(
                 interceptors.forEach(this::addInterceptor)
                 // more to come?
             }
+            .followRedirects(true)
+            .followSslRedirects(true)
             .addInterceptor(loggingInterceptor())
+            .build()
+    }
+
+    private fun certificatePinner(): CertificatePinner {
+        return CertificatePinner
+            .Builder()
+            .add(Uri.parse(baseUrl).host ?: baseUrl, appConfig.certPin)
             .build()
     }
 

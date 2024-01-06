@@ -9,4 +9,8 @@ internal class DefaultAppConfig : AppConfig {
 
     override val placeAPIKey: String
         get() = BuildConfig.PLACE_API_KEY
+
+    override val certPin: String
+        get() = BuildConfig.CERT_PIN
+
 }

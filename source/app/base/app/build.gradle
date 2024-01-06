@@ -51,8 +51,12 @@ android {
         }
 
         prod {
+            Properties properties = new Properties()
+            properties.load(project.file("secret.properties").newDataInputStream())
+
             dimension "dimension"
-            buildConfigField("String", "BASE_URL", "\"http://10.0.2.2:3000\"")
+            buildConfigField("String", "BASE_URL", "\"https://app.charmflex.com\"")
+            buildConfigField("String", "CERT_PIN", "\"${properties.getProperty("CERT_PIN")}\"")
         }
     }
 

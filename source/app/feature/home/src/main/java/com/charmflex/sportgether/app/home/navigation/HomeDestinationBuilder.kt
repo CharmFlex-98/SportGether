@@ -56,6 +56,7 @@ class HomeDestinationBuilder(
                     ScheduledEventBoard(
                         modifier = Modifier
                             .weight(0.3f)
+                            .padding(horizontal = grid_x2)
                             .fillMaxWidth(),
                         contentState = scheduledEventViewState.contentState,
                         items = scheduledEventViewState.scheduleEvents,

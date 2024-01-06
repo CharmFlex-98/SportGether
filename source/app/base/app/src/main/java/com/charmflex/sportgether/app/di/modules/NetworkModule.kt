@@ -11,7 +11,6 @@ import javax.inject.Singleton
 interface NetworkModule {
     companion object {
         @Provides
-        @Singleton
         @JvmStatic
         fun providesNetworkClientBuilder(appConfig: AppConfig): NetworkClientBuilder {
             return DefaultNetworkClientBuilder(appConfig = appConfig)
