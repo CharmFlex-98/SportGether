@@ -50,6 +50,7 @@ import com.charmflex.sportgether.sdk.ui_common.grid_x2
 import com.charmflex.sportgether.sdk.ui_common.grid_x22
 import com.maxkeppeker.sheets.core.models.base.UseCaseState
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -208,6 +209,7 @@ internal fun CreateEditEventScreenContent(
                         label = startTimeField.name,
                         hint = startTimeField.hint,
                         value = startTimeField.value,
+                        errorText = startTimeField.error,
                         fieldType = CreateEditFieldPresentationModel.FieldType.START_TIME,
                         readOnly = true,
                         enable = false,
@@ -224,6 +226,7 @@ internal fun CreateEditEventScreenContent(
                         label = endTimeField.name,
                         hint = endTimeField.hint,
                         value = endTimeField.value,
+                        errorText = endTimeField.error,
                         fieldType = CreateEditFieldPresentationModel.FieldType.END_TIME,
                         readOnly = true,
                         enable = false,
@@ -266,7 +269,8 @@ internal fun CreateEditEventScreenContent(
                     onChooseDate(it)
                 },
                 date = initialDate.toLocalDateTime(pattern = DEFAULT_DATE_TIME_PATTERN),
-                isVisible = viewState.datePickerState.isShowCalendar
+                isVisible = viewState.datePickerState.isShowCalendar,
+                boundary = LocalDate.now() .. LocalDate.now().plusMonths(1)
             )
 
             SGTimePicker(
@@ -312,7 +316,7 @@ private fun CreateEditTextField(
     fieldType: CreateEditFieldPresentationModel.FieldType,
     readOnly: Boolean = false,
     enable: Boolean = true,
-    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    errorText: String? = null,
     onEditField: (CreateEditFieldPresentationModel.FieldType, String) -> Unit
 ) {
     SGTextField(
@@ -321,7 +325,7 @@ private fun CreateEditTextField(
         label = label,
         hint = hint,
         value = value,
-        errorText = null,
+        errorText = errorText,
         readOnly = readOnly,
         enable = enable,
         onValueChange = { onEditField(fieldType, it) }

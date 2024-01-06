@@ -1,19 +1,13 @@
 package com.charmflex.sportgether.sdk.ui_common
 
-import androidx.compose.material3.DatePickerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.stringResource
 import com.maxkeppeker.sheets.core.models.base.UseCaseState
 import com.maxkeppeler.sheets.calendar.CalendarDialog
 import com.maxkeppeler.sheets.calendar.models.CalendarConfig
 import com.maxkeppeler.sheets.calendar.models.CalendarSelection
-import java.lang.Exception
-import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.ZoneOffset
-import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -22,7 +16,8 @@ fun SGDatePicker(
     onDismiss: () -> Unit,
     onConfirm: (LocalDateTime) -> Unit,
     date: LocalDateTime?,
-    isVisible: Boolean
+    isVisible: Boolean,
+    boundary: ClosedRange<LocalDate>
 ) {
     CalendarDialog(
         state = useCaseState,
@@ -34,7 +29,7 @@ fun SGDatePicker(
                 onConfirm(it.atStartOfDay())
             }
         ),
-        config = CalendarConfig(monthSelection = true)
+        config = CalendarConfig(monthSelection = true, boundary = boundary)
     )
 
     if (isVisible) useCaseState.show()

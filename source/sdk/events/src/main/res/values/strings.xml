@@ -38,4 +38,6 @@
     <string name="event_detail_quit_alert_bottomsheet_subtitle">You are going to quit this event. Continue?</string>
     <string name="event_quit_success_message">You have quitted the event!</string>
     <string name="place_autocomplete_fetch_error">Load error</string>
+    <string name="start_date_error">Error</string>
+    <string name="end_date_error">Error</string>
 </resources>

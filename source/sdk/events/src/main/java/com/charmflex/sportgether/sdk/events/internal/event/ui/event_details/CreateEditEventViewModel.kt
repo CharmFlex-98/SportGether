@@ -1,13 +1,17 @@
 package com.charmflex.sportgether.sdk.events.internal.event.ui.event_details
 
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.charmflex.sportgether.sdk.navigation.RouteNavigator
 import com.charmflex.sportgether.sdk.core.ui.UIErrorType
 import com.charmflex.sportgether.sdk.core.utils.DEFAULT_DATE_TIME_PATTERN
+import com.charmflex.sportgether.sdk.core.utils.ResourcesProvider
+import com.charmflex.sportgether.sdk.core.utils.fromISOToStringWithPattern
 import com.charmflex.sportgether.sdk.core.utils.toISO8601String
 import com.charmflex.sportgether.sdk.core.utils.toLocalDateTime
 import com.charmflex.sportgether.sdk.core.utils.toStringWithPattern
+import com.charmflex.sportgether.sdk.events.R
 import com.charmflex.sportgether.sdk.events.internal.event.data.models.CreateEventInput
 import com.charmflex.sportgether.sdk.events.internal.event.domain.mapper.CreateEditFieldPresentationModelMapper
 import com.charmflex.sportgether.sdk.events.internal.event.domain.models.EventType
@@ -16,10 +20,12 @@ import com.charmflex.sportgether.sdk.events.internal.event.domain.usecases.GetEv
 import com.charmflex.sportgether.sdk.events.internal.place.PlaceAutoCompleteExecutor
 import com.charmflex.sportgether.sdk.navigation.routes.EventRoutes
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.transform
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -34,7 +40,8 @@ internal class CreateEditEventViewModel(
     private val eventFieldProvider: EventFieldProvider,
     private val eventId: Int?,
     private val routeNavigator: RouteNavigator,
-    private val placeAutoCompleteExecutor: PlaceAutoCompleteExecutor
+    private val placeAutoCompleteExecutor: PlaceAutoCompleteExecutor,
+    private val resourcesProvider: ResourcesProvider
 ) : ViewModel() {
     private val _viewState = MutableStateFlow(CreateEditEventViewState())
     val viewState = _viewState.asStateFlow()
@@ -56,7 +63,8 @@ internal class CreateEditEventViewModel(
         private val mapper: CreateEditFieldPresentationModelMapper,
         private val eventFieldProvider: EventFieldProvider,
         private val routeNavigator: RouteNavigator,
-        private val placeAutoCompleteExecutor: PlaceAutoCompleteExecutor
+        private val placeAutoCompleteExecutor: PlaceAutoCompleteExecutor,
+        private val resourcesProvider: ResourcesProvider
     ) {
         fun create(eventId: Int?): CreateEditEventViewModel {
             return CreateEditEventViewModel(
@@ -66,7 +74,8 @@ internal class CreateEditEventViewModel(
                 eventFieldProvider,
                 eventId,
                 routeNavigator,
-                placeAutoCompleteExecutor
+                placeAutoCompleteExecutor,
+                resourcesProvider
             )
         }
     }
@@ -368,27 +377,52 @@ internal class CreateEditEventViewModel(
     fun onChooseTime(hour: Int, min: Int) {
         val prevTime = _viewState.value.datePickerState.cacheDateTime
         val res =
-            prevTime?.plusHours(hour.toLong())?.plusMinutes(min.toLong()).toStringWithPattern(
-                DEFAULT_DATE_TIME_PATTERN
-            )
+            prevTime?.plusHours(hour.toLong())?.plusMinutes(min.toLong())
+        val resString = res.toStringWithPattern(DEFAULT_DATE_TIME_PATTERN)
         val isStartDate = _viewState.value.datePickerState.isStartDateChose
+        val start = _viewState.value.startTimeField.value
+        val end = _viewState.value.endTimeField.value
+
         _viewState.update {
             if (isStartDate) {
                 it.copy(
                     datePickerState = it.datePickerState.copy(isShowClock = false),
                     startTimeField = it.startTimeField.copy(
-                        value = res
+                        value = resString,
+                        error = if (end.toLocalDateTime(DEFAULT_DATE_TIME_PATTERN)
+                                ?.isBefore(res) == true
+                        ) {
+                            resourcesProvider.getString(R.string.start_date_error)
+                        } else null
+                    ),
+                    endTimeField = it.endTimeField.copy(
+                        error = if (start.toLocalDateTime(DEFAULT_DATE_TIME_PATTERN)
+                                ?.isAfter(res) == true
+                        ) {
+                            resourcesProvider.getString(R.string.end_date_error)
+                        } else null
                     )
                 )
             } else {
                 it.copy(
                     datePickerState = it.datePickerState.copy(isShowClock = false),
+                    startTimeField = it.startTimeField.copy(
+                        error = if (end.toLocalDateTime(DEFAULT_DATE_TIME_PATTERN)
+                                ?.isBefore(res) == true
+                        ) {
+                            resourcesProvider.getString(R.string.start_date_error)
+                        } else null
+                    ),
                     endTimeField = it.endTimeField.copy(
-                        value = res
+                        value = resString,
+                        error = if (start.toLocalDateTime(DEFAULT_DATE_TIME_PATTERN)
+                                ?.isAfter(res) == true
+                        ) {
+                            resourcesProvider.getString(R.string.end_date_error)
+                        } else null
                     )
                 )
             }
-
         }
     }
 
@@ -437,7 +471,7 @@ internal data class CreateEditEventViewState(
     val descriptionField: CreateEditFieldPresentationModel = CreateEditFieldPresentationModel(),
     val error: UIErrorType = UIErrorType.None,
     val datePickerState: DatePickerState = DatePickerState(),
-    val bottomSheetState: BottomSheetState = BottomSheetState.None
+    val bottomSheetState: BottomSheetState = BottomSheetState.None,
 ) {
 
     fun showBottomSheet(): Boolean = bottomSheetState != BottomSheetState.None
@@ -471,7 +505,8 @@ internal data class CreateEditFieldPresentationModel(
     val name: String = "",
     val hint: String = "",
     val value: String = "",
-    val type: FieldType = FieldType.NAME
+    val type: FieldType = FieldType.NAME,
+    val error: String? = null
 ) {
     enum class FieldType {
         NAME, START_TIME, END_TIME, DESTINATION, MAX_PARTICIPANT, DESCRIPTION
