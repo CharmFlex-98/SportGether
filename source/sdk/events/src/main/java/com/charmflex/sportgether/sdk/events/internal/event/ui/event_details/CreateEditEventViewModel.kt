@@ -216,6 +216,16 @@ internal class CreateEditEventViewModel(
             )
         }
 
+        if (!isSubmissionValid()) {
+            _viewState.update {
+                it.copy(
+                    state = CreateEditEventViewState.State.Default,
+                    error = UIErrorType.SnackBarMessageError(resourcesProvider.getString(R.string.event_creation_error_snackbar_message))
+                )
+            }
+            return
+        }
+
         // Process
         val startTimestamp = _viewState.value.startTimeField.value.toLocalDateTime(
             DEFAULT_DATE_TIME_PATTERN
@@ -259,6 +269,17 @@ internal class CreateEditEventViewModel(
                     )
                 }
             }
+        }
+    }
+
+    private fun isSubmissionValid(): Boolean {
+        _viewState.value.let {
+            if (it.nameField.value.isEmpty()) return false
+            if (it.placeField.value.isEmpty()) return false
+            if (it.startTimeField.value.isEmpty()) return false
+            if (it.endTimeField.value.isEmpty()) return false
+            if (it.maxParticipantField.value.isEmpty()) return false
+            return true
         }
     }
 

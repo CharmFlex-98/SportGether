@@ -11,6 +11,7 @@ sealed interface UIErrorType {
     object AuthenticationError : SnackBarError
     object RegistrationError : SnackBarError
     object RegisteredAccountError : SnackBarError
+    data class SnackBarMessageError(val message: String) : SnackBarError
     object GenericError : SnackBarError
 
     object UsernameIsUsedError : TextFieldError

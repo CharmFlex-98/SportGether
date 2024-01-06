@@ -19,6 +19,7 @@ import androidx.compose.material3.CardElevation
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -34,20 +35,24 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import com.charmflex.sportgether.sdk.core.ui.UIErrorType
 import com.charmflex.sportgether.sdk.core.utils.DEFAULT_DATE_TIME_PATTERN
 import com.charmflex.sportgether.sdk.core.utils.toLocalDateTime
 import com.charmflex.sportgether.sdk.events.R
 import com.charmflex.sportgether.sdk.ui_common.SGDatePicker
 import com.charmflex.sportgether.sdk.ui_common.SGDialog
 import com.charmflex.sportgether.sdk.ui_common.SGLargePrimaryButton
+import com.charmflex.sportgether.sdk.ui_common.SGSnackBar
 import com.charmflex.sportgether.sdk.ui_common.SGTextField
 import com.charmflex.sportgether.sdk.ui_common.SGTimePicker
 import com.charmflex.sportgether.sdk.ui_common.SearchBottomSheet
+import com.charmflex.sportgether.sdk.ui_common.SnackBarType
 import com.charmflex.sportgether.sdk.ui_common.SportGetherScaffold
 import com.charmflex.sportgether.sdk.ui_common.grid_x0_25
 import com.charmflex.sportgether.sdk.ui_common.grid_x1
 import com.charmflex.sportgether.sdk.ui_common.grid_x2
 import com.charmflex.sportgether.sdk.ui_common.grid_x22
+import com.charmflex.sportgether.sdk.ui_common.showSnackBarImmediately
 import com.maxkeppeker.sheets.core.models.base.UseCaseState
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -68,9 +73,17 @@ internal fun CreateEditEventScreen(
             bottomSheetState.hide()
         }
     }
+    val snackbarHostState = remember { SnackbarHostState() }
 
     LaunchedEffect(key1 = viewState.bottomSheetState) {
         if (viewState.showBottomSheet()) bottomSheetState.show()
+    }
+
+    LaunchedEffect(key1 = viewState.error) {
+        when (val e = viewState.error) {
+            is UIErrorType.SnackBarMessageError -> snackbarHostState.showSnackBarImmediately(e.message)
+            else -> {}
+        }
     }
 
     CreateEditEventScreenContent(
@@ -124,6 +137,8 @@ internal fun CreateEditEventScreen(
             }
         }
     }
+
+    SGSnackBar(snackBarHostState = snackbarHostState, snackBarType = SnackBarType.Error)
 }
 
 @Composable
@@ -292,11 +307,12 @@ internal fun CreateEditEventScreenContent(
                 ) {
                     onBack()
                 }
-
                 else -> {}
             }
         }
     }
+
+
 }
 
 @Composable
