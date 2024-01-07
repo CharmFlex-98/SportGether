@@ -5,7 +5,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,9 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CardElevation
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -40,7 +37,7 @@ import com.charmflex.sportgether.sdk.core.utils.DEFAULT_DATE_TIME_PATTERN
 import com.charmflex.sportgether.sdk.core.utils.toLocalDateTime
 import com.charmflex.sportgether.sdk.events.R
 import com.charmflex.sportgether.sdk.ui_common.SGDatePicker
-import com.charmflex.sportgether.sdk.ui_common.SGDialog
+import com.charmflex.sportgether.sdk.ui_common.SGActionDialog
 import com.charmflex.sportgether.sdk.ui_common.SGLargePrimaryButton
 import com.charmflex.sportgether.sdk.ui_common.SGSnackBar
 import com.charmflex.sportgether.sdk.ui_common.SGTextField
@@ -51,7 +48,6 @@ import com.charmflex.sportgether.sdk.ui_common.SportGetherScaffold
 import com.charmflex.sportgether.sdk.ui_common.grid_x0_25
 import com.charmflex.sportgether.sdk.ui_common.grid_x1
 import com.charmflex.sportgether.sdk.ui_common.grid_x2
-import com.charmflex.sportgether.sdk.ui_common.grid_x22
 import com.charmflex.sportgether.sdk.ui_common.showSnackBarImmediately
 import com.maxkeppeker.sheets.core.models.base.UseCaseState
 import kotlinx.coroutines.launch
@@ -299,11 +295,11 @@ internal fun CreateEditEventScreenContent(
 
             when (viewState.state) {
                 is CreateEditEventViewState.State.Loading -> CircularProgressIndicator()
-                is CreateEditEventViewState.State.Success -> SGDialog(
+                is CreateEditEventViewState.State.Success -> SGActionDialog(
                     title = stringResource(id = R.string.create_event_success_title),
                     text = stringResource(id = R.string.create_event_success_content),
                     onDismissRequest = { },
-                    positiveText = stringResource(id = R.string.generic_continue)
+                    primaryButtonText = stringResource(id = R.string.generic_continue)
                 ) {
                     onBack()
                 }

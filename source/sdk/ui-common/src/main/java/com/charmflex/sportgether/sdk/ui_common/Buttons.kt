@@ -3,6 +3,8 @@ package com.charmflex.sportgether.sdk.ui_common
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Button
@@ -35,6 +37,19 @@ private fun ButtonSize.getFontSize(): TextUnit {
         ButtonSize.SMALL -> 14.sp
         ButtonSize.MEDIUM -> 16.sp
         ButtonSize.LARGE -> 18.sp
+    }
+}
+
+@Composable
+fun SGButtonGroupHorizontal(
+    modifier: Modifier = Modifier,
+    horizontalArrangement: Arrangement.Horizontal = Arrangement.Center,
+    content: @Composable RowScope.() -> Unit
+) {
+    Row(
+        horizontalArrangement = horizontalArrangement
+    ) {
+        content()
     }
 }
 

@@ -33,5 +33,6 @@
     <string name="textfield_invalid_email_error">Invalid email</string>
     <string name="textfield_invalid_password_error">Invalid password</string>
     <string name="textField_invalid_confirm_password_error">The password is not match</string>
-    <string name="dialog_login_success_text">You have successfully logged in!\nPreparing you some exciting contents...</string>
+    <string name="dialog_login_success_text">You have successfully logged in!</string>
+    <string name="dialog_login_preparing_content_text">Preparing you some exciting content</string>
 </resources>
