@@ -28,6 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.window.Dialog
 import com.charmflex.sportgether.sdk.auth.R
 import com.charmflex.sportgether.sdk.core.ui.UIErrorType
+import com.charmflex.sportgether.sdk.ui_common.Loader
 import com.charmflex.sportgether.sdk.ui_common.SGButtonGroupVertical
 import com.charmflex.sportgether.sdk.ui_common.SGLargePrimaryButton
 import com.charmflex.sportgether.sdk.ui_common.SGLargeSecondaryButton
@@ -72,7 +73,8 @@ internal fun LoginScreen(viewModel: LoginViewModel) {
 
     if (viewState.isLoading) CircularProgressIndicator()
     if (viewState.success) {
-        Dialog(onDismissRequest = {}) {
+        Loader(modifier = Modifier.wrapContentSize())
+        /*Dialog(onDismissRequest = {}) {
             Card(
                 modifier = Modifier
                     .height(grid_x15)
@@ -87,7 +89,7 @@ internal fun LoginScreen(viewModel: LoginViewModel) {
                     textAlign = TextAlign.Center,
                 )
             }
-        }
+        }*/
 
     }
 
@@ -116,7 +118,9 @@ private fun LoginScreenContent(
             verticalArrangement = Arrangement.Center
         ) {
             SGTextField(
-                modifier = Modifier.fillMaxWidth().padding(bottom = grid_x2),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = grid_x2),
                 label = stringResource(id = R.string.login_username),
                 hint = stringResource(id = R.string.enter_username_hint_text),
                 value = username,
@@ -125,7 +129,9 @@ private fun LoginScreenContent(
                 errorText = null
             )
             SGTextField(
-                modifier = Modifier.fillMaxWidth().padding(bottom = grid_x2),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = grid_x2),
                 value = password,
                 label = stringResource(id = R.string.login_password),
                 hint = stringResource(id = R.string.enter_password_hint_text),
