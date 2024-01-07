@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
@@ -37,19 +38,18 @@ fun SGActionDialog(
     onConfirm: () -> Unit,
 ) {
     SGDialog(title = title, subtitle = text, icon = icon, onDismissRequest = onDismissRequest) {
-        Box(modifier = Modifier.padding(grid_x2)) {
-            SGButtonGroupHorizontal {
-                if (secondaryButtonText != null) {
-                    SGLargeSecondaryButton(
-                        modifier = Modifier.weight(1f),
-                        text = secondaryButtonText
-                    ) {
-                        onDismissRequest()
-                    }
+
+        SGButtonGroupHorizontal {
+            if (secondaryButtonText != null) {
+                SGLargeSecondaryButton(
+                    modifier = Modifier.weight(1f),
+                    text = secondaryButtonText
+                ) {
+                    onDismissRequest()
                 }
-                SGLargePrimaryButton(modifier = Modifier.weight(1f), text = primaryButtonText) {
-                    onConfirm()
-                }
+            }
+            SGLargePrimaryButton(modifier = Modifier.weight(1f), text = primaryButtonText) {
+                onConfirm()
             }
         }
     }
@@ -67,16 +67,19 @@ fun SGDialog(
         Card(
             modifier = Modifier
                 .width(grid_x47)
-                .wrapContentHeight()
-                .padding(grid_x2),
+                .wrapContentHeight(),
             shape = RoundedCornerShape(grid_x2),
         ) {
             Column(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .padding(grid_x2)
+                    .fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 if (icon != null) {
-                    Box(modifier = Modifier.padding(top = grid_x2), contentAlignment = Alignment.Center) {
+                    Box(
+                        contentAlignment = Alignment.Center
+                    ) {
                         icon()
                     }
                 }
@@ -100,8 +103,8 @@ fun SGDialog(
                         lineHeight = 24.sp
                     )
                 )
+                Spacer(modifier = Modifier.height(grid_x1))
                 if (bottomContent != null) bottomContent()
-                Spacer(modifier = Modifier.padding(grid_x2))
             }
         }
     }

@@ -5,8 +5,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Text
@@ -47,6 +49,7 @@ fun SGButtonGroupHorizontal(
     content: @Composable RowScope.() -> Unit
 ) {
     Row(
+        modifier = modifier.fillMaxWidth(),
         horizontalArrangement = horizontalArrangement
     ) {
         content()
