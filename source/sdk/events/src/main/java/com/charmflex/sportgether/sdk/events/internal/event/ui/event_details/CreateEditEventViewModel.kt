@@ -252,7 +252,7 @@ internal class CreateEditEventViewModel(
                     destination = _viewState.value.placeField.value,
                     description = _viewState.value.descriptionField.value,
                     eventType = EventType.BADMINTON.toString(),
-                    maxParticipantCount = _viewState.value.maxParticipantField.value.toInt()
+                    maxParticipantCount = _viewState.value.maxParticipantField.value.toIntOrNull() ?: 0
                 )
                 viewModelScope.launch {
                     repository.createEvent(createEventInput).fold(

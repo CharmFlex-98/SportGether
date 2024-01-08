@@ -4,7 +4,9 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
+import androidx.compose.foundation.interaction.Interaction
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -31,6 +33,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.sp
 import com.charmflex.sportgether.sdk.core.ui.UIErrorType
 import com.charmflex.sportgether.sdk.core.utils.DEFAULT_DATE_TIME_PATTERN
@@ -50,6 +53,8 @@ import com.charmflex.sportgether.sdk.ui_common.grid_x1
 import com.charmflex.sportgether.sdk.ui_common.grid_x2
 import com.charmflex.sportgether.sdk.ui_common.showSnackBarImmediately
 import com.maxkeppeker.sheets.core.models.base.UseCaseState
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -194,16 +199,15 @@ internal fun CreateEditEventScreenContent(
                 CreateEditTextField(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable {
-                            onTapDestinationField()
-                        }
                         .padding(bottom = grid_x2),
                     value = placeField.value,
                     label = placeField.name,
                     hint = placeField.hint,
                     readOnly = true,
-                    enable = false,
                     fieldType = CreateEditFieldPresentationModel.FieldType.DESTINATION,
+                    onClicked = {
+                        onTapDestinationField()
+                    },
                     onEditField = onEditField,
                 )
                 Row(
@@ -212,35 +216,33 @@ internal fun CreateEditEventScreenContent(
                     CreateEditTextField(
                         modifier = Modifier
                             .padding(end = grid_x1)
-                            .weight(1f)
-                            .clickable {
-                                startDatePickerState.show()
-                                toggleCalendar(true, true)
-                            },
+                            .weight(1f),
                         label = startTimeField.name,
                         hint = startTimeField.hint,
                         value = startTimeField.value,
                         errorText = startTimeField.error,
                         fieldType = CreateEditFieldPresentationModel.FieldType.START_TIME,
                         readOnly = true,
-                        enable = false,
+                        onClicked = {
+                            startDatePickerState.show()
+                            toggleCalendar(true, true)
+                        },
                         onEditField = onEditField
                     )
                     CreateEditTextField(
                         modifier = Modifier
                             .padding(start = grid_x1)
-                            .weight(1f)
-                            .clickable {
-                                endDatePickerState.show()
-                                toggleCalendar(true, false)
-                            },
+                            .weight(1f),
                         label = endTimeField.name,
                         hint = endTimeField.hint,
                         value = endTimeField.value,
                         errorText = endTimeField.error,
                         fieldType = CreateEditFieldPresentationModel.FieldType.END_TIME,
                         readOnly = true,
-                        enable = false,
+                        onClicked = {
+                            endDatePickerState.show()
+                            toggleCalendar(true, false)
+                        },
                         onEditField = onEditField
                     )
                 }
@@ -251,6 +253,7 @@ internal fun CreateEditEventScreenContent(
                     label = maxCountField.name,
                     hint = maxCountField.hint,
                     value = maxCountField.value,
+                    keyboardType = KeyboardType.Decimal,
                     fieldType = CreateEditFieldPresentationModel.FieldType.MAX_PARTICIPANT,
                     onEditField = onEditField
                 )
@@ -329,6 +332,8 @@ private fun CreateEditTextField(
     readOnly: Boolean = false,
     enable: Boolean = true,
     errorText: String? = null,
+    onClicked: (() -> Unit)? = null,
+    keyboardType: KeyboardType = KeyboardType.Text,
     onEditField: (CreateEditFieldPresentationModel.FieldType, String) -> Unit
 ) {
     SGTextField(
@@ -340,6 +345,8 @@ private fun CreateEditTextField(
         errorText = errorText,
         readOnly = readOnly,
         enable = enable,
+        onClicked = onClicked,
+        keyboardType = keyboardType,
         onValueChange = { onEditField(fieldType, it) }
     )
 }

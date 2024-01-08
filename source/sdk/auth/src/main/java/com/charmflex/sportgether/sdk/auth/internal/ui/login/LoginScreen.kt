@@ -67,18 +67,20 @@ internal fun LoginScreen(viewModel: LoginViewModel) {
         onForgotPasswordClicked = viewModel::onForgotPasswordClicked
     )
 
-    if (viewState.isLoading) LoadingAnimationSurface()
-    if (viewState.success) {
-        SuccessStatusDialog(
-            title = stringResource(id = R.string.dialog_login_success_text),
-            subtitle = stringResource(
-                id = R.string.dialog_login_preparing_content_text
-            )
-        ) {
-            Loader()
+    when (viewState.loadState) {
+        is LoginViewState.State.IsLoading -> LoadingAnimationSurface()
+        is LoginViewState.State.Success -> {
+            SuccessStatusDialog(
+                title = stringResource(id = R.string.dialog_login_success_text),
+                subtitle = stringResource(
+                    id = R.string.dialog_login_preparing_content_text
+                )
+            ) {
+                Loader()
+            }
         }
+        else -> {}
     }
-
 
     SGSnackBar(snackBarHostState = snackbarHostState, snackBarType = snackbarErrorType)
 }

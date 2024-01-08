@@ -30,12 +30,12 @@ internal class LoginViewModel @Inject constructor(
                 password = _viewState.value.password
             ).fold(
                 onSuccess = {
-                    updateLoginState(true)
+                    updateLoginSuccessState()
                     delay(3000)
                     navigator.toHomeScreen()
                 },
                 onFailure = { throwable ->
-                    Log.d("test", "loginUser: ${throwable.cause}")
+                    toggleLoading(false)
                     when (throwable) {
                         is AuthenticationError -> _viewState.update {
                             it.copy(errorType = UIErrorType.AuthenticationError)
@@ -52,7 +52,6 @@ internal class LoginViewModel @Inject constructor(
                 }
             )
         }
-        toggleLoading(false)
     }
 
     fun resetError() {
@@ -63,10 +62,10 @@ internal class LoginViewModel @Inject constructor(
         }
     }
 
-    private fun updateLoginState(success: Boolean) {
+    private fun updateLoginSuccessState() {
         _viewState.update {
             it.copy(
-                success = success
+                loadState = LoginViewState.State.Success
             )
         }
     }
@@ -90,7 +89,7 @@ internal class LoginViewModel @Inject constructor(
     private fun toggleLoading(isLoading: Boolean) {
         _viewState.update {
             it.copy(
-                isLoading = isLoading
+                loadState = if (isLoading) LoginViewState.State.IsLoading else LoginViewState.State.Default
             )
         }
     }
@@ -100,8 +99,13 @@ internal data class LoginViewState(
     val username: String = "",
     val password: String = "",
     val errorType: UIErrorType = UIErrorType.None,
-    val isLoading: Boolean = false,
-    val success: Boolean = false
+    val loadState: State = State.Default
 ) {
     fun hasError() = errorType != UIErrorType.None
+
+    sealed class State {
+        object Default: State()
+        object IsLoading: State()
+        object Success: State()
+    }
 }

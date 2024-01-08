@@ -1,7 +1,9 @@
 package com.charmflex.sportgether.sdk.ui_common
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.Interaction
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -25,6 +27,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.flow.MutableSharedFlow
 
 @Composable
 fun SGTextField(
@@ -36,9 +40,30 @@ fun SGTextField(
     keyboardType: KeyboardType = KeyboardType.Text,
     readOnly: Boolean = false,
     enable: Boolean = true,
-    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    onClicked: (() -> Unit)? = null,
     onValueChange: (String) -> Unit
 ) {
+    val interactionSource = remember {
+        object : MutableInteractionSource {
+            override val interactions = MutableSharedFlow<Interaction>(
+                extraBufferCapacity = 16,
+                onBufferOverflow = BufferOverflow.DROP_OLDEST,
+            )
+
+            override suspend fun emit(interaction: Interaction) {
+                when (interaction) {
+                    is PressInteraction.Release -> if (readOnly && onClicked != null) onClicked()
+                    else -> {}
+                }
+
+                interactions.emit(interaction)
+            }
+
+            override fun tryEmit(interaction: Interaction): Boolean {
+                return interactions.tryEmit(interaction)
+            }
+        }
+    }
     OutlinedTextField(
         modifier = modifier,
         value = value,
@@ -56,6 +81,7 @@ fun SGTextField(
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
         readOnly = readOnly,
         enabled = enable,
+        isError = errorText != null,
         interactionSource = interactionSource
     )
 }
@@ -88,6 +114,7 @@ fun SGAutoCompleteTextField(
             errorText = null,
             readOnly = false,
             enable = true,
+            onClicked = null,
             onValueChange = onValueChange
         )
         ExposedDropdownMenu(expanded = expanded, onDismissRequest = onDismiss) {
