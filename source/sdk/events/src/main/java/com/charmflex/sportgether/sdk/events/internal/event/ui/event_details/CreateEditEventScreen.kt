@@ -127,7 +127,11 @@ internal fun CreateEditEventScreen(
                         Box(
                             modifier = Modifier.padding(grid_x2)
                         ) {
-                            Text(text = item.second, fontWeight = FontWeight.Medium, fontSize = 16.sp)
+                            Text(
+                                text = item.second,
+                                fontWeight = FontWeight.Medium,
+                                fontSize = 16.sp
+                            )
                         }
                     }
                 }
@@ -210,42 +214,38 @@ internal fun CreateEditEventScreenContent(
                     },
                     onEditField = onEditField,
                 )
-                Row(
-                    modifier = Modifier.padding(bottom = grid_x2)
-                ) {
-                    CreateEditTextField(
-                        modifier = Modifier
-                            .padding(end = grid_x1)
-                            .weight(1f),
-                        label = startTimeField.name,
-                        hint = startTimeField.hint,
-                        value = startTimeField.value,
-                        errorText = startTimeField.error,
-                        fieldType = CreateEditFieldPresentationModel.FieldType.START_TIME,
-                        readOnly = true,
-                        onClicked = {
-                            startDatePickerState.show()
-                            toggleCalendar(true, true)
-                        },
-                        onEditField = onEditField
-                    )
-                    CreateEditTextField(
-                        modifier = Modifier
-                            .padding(start = grid_x1)
-                            .weight(1f),
-                        label = endTimeField.name,
-                        hint = endTimeField.hint,
-                        value = endTimeField.value,
-                        errorText = endTimeField.error,
-                        fieldType = CreateEditFieldPresentationModel.FieldType.END_TIME,
-                        readOnly = true,
-                        onClicked = {
-                            endDatePickerState.show()
-                            toggleCalendar(true, false)
-                        },
-                        onEditField = onEditField
-                    )
-                }
+                CreateEditTextField(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = grid_x2),
+                    label = startTimeField.name,
+                    hint = startTimeField.hint,
+                    value = startTimeField.value,
+                    errorText = startTimeField.error,
+                    fieldType = CreateEditFieldPresentationModel.FieldType.START_TIME,
+                    readOnly = true,
+                    onClicked = {
+                        startDatePickerState.show()
+                        toggleCalendar(true, true)
+                    },
+                    onEditField = onEditField
+                )
+                CreateEditTextField(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = grid_x2),
+                    label = endTimeField.name,
+                    hint = endTimeField.hint,
+                    value = endTimeField.value,
+                    errorText = endTimeField.error,
+                    fieldType = CreateEditFieldPresentationModel.FieldType.END_TIME,
+                    readOnly = true,
+                    onClicked = {
+                        endDatePickerState.show()
+                        toggleCalendar(true, false)
+                    },
+                    onEditField = onEditField
+                )
                 CreateEditTextField(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -284,7 +284,7 @@ internal fun CreateEditEventScreenContent(
                 },
                 date = initialDate.toLocalDateTime(pattern = DEFAULT_DATE_TIME_PATTERN),
                 isVisible = viewState.datePickerState.isShowCalendar,
-                boundary = LocalDate.now() .. LocalDate.now().plusMonths(1)
+                boundary = LocalDate.now()..LocalDate.now().plusMonths(1)
             )
 
             SGTimePicker(
@@ -306,6 +306,7 @@ internal fun CreateEditEventScreenContent(
                 ) {
                     onBack()
                 }
+
                 else -> {}
             }
         }
